@@ -1,0 +1,34 @@
+{
+  "name": "twitchr",
+  "version": "0.0.0",
+  "description": "A twitch bot providing IRC based assistance",
+  "author": "Jonas <buerkelj@gmail.com>",
+  "scripts": {
+    "start": "node ./server/bin/www"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jbuerkel/twitchr"
+  },
+  "bugs": {
+    "url": "https://github.com/jbuerkel/twitchr/issues"
+  },
+  "keywords": [
+    "twitch",
+    "bot",
+    "irc"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "angular2": "^2.0.0-beta.2",
+    "es6-promise": "^3.0.2",
+    "es6-shim": "^0.33.3",
+    "express": "^4.13.4",
+    "helmet": "^1.1.0",
+    "morgan": "^1.6.1",
+    "reflect-metadata": "0.1.2",
+    "rxjs": "5.0.0-beta.0",
+    "systemjs": "^0.19.17",
+    "zone.js": "0.5.10"
+  }
+}
