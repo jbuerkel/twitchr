@@ -1,0 +1,13 @@
+{
+  "dist": {
+    "server": "./dist/server",
+    "www": "./dist/server/bin/www.js"
+  },
+  "server": {
+    "ts": [
+      "./src/server/**/*.ts",
+      "!./src/server/typings/**"
+    ],
+    "tsconfig": "./src/server/tsconfig.json"
+  }
+}

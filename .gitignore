@@ -1,6 +1,5 @@
 .idea/
+dist/
 node_modules/
 
-server/typings/
-server/**/*.js
-server/**/*.js.map
+src/*/typings/

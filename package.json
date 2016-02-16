@@ -4,7 +4,7 @@
   "description": "A twitch bot providing IRC based assistance",
   "author": "Jonas <buerkelj@gmail.com>",
   "scripts": {
-    "start": "node ./server/bin/www"
+    "start": "gulp build.server && node ./dist/server/bin/www.js"
   },
   "repository": {
     "type": "git",
@@ -20,15 +20,24 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "angular2": "^2.0.0-beta.2",
+    "angular2": "^2.0.0-beta.6",
     "es6-promise": "^3.0.2",
     "es6-shim": "^0.33.3",
     "express": "^4.13.4",
-    "helmet": "^1.1.0",
     "morgan": "^1.6.1",
     "reflect-metadata": "0.1.2",
     "rxjs": "5.0.0-beta.0",
-    "systemjs": "^0.19.17",
-    "zone.js": "0.5.10"
+    "systemjs": "^0.19.20",
+    "zone.js": "0.5.14"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-load-plugins": "^1.2.0",
+    "gulp-nodemon": "^2.0.6",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-tslint": "^4.3.2",
+    "gulp-tslint-stylish": "^1.1.1",
+    "gulp-typescript": "^2.11.0",
+    "tslint": "^3.3.0"
   }
 }
