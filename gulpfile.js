@@ -27,7 +27,7 @@ gulp.task('build.server', ['lint.server'], function() {
 gulp.task('watch.server', ['build.server'], function() {
     $.nodemon({
         script: paths.dist.www,
-        watch: path.join(__dirname, paths.server.ts),
+        watch: path.join(__dirname, paths.server.ts), // TODO
         env: { 'NODE_ENV': 'development' },
         tasks: ['build.server']
     });

@@ -1,13 +1,12 @@
-/* jshint node: true */
 'use strict';
 
 import * as express from 'express';
-import * as path from 'path';
+import {join} from 'path';
 
-var router = express.Router();
+let router = express.Router();
 
 router.get('/*', (req: express.Request, res: express.Response) => {
-    res.sendFile(path.join(__dirname, '../../build/index.html'));
+    res.sendFile(join(__dirname, '../../build/index.html')); // TODO
 });
 
-export = router;
+export default router;

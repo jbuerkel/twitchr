@@ -1,19 +1,16 @@
-/* jshint node: true */
 'use strict';
 
 import * as express from 'express';
-import * as path from 'path';
-import * as helmet from 'helmet';
+import {join} from 'path';
 import * as logger from 'morgan';
 
-import * as core from './core/router';
+import core from './core/router';
 
-var app = express();
+let app = express();
 
-app.use(helmet());
 app.use(logger('dev'));
-app.use(express.static(path.join(__dirname, '../build')));
+app.use(express.static(join(__dirname, '../build'))); // TODO
 
 app.use(core);
 
-export = app;
+export default app;
