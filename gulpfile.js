@@ -6,7 +6,7 @@ var paths = require('./paths.conf');
 var $ = require('gulp-load-plugins')();
 
 gulp.task('lint.server', function() {
-    return gulp.src(paths.server.ts)
+    return gulp.src([paths.server.ts, paths.server.notypings])
         .pipe($.tslint())
         .pipe($.tslint.report($.tslintStylish, {
             emitError: false
@@ -27,7 +27,7 @@ gulp.task('build.server', ['lint.server'], function() {
 gulp.task('watch.server', ['build.server'], function() {
     $.nodemon({
         script: paths.dist.www,
-        watch: path.join(__dirname, paths.server.ts), // TODO
+        watch: path.join(__dirname, paths.server.ts),
         env: { 'NODE_ENV': 'development' },
         tasks: ['build.server']
     });

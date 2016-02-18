@@ -5,10 +5,8 @@
     "www": "./dist/server/bin/www.js"
   },
   "server": {
-    "ts": [
-      "./src/server/**/*.ts",
-      "!./src/server/typings/**"
-    ],
+    "notypings": "!./src/server/typings/**",
+    "ts": "./src/server/**/*.ts",
     "tsconfig": "./src/server/tsconfig.json"
   }
 }
