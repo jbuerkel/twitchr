@@ -8,20 +8,21 @@ let router = express.Router();
 let conf = loadJsonSync(join(__dirname, './oauth.conf.json'));
 
 router.get('/authorize', (req: express.Request, res: express.Response) => {
-    // TODO add twitch api version header
     // TODO generate oauth2 state token
     res.redirect(`
         https://api.twitch.tv/kraken/oauth2/authorize
-            ?response_type=code
+            ?api_version=3
             &client_id=${conf.clientId}
+            &force_verify=${conf.forceVerify}
             &redirect_uri=${conf.redirectUri}
+            &response_type=code
             &scope=chat_login
             &state=[your provided unique token]
-            &force_verify=${conf.forceVerify}
     `);
 });
 
 router.get('/token', (req: express.Request, res: express.Response) => {
+    // TODO add twitch api version header
     // TODO implement http post request
 });
 
