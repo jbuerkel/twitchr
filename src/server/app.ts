@@ -4,15 +4,14 @@ import * as connectMongo from 'connect-mongo';
 import * as express from 'express';
 import * as logger from 'morgan';
 import * as session from 'express-session';
-import {join} from 'path';
-import {loadJsonSync} from './util/json';
+import {loadJsonRoot, rootJoin} from './util/misc';
 
 import core from './core/router';
 import oauth from './oauth/router';
 
 let app = express();
 let MongoStore = connectMongo(session);
-let paths = loadJsonSync(join(__dirname, '../../paths.conf.json'));
+let paths = loadJsonRoot('./paths.conf.json');
 
 app.use(logger('dev'));
 app.use(session({
@@ -23,7 +22,7 @@ app.use(session({
         url: '' // TODO set up MongoDB
     })
 }));
-app.use(express.static(join(__dirname, '../..', paths.dist.client)));
+app.use(express.static(rootJoin(paths.dist.client)));
 
 app.use('/api/oauth2', oauth);
 

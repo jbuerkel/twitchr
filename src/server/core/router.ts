@@ -1,14 +1,13 @@
 'use strict';
 
 import * as express from 'express';
-import {join} from 'path';
-import {loadJsonSync} from '../util/json';
+import {loadJsonRoot, rootJoin} from '../util/misc';
 
 let router = express.Router();
-let paths = loadJsonSync(join(__dirname, '../../../paths.conf.json'));
+let paths = loadJsonRoot('./paths.conf.json');
 
 router.get('/*', (req: express.Request, res: express.Response) => {
-    res.sendFile(join(__dirname, '../../..', paths.dist.client, 'index.html'));
+    res.sendFile(rootJoin(paths.dist.client, 'index.html'));
 });
 
 export default router;

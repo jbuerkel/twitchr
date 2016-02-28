@@ -2,10 +2,10 @@
 
 import * as express from 'express';
 import {join} from 'path';
-import {loadJsonSync} from '../util/json';
+import {loadJson} from '../util/misc';
 
 let router = express.Router();
-let conf = loadJsonSync(join(__dirname, './oauth.conf.json'));
+let conf = loadJson(join(__dirname, './oauth.conf.json'));
 
 router.get('/authorize', (req: express.Request, res: express.Response) => {
     // TODO generate oauth2 state token
