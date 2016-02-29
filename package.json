@@ -2,7 +2,7 @@
   "name": "twitchr",
   "version": "0.0.0",
   "description": "A twitch bot providing IRC based assistance",
-  "author": "Jonas <buerkelj@gmail.com>",
+  "author": "Jonas Bürkel <buerkelj@gmail.com>",
   "scripts": {
     "start": "gulp build.server && node ./dist/server/bin/www.js"
   },
