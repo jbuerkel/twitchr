@@ -2,17 +2,18 @@
   "dependencies": {},
   "devDependencies": {},
   "ambientDependencies": {
-    "connect-mongo": "github:DefinitelyTyped/DefinitelyTyped/connect-mongo/connect-mongo.d.ts#80b49400df535db762f4c5c592a6fbf98420b04c",
-    "es6-promise": "github:DefinitelyTyped/DefinitelyTyped/es6-promise/es6-promise.d.ts#830e8ebd9ef137d039d5c7ede24a421f08595f83",
-    "express": "github:DefinitelyTyped/DefinitelyTyped/express/express.d.ts#dd638012d63e069f2c99d06ef4dcc9616a943ee4",
-    "express-session": "github:DefinitelyTyped/DefinitelyTyped/express-session/express-session.d.ts#da2bb07e037a61e6ead149ae89063b00892f6929",
+    "connect-mongo": "github:DefinitelyTyped/DefinitelyTyped/connect-mongo/connect-mongo.d.ts#3ca0e0306a56b3dff5e6999dbd1627bf30201cfc",
+    "es6-promise": "github:DefinitelyTyped/DefinitelyTyped/es6-promise/es6-promise.d.ts#e1699c41087960df7678f413312213fb1f980307",
+    "express": "github:DefinitelyTyped/DefinitelyTyped/express/express.d.ts#40191cf78c581ec6b356ffe138a333a0996672f4",
+    "express-serve-static-core": "github:DefinitelyTyped/DefinitelyTyped/express-serve-static-core/express-serve-static-core.d.ts#40191cf78c581ec6b356ffe138a333a0996672f4",
+    "express-session": "github:DefinitelyTyped/DefinitelyTyped/express-session/express-session.d.ts#3ca0e0306a56b3dff5e6999dbd1627bf30201cfc",
     "form-data": "github:DefinitelyTyped/DefinitelyTyped/form-data/form-data.d.ts#bb1b99052bf1d697f0368fbff56898bc1f5a525c",
     "mime": "github:DefinitelyTyped/DefinitelyTyped/mime/mime.d.ts#cb5206a8ac1c9a3ddfd126f5ecea6729b2361452",
     "mongodb": "github:DefinitelyTyped/DefinitelyTyped/mongodb/mongodb.d.ts#3cf5221c92ba0cef413449fb4fb2fd1ffbfbcfbf",
     "mongoose": "github:DefinitelyTyped/DefinitelyTyped/mongoose/mongoose.d.ts#cebde64b3a1d63d07ee7c7dbc49b631ce220d027",
     "morgan": "github:DefinitelyTyped/DefinitelyTyped/morgan/morgan.d.ts#4566a913a3667dc627851d0f7f38ffcd0e7cf6ea",
-    "node": "github:DefinitelyTyped/DefinitelyTyped/node/node.d.ts#20e1eb9616922d382d918cc5a21870a9dbe255f5",
-    "request": "github:DefinitelyTyped/DefinitelyTyped/request/request.d.ts#90c7b5653c973cbc8c568ba33c8a04fb478525ee",
-    "serve-static": "github:DefinitelyTyped/DefinitelyTyped/serve-static/serve-static.d.ts#0fa4e9e61385646ea6a4cba2aef357353d2ce77f"
+    "node": "github:DefinitelyTyped/DefinitelyTyped/node/node.d.ts#39812a6b1cd59ee1571127d87eebbbdcbb8b30db",
+    "request": "github:DefinitelyTyped/DefinitelyTyped/request/request.d.ts#3a8543ff3d47bdca9f5497f9e4feb06b2ff86d30",
+    "serve-static": "github:DefinitelyTyped/DefinitelyTyped/serve-static/serve-static.d.ts#40191cf78c581ec6b356ffe138a333a0996672f4"
   }
 }

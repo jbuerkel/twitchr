@@ -6,7 +6,7 @@
   },
   "server": {
     "json": "./src/server/*/*.json",
-    "noTypings": "!./src/server/typings/**",
+    "noTypings": "!./src/server/**/*.d.ts",
     "ts": "./src/server/**/*.ts",
     "tsConfig": "./src/server/tsconfig.json"
   }
