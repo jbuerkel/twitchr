@@ -5,7 +5,6 @@
     "www": "./dist/server/bin/www.js"
   },
   "server": {
-    "json": "./src/server/*/*.json",
     "noTypings": "!./src/server/**/*.d.ts",
     "ts": "./src/server/**/*.ts",
     "tsConfig": "./src/server/tsconfig.json"

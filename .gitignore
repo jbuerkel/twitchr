@@ -2,5 +2,6 @@
 dist/
 node_modules/
 
+*.log
 .env
 src/*/typings/

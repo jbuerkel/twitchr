@@ -5,12 +5,6 @@ var path = require('path');
 var paths = require('./paths.conf');
 var $ = require('gulp-load-plugins')();
 
-gulp.task('json.server', function() {
-    return gulp.src(paths.server.json)
-        .pipe($.changed(paths.dist.server))
-        .pipe(gulp.dest(paths.dist.server));
-});
-
 gulp.task('lint.server', function() {
     return gulp.src([paths.server.ts, paths.server.noTypings])
         .pipe($.tslint())
@@ -19,7 +13,7 @@ gulp.task('lint.server', function() {
         }));
 });
 
-gulp.task('build.server', ['json.server', 'lint.server'], function() {
+gulp.task('build.server', ['lint.server'], function() {
     var tsProject = $.typescript.createProject(paths.server.tsConfig);
     var tsResult = tsProject.src()
         .pipe($.sourcemaps.init())

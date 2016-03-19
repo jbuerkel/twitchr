@@ -10,6 +10,22 @@ declare module Express {
     }
 }
 
+declare module 'app-root-path' {
+    module appRootPath {
+        export let path: string;
+
+        export function require(pathToModule: string): Object;
+
+        export function resolve(pathToModule: string): string;
+
+        export function setPath(explicitlySetPath: string): void;
+
+        export function toString(): string;
+    }
+
+    export = appRootPath;
+}
+
 declare module 'dotenv' {
     module dotenv {
         export interface Options {

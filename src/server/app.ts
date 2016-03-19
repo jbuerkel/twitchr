@@ -5,19 +5,18 @@ import * as dotenvSafe from 'dotenv-safe';
 import * as express from 'express';
 import * as logger from 'morgan';
 import * as session from 'express-session';
-import {loadJsonRoot, rootJoin} from './util/misc';
+import {resolve} from 'app-root-path';
 
 import core from './core/router';
 import oauth from './oauth/router';
 
 dotenvSafe.load({
-    path: rootJoin('.env'),
-    sample: rootJoin('.env.example')
+    path: resolve('./.env'),
+    sample: resolve('./.env.example')
 });
 
 let app = express();
 let mongoStore = connectMongo(session);
-let paths = loadJsonRoot('./paths.conf.json');
 
 app.use(logger('dev'));
 app.use(session({
@@ -29,7 +28,7 @@ app.use(session({
         url: process.env.MONGODB_URL
     })
 }));
-app.use(express.static(rootJoin(paths.dist.client)));
+app.use(express.static(resolve('./dist/client')));
 
 app.use('/api/oauth2', oauth);
 
