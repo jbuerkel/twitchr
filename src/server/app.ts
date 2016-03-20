@@ -3,6 +3,7 @@
 import * as connectMongo from 'connect-mongo';
 import * as dotenvSafe from 'dotenv-safe';
 import * as express from 'express';
+import * as helmet from 'helmet';
 import * as logger from 'morgan';
 import * as session from 'express-session';
 import {resolve} from 'app-root-path';
@@ -18,6 +19,7 @@ dotenvSafe.load({
 let app = express();
 let mongoStore = connectMongo(session);
 
+app.use(helmet());
 app.use(logger('dev'));
 app.use(session({
     resave: false,

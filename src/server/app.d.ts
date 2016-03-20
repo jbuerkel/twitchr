@@ -1,11 +1,13 @@
 declare module Express {
     export interface Session {
         oauth?: Oauth2Token;
+        oauthState?: string;
         originalUrl?: string;
     }
 
     interface Oauth2Token {
         access_token: string;
+        refresh_token: string;
         scope: string[];
     }
 }
