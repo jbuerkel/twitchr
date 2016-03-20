@@ -12,7 +12,7 @@ export function rejectAuth(req: express.Request, res: express.Response, next: ex
     if (!req.session.oauth) {
         next();
     } else {
-        res.redirect('/');
+        res.redirect('/api/irc');
     }
 }
 

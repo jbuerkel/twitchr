@@ -9,6 +9,7 @@ import * as session from 'express-session';
 import {resolve} from 'app-root-path';
 
 import core from './core/router';
+import irc from './irc/router';
 import oauth from './oauth/router';
 
 dotenvSafe.load({
@@ -32,6 +33,7 @@ app.use(session({
 }));
 app.use(express.static(resolve('./dist/client')));
 
+app.use('/api/irc', irc);
 app.use('/api/oauth2', oauth);
 
 app.use(core);
