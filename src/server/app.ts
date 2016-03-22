@@ -23,6 +23,7 @@ let mongoStore = connectMongo(session);
 app.use(helmet());
 app.use(logger('dev'));
 app.use(session({
+    cookie: {secure: true},
     resave: false,
     saveUninitialized: false,
     secret: process.env.SESSION_SECRET,
