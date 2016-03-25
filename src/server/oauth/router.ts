@@ -13,6 +13,7 @@ router.get('/', rejectAuth, (req: express.Request, res: express.Response) => {
         if (!err) {
             let state = buf.toString('hex');
             req.session.oauthState = state;
+
             res.redirect(
                 'https://api.twitch.tv/kraken/oauth2/authorize' +
                 '?api_version=3' +
@@ -31,6 +32,7 @@ router.get('/', rejectAuth, (req: express.Request, res: express.Response) => {
 
 router.get('/callback', rejectAuth, (req: express.Request, res: express.Response) => {
     let state = req.session.oauthState;
+
     if (req.query.state && req.query.state === state) {
         request.post({
             form: {
@@ -48,6 +50,7 @@ router.get('/callback', rejectAuth, (req: express.Request, res: express.Response
         }, (error: any, response: IncomingMessage, body: any) => {
             if (!error && response.statusCode === 200) {
                 req.session.oauth = JSON.parse(body);
+
                 req.session.oauthState = undefined;
                 res.redirect('/api/irc');
             } else {

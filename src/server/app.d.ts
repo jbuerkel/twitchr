@@ -1,5 +1,8 @@
 declare module Express {
+    import {Client} from 'irc';
+
     export interface Session {
+        ircClient?: Client;
         oauth?: Oauth2Token;
         oauthState?: string;
         originalUrl?: string;
