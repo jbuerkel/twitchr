@@ -22,6 +22,7 @@ import * as express from 'express';
 import * as request from 'request';
 import {Client} from 'irc';
 import {IncomingMessage} from 'http';
+import {initialize} from '../plugin/init';
 import {requireAuth} from '../util/misc';
 
 let router = express.Router();
@@ -41,7 +42,7 @@ router.get('/', requireAuth, (req: express.Request, res: express.Response) => {
         if (!error && response.statusCode === 200 && version === 3) {
             let nick = JSON.parse(body).token.user_name.toLowerCase();
 
-            req.session.ircClient = new Client('irc.twitch.tv', nick, {
+            let client = new Client('irc.twitch.tv', nick, {
                 autoConnect: false,
                 password: 'oauth:' + token,
                 realName: 'Twitch IRC bot',
@@ -49,14 +50,20 @@ router.get('/', requireAuth, (req: express.Request, res: express.Response) => {
                 userName: 'twitchr'
             });
 
-            // TODO initialize plugins
-            let url = req.session.originalUrl;
+            if (initialize(client)) {
+                client.connect();
 
-            if (url) {
-                req.session.originalUrl = undefined;
-                res.redirect(url);
+                req.session.ircClient = client;
+                let url = req.session.originalUrl;
+
+                if (url) {
+                    req.session.originalUrl = undefined;
+                    res.redirect(url);
+                } else {
+                    res.redirect('/');
+                }
             } else {
-                res.redirect('/');
+                // TODO handle error
             }
         } else {
             // TODO handle error

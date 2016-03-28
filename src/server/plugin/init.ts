@@ -18,6 +18,8 @@
 
 'use strict';
 
+import {Client} from 'irc';
+
 export interface Plugin {
     hooks: PluginEventListener;
     init: (options: Object) => boolean;
@@ -26,4 +28,8 @@ export interface Plugin {
 export interface PluginEventListener {
     onMessage?: () => void;
     /* ... */
+}
+
+export function initialize(client: Client) {
+    // TODO load plugins
 }
