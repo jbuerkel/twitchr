@@ -16,13 +16,40 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+import {Client, IClientOpts} from 'irc';
 import {DefaultOptions} from 'connect-mongo';
 
 declare module 'connect-mongo' {
     interface DefaultOptions {
         /**
-         * (Default: 0)
+         * @default 0
          */
         touchAfter?: number;
+    }
+}
+
+declare module 'irc' {
+    interface IClientOpts {
+        /**
+         * @default ''
+         */
+        password?: string;
+    }
+}
+
+declare global {
+    module Express {
+        export interface Session {
+            ircClient?: Client;
+            oauth?: Oauth2Token;
+            oauthState?: string;
+            originalUrl?: string;
+        }
+
+        interface Oauth2Token {
+            access_token: string;
+            refresh_token: string;
+            scope: string[];
+        }
     }
 }

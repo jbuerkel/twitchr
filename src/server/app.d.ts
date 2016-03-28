@@ -16,23 +16,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-declare module Express {
-    import {Client} from 'irc';
-
-    export interface Session {
-        ircClient?: Client;
-        oauth?: Oauth2Token;
-        oauthState?: string;
-        originalUrl?: string;
-    }
-
-    interface Oauth2Token {
-        access_token: string;
-        refresh_token: string;
-        scope: string[];
-    }
-}
-
 declare module 'app-root-path' {
     module appRootPath {
         export let path: string;
@@ -53,17 +36,17 @@ declare module 'dotenv' {
     module dotenv {
         export interface Options {
             /**
-             * (Default: 'utf8')
+             * @default 'utf8'
              */
             encoding?: string;
 
             /**
-             * (Default: '.env')
+             * @default '.env'
              */
             path?: string;
 
             /**
-             * (Default: false)
+             * @default false
              */
             silent?: boolean;
         }
@@ -84,7 +67,7 @@ declare module 'dotenv-safe' {
     module dotenvSafe {
         export interface Options extends dotenv.Options {
             /**
-             * (Default: '.env.example')
+             * @default '.env.example'
              */
             sample?: string;
         }
