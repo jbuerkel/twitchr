@@ -67,6 +67,11 @@ declare module 'dotenv-safe' {
     module dotenvSafe {
         export interface Options extends dotenv.Options {
             /**
+             * @default false
+             */
+            allowEmptyValues?: boolean;
+
+            /**
              * @default '.env.example'
              */
             sample?: string;
