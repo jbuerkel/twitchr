@@ -2,6 +2,7 @@
 cert/
 dist/
 node_modules/
+plugins/
 
 *.log
 .env

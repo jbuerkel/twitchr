@@ -32,11 +32,11 @@ import oauth from './routes/oauth';
 
 dotenvSafe.load({
     path: resolve('./.env'),
-    sample: resolve('./.env.example')
+    sample: resolve('./.env.example'),
 });
 
-let app = express();
-let mongoStore = connectMongo(session);
+let app: express.Express = express();
+let mongoStore: connectMongo.MongoStoreFactory = connectMongo(session);
 
 app.use(helmet());
 app.use(logger('dev'));
@@ -47,8 +47,8 @@ app.use(session({
     secret: process.env.SESSION_SECRET,
     store: new mongoStore({
         touchAfter: 24 * 3600,
-        url: process.env.MONGODB_URL
-    })
+        url: process.env.MONGODB_URL,
+    }),
 }));
 app.use(express.static(resolve('./dist/client')));
 

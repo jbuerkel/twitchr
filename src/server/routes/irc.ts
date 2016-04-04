@@ -25,36 +25,36 @@ import {IncomingMessage} from 'http';
 import {initialize} from '../plugin/init';
 import {requireAuth} from '../util/misc';
 
-let router = express.Router();
+let router: express.Router = express.Router();
 
 router.get('/', requireAuth, (req: express.Request, res: express.Response) => {
-    let token = req.session.oauth.access_token;
+    let token: string = req.session.oauth.access_token;
 
     request.get({
         headers: {
             'Accept': 'application/vnd.twitchtv.v3+json',
-            'Authorization': 'OAuth ' + token
+            'Authorization': 'OAuth ' + token,
         },
-        url: 'https://api.twitch.tv/kraken'
+        url: 'https://api.twitch.tv/kraken',
     }, (error: any, response: IncomingMessage, body: any) => {
-        let version = response.headers['x-api-version'];
+        let version: number = response.headers['x-api-version'];
 
         if (!error && response.statusCode === 200 && version === 3) {
-            let nick = JSON.parse(body).token.user_name.toLowerCase();
+            let nick: string = JSON.parse(body).token.user_name.toLowerCase();
 
-            let client = new Client('irc.twitch.tv', nick, {
+            let client: Client = new Client('irc.twitch.tv', nick, {
                 autoConnect: false,
                 password: 'oauth:' + token,
                 realName: 'Twitch IRC bot',
                 sasl: true,
-                userName: 'twitchr'
+                userName: 'twitchr',
             });
 
             if (initialize(client)) {
                 client.connect();
 
                 req.session.ircClient = client;
-                let url = req.session.originalUrl;
+                let url: string = req.session.originalUrl;
 
                 if (url) {
                     req.session.originalUrl = undefined;

@@ -24,12 +24,12 @@ import {IncomingMessage} from 'http';
 import {randomBytes} from 'crypto';
 import {rejectAuth} from '../util/misc';
 
-let router = express.Router();
+let router: express.Router = express.Router();
 
 router.get('/', rejectAuth, (req: express.Request, res: express.Response) => {
     randomBytes(32, (err: Error, buf: Buffer) => {
         if (!err) {
-            let state = buf.toString('hex');
+            let state: string = buf.toString('hex');
             req.session.oauthState = state;
 
             res.redirect(
@@ -49,7 +49,7 @@ router.get('/', rejectAuth, (req: express.Request, res: express.Response) => {
 });
 
 router.get('/callback', rejectAuth, (req: express.Request, res: express.Response) => {
-    let state = req.session.oauthState;
+    let state: string = req.session.oauthState;
 
     if (req.query.state && req.query.state === state) {
         request.post({
@@ -59,12 +59,12 @@ router.get('/callback', rejectAuth, (req: express.Request, res: express.Response
                 code: req.query.code,
                 grant_type: 'authorization_code',
                 redirect_uri: process.env.REDIRECT_URI,
-                state: state
+                state: state,
             },
             headers: {
-                'Accept': 'application/vnd.twitchtv.v3+json'
+                'Accept': 'application/vnd.twitchtv.v3+json',
             },
-            url: 'https://api.twitch.tv/kraken/oauth2/token'
+            url: 'https://api.twitch.tv/kraken/oauth2/token',
         }, (error: any, response: IncomingMessage, body: any) => {
             if (!error && response.statusCode === 200) {
                 req.session.oauth = JSON.parse(body);

@@ -1,10 +1,14 @@
 {
   "rules": {
+    "align": [
+      true,
+      "parameters",
+      "statements"
+    ],
     "class-name": true,
     "comment-format": [
       true,
-      "check-space",
-      "check-lowercase"
+      "check-space"
     ],
     "curly": true,
     "eofline": true,
@@ -23,16 +27,17 @@
       "variables-before-functions"
     ],
     "no-consecutive-blank-lines": true,
+    "no-duplicate-key": true,
     "no-duplicate-variable": true,
     "no-internal-module": true,
-    "no-require-imports": true,
+    "no-null-keyword": true,
+    "no-shadowed-variable": true,
     "no-trailing-whitespace": true,
     "no-unreachable": true,
     "no-unused-expression": true,
     "no-unused-variable": true,
     "no-use-before-declare": true,
     "no-var-keyword": true,
-    "no-var-requires": true,
     "object-literal-sort-keys": true,
     "one-line": [
       true,
@@ -44,14 +49,30 @@
     ],
     "quotemark": [
       true,
-      "single",
-      "avoid-escape"
+      "avoid-escape",
+      "single"
     ],
-    "semicolon": true,
-    "switch-default": true,
-    "triple-equals": [
+    "semicolon": [
       true,
-      "allow-null-check"
+      "always"
+    ],
+    "switch-default": true,
+    "trailing-comma": [
+      true,
+      {
+        "multiline": "always",
+        "singleline": "never"
+      }
+    ],
+    "triple-equals": true,
+    "typedef": [
+      true,
+      "arrow-parameter",
+      "call-signature",
+      "member-variable-declaration",
+      "parameter",
+      "property-declaration",
+      "variable-declaration"
     ],
     "typedef-whitespace": [
       true,
@@ -61,6 +82,13 @@
         "parameter": "nospace",
         "property-declaration": "nospace",
         "variable-declaration": "nospace"
+      },
+      {
+        "call-signature": "onespace",
+        "index-signature": "onespace",
+        "parameter": "onespace",
+        "property-declaration": "onespace",
+        "variable-declaration": "onespace"
       }
     ],
     "use-strict": [
@@ -69,17 +97,19 @@
     ],
     "variable-name": [
       true,
-      "check-format",
       "allow-leading-underscore",
-      "ban-keywords"
+      "ban-keywords",
+      "check-format"
     ],
     "whitespace": [
       true,
       "check-branch",
       "check-decl",
+      "check-module",
       "check-operator",
       "check-separator",
-      "check-type"
+      "check-type",
+      "check-typecast"
     ]
   }
 }

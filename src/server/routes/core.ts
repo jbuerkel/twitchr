@@ -22,7 +22,7 @@ import * as express from 'express';
 import {rejectAuth, requireAuth} from '../util/misc';
 import {resolve} from 'app-root-path';
 
-let router = express.Router();
+let router: express.Router = express.Router();
 
 router.get('/login', rejectAuth, (req: express.Request, res: express.Response) => {
     res.sendFile(resolve('./dist/client/index.html'));
@@ -34,7 +34,7 @@ router.get('/logout', requireAuth, (req: express.Request, res: express.Response)
     });
 });
 
-router.get('/*', (req: express.Request, res: express.Response) => {
+router.get('/*', requireAuth, (req: express.Request, res: express.Response) => {
     res.sendFile(resolve('./dist/client/index.html'));
 });
 

@@ -26,7 +26,7 @@ import * as express from 'express';
  * @param {express.Response} res
  * @param {express.NextFunction} next
  */
-export function rejectAuth(req: express.Request, res: express.Response, next: express.NextFunction) {
+export function rejectAuth(req: express.Request, res: express.Response, next: express.NextFunction): void {
     if (!req.session.oauth) {
         next();
     } else {
@@ -40,7 +40,7 @@ export function rejectAuth(req: express.Request, res: express.Response, next: ex
  * @param {express.Response} res
  * @param {express.NextFunction} next
  */
-export function requireAuth(req: express.Request, res: express.Response, next: express.NextFunction) {
+export function requireAuth(req: express.Request, res: express.Response, next: express.NextFunction): void {
     if (!req.session.oauth) {
         req.session.originalUrl = req.originalUrl;
         res.redirect('/login');

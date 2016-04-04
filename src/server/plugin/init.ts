@@ -19,10 +19,33 @@
 'use strict';
 
 import {Client} from 'irc';
+import {resolve} from 'app-root-path';
+import {sync} from 'glob';
 
-export interface Plugin {
+class Plugin {
+    constructor(private meta: Object, private plugin: PluginInterface<Object>) { }
+
+    public getMeta(): Object {
+        return this.meta;
+    }
+
+    public getPlugin(): PluginInterface<Object> {
+        return this.plugin;
+    }
+}
+
+let plugins: Array<Plugin> = Array<Plugin>();
+sync(resolve('./plugins/twitchr-*/')).forEach((dir: string) => {
+    plugins.push(new Plugin(
+        require(resolve('./plugins/' + dir + '/package.json')),
+        require(resolve('./plugins/' + dir + '/index.ts'))
+    ));
+});
+
+export interface PluginInterface<T extends Object> {
+    config: (options: T) => boolean;
     hooks: PluginEventListener;
-    init: (options: Object) => boolean;
+    options: T;
 }
 
 export interface PluginEventListener {
@@ -30,6 +53,8 @@ export interface PluginEventListener {
     /* ... */
 }
 
-export function initialize(client: Client) {
+export function initialize(client: Client): boolean {
     // TODO load plugins
+
+    return true;
 }

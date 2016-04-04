@@ -21,19 +21,19 @@
 'use strict';
 
 import * as express from 'express';
-import {createServer as createServerHttp} from 'http';
-import {createServer as createServerHttps} from 'https';
+import * as http from 'http';
+import * as https from 'https';
 import {readFileSync} from 'fs';
 import {resolve} from 'app-root-path';
 import app from '../app';
 
-let httpApp = express();
-let httpPort = 8080;
-let httpsPort = process.env.PORT || 8443;
+let httpApp: express.Express = express();
+let httpPort: number = 8080;
+let httpsPort: number = process.env.PORT || 8443;
 
-let options = {
+let options: https.ServerOptions = {
     cert: readFileSync(resolve('./cert/cert.pem')),
-    key: readFileSync(resolve('./cert/key.pem'))
+    key: readFileSync(resolve('./cert/key.pem')),
 };
 
 app.set('port', httpsPort);
@@ -42,8 +42,8 @@ httpApp.get('*', (req: express.Request, res: express.Response) => {
     res.redirect(301, `https://${req.hostname}:${httpsPort + req.url}`);
 });
 
-let httpServer = createServerHttp(httpApp);
-let httpsServer = createServerHttps(options, app);
+let httpServer: http.Server = http.createServer(httpApp);
+let httpsServer: https.Server = https.createServer(options, app);
 httpServer.listen(httpPort);
 httpsServer.listen(httpsPort);
 
@@ -63,9 +63,9 @@ httpsServer.on('listening', () => {
     listening(true);
 });
 
-function error(err: any, secure: boolean) {
-    let port = secure ? httpsPort : httpPort;
-    let protocol = secure ? 'HTTPS' : 'HTTP';
+function error(err: any, secure: boolean): void {
+    let port: number = secure ? httpsPort : httpPort;
+    let protocol: string = secure ? 'HTTPS' : 'HTTP';
 
     if (err.syscall !== 'listen') {
         throw err;
@@ -87,9 +87,9 @@ function error(err: any, secure: boolean) {
     }
 }
 
-function listening(secure: boolean) {
-    let port = secure ? httpsPort : httpPort;
-    let protocol = secure ? 'HTTPS' : 'HTTP';
+function listening(secure: boolean): void {
+    let port: number = secure ? httpsPort : httpPort;
+    let protocol: string = secure ? 'HTTPS' : 'HTTP';
 
     console.log(`${protocol} server listening on port ${port}`);
 }
