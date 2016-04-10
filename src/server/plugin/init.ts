@@ -18,9 +18,47 @@
 
 'use strict';
 
-import {Client} from 'irc';
+import * as debug from 'debug';
+import {Client, IMessage} from 'irc';
 import {resolve} from 'app-root-path';
 import {sync} from 'glob';
+
+let logIrc: debug.IDebugger = debug('twitchr:irc');
+let logPlugin: debug.IDebugger = debug('twitchr:plugin');
+
+export interface PluginOnAction {
+    (from: string, to: string, text: string): void;
+}
+
+export interface PluginOnJoin {
+    (nick: string): void;
+}
+
+export interface PluginOnMessage {
+    (nick: string, to: string, text: string): void;
+}
+
+export interface PluginOnNames {
+    (nicks: string[]): void;
+}
+
+export interface PluginOnPart {
+    (nick: string, reason: string): void;
+}
+
+export interface PluginEventListener {
+    onAction?: PluginOnAction;
+    onJoin?: PluginOnJoin;
+    onMessage?: PluginOnMessage;
+    onNames?: PluginOnNames;
+    onPart?: PluginOnPart;
+}
+
+export interface PluginInterface<T extends Object> {
+    config: (options: T) => boolean;
+    hooks: PluginEventListener;
+    options: T;
+}
 
 class Plugin {
     constructor(private meta: Object, private plugin: PluginInterface<Object>) { }
@@ -34,27 +72,92 @@ class Plugin {
     }
 }
 
-let plugins: Array<Plugin> = Array<Plugin>();
+interface HookCollection {
+    onActionHooks?: Array<PluginOnAction>;
+    onJoinHooks?: Array<PluginOnJoin>;
+    onMessageHooks?: Array<PluginOnMessage>;
+    onNamesHooks?: Array<PluginOnNames>;
+    onPartHooks?: Array<PluginOnPart>;
+}
+
+export let plugins: Array<Plugin> = Array<Plugin>();
 sync(resolve('./plugins/twitchr-*/')).forEach((dir: string) => {
-    plugins.push(new Plugin(
-        require(resolve('./plugins/' + dir + '/package.json')),
-        require(resolve('./plugins/' + dir + '/index.ts'))
-    ));
+    let json: Object = require(resolve(`./plugins/${dir}/package.json`));
+    let ts: PluginInterface<Object> = require(resolve(`./plugins/${dir}/index.ts`));
+
+    if (json && ts) {
+        plugins.push(new Plugin(json, ts));
+    } else {
+        logPlugin(`Skipped invalid plugin ${dir}`);
+    }
 });
 
-export interface PluginInterface<T extends Object> {
-    config: (options: T) => boolean;
-    hooks: PluginEventListener;
-    options: T;
-}
+let hookCollection: HookCollection;
+plugins.forEach((plugin: Plugin) => {
+    let hooks: PluginEventListener = plugin.getPlugin().hooks;
 
-export interface PluginEventListener {
-    onMessage?: () => void;
-    /* ... */
-}
+    if (hooks.onAction) {
+        hookCollection.onActionHooks.push(hooks.onAction);
+    }
 
+    if (hooks.onJoin) {
+        hookCollection.onJoinHooks.push(hooks.onJoin);
+    }
+
+    if (hooks.onMessage) {
+        hookCollection.onMessageHooks.push(hooks.onMessage);
+    }
+
+    if (hooks.onNames) {
+        hookCollection.onNamesHooks.push(hooks.onNames);
+    }
+
+    if (hooks.onPart) {
+        hookCollection.onPartHooks.push(hooks.onPart);
+    }
+});
+
+/**
+ * Initializes a given IRC client.
+ * @param {Client} client
+ * @returns {boolean}
+ */
 export function initialize(client: Client): boolean {
-    // TODO load plugins
+    client.addListener('action', (from: string, to: string, text: string, message: IMessage) => {
+        hookCollection.onActionHooks.forEach((hook: PluginOnAction) => {
+            hook(from, to, text);
+        });
+    });
+
+    client.addListener('join', (channel: string, nick: string, message: IMessage) => {
+        hookCollection.onJoinHooks.forEach((hook: PluginOnJoin) => {
+            hook(nick);
+        });
+    });
+
+    client.addListener('message', (nick: string, to: string, text: string, message: IMessage) => {
+        hookCollection.onMessageHooks.forEach((hook: PluginOnMessage) => {
+            hook(nick, to, text);
+        });
+    });
+
+    client.addListener('names', (channel: string, nicks: string[]) => {
+        hookCollection.onNamesHooks.forEach((hook: PluginOnNames) => {
+            hook(nicks);
+        });
+    });
+
+    client.addListener('part', (channel: string, nick: string, reason: string, message: IMessage) => {
+        hookCollection.onPartHooks.forEach((hook: PluginOnPart) => {
+            hook(nick, reason);
+        });
+    });
+
+    client.addListener('error', (message: IMessage) => {
+        logIrc(`Error: ${message}`);
+    });
+
+    // TODO request membership capabilities
 
     return true;
 }
