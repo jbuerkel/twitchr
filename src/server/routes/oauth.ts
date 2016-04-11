@@ -18,12 +18,14 @@
 
 'use strict';
 
+import * as debug from 'debug';
 import * as express from 'express';
 import * as request from 'request';
 import {IncomingMessage} from 'http';
 import {randomBytes} from 'crypto';
 import {rejectAuth} from '../util/misc';
 
+let logOauth: debug.IDebugger = debug('twitchr:oauth');
 let router: express.Router = express.Router();
 
 router.get('/', rejectAuth, (req: express.Request, res: express.Response) => {
@@ -43,7 +45,7 @@ router.get('/', rejectAuth, (req: express.Request, res: express.Response) => {
                 '&state=' + state
             );
         } else {
-            // TODO handle error
+            logOauth('Random byte generation failed');
         }
     });
 });
@@ -66,13 +68,19 @@ router.get('/callback', rejectAuth, (req: express.Request, res: express.Response
             },
             url: 'https://api.twitch.tv/kraken/oauth2/token',
         }, (error: any, response: IncomingMessage, body: any) => {
+            req.session.oauthState = undefined;
+            
             if (!error && response.statusCode === 200) {
                 req.session.oauth = JSON.parse(body);
-
-                req.session.oauthState = undefined;
                 res.redirect('/api/irc');
             } else {
-                // TODO handle error
+                if (error) {
+                    logOauth(`Requesting oauth token failed with error: ${error}`);
+                } else {
+                    logOauth(`Requesting oauth token failed with status code: ${response.statusCode}`);
+                }
+                
+                res.redirect('/login');
             }
         });
     } else {

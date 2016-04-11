@@ -122,7 +122,7 @@ plugins.forEach((plugin: Plugin) => {
  * @param {Client} client
  * @returns {boolean}
  */
-export function initialize(client: Client): boolean {
+export function initialize(client: Client): void {
     client.addListener('action', (from: string, to: string, text: string, message: IMessage) => {
         hookCollection.onActionHooks.forEach((hook: PluginOnAction) => {
             hook(from, to, text);
@@ -157,7 +157,5 @@ export function initialize(client: Client): boolean {
         logIrc(`Error: ${message}`);
     });
 
-    // TODO request membership capabilities
-
-    return true;
+    // TODO request membership capabilities, send test message
 }

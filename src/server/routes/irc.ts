@@ -18,6 +18,7 @@
 
 'use strict';
 
+import * as debug from 'debug';
 import * as express from 'express';
 import * as request from 'request';
 import {Client} from 'irc';
@@ -25,6 +26,7 @@ import {IncomingMessage} from 'http';
 import {initialize} from '../plugin/init';
 import {requireAuth} from '../util/misc';
 
+let logIrc: debug.IDebugger = debug('twitchr:irc');
 let router: express.Router = express.Router();
 
 router.get('/', requireAuth, (req: express.Request, res: express.Response) => {
@@ -43,30 +45,35 @@ router.get('/', requireAuth, (req: express.Request, res: express.Response) => {
             let nick: string = JSON.parse(body).token.user_name.toLowerCase();
 
             let client: Client = new Client('irc.twitch.tv', nick, {
-                autoConnect: false,
+                channels: [],
+                floodProtection: true,
+                floodProtectionDelay: 333,
                 password: 'oauth:' + token,
                 realName: 'Twitch IRC bot',
                 sasl: true,
                 userName: 'twitchr',
             });
 
-            if (initialize(client)) {
-                client.connect();
+            initialize(client);
+            req.session.ircClient = client;
+            let url: string = req.session.originalUrl;
 
-                req.session.ircClient = client;
-                let url: string = req.session.originalUrl;
-
-                if (url) {
-                    req.session.originalUrl = undefined;
-                    res.redirect(url);
-                } else {
-                    res.redirect('/');
-                }
+            if (url) {
+                req.session.originalUrl = undefined;
+                res.redirect(url);
             } else {
-                // TODO handle error
+                res.redirect('/');
             }
         } else {
-            // TODO handle error
+            if (error) {
+                logIrc(`Twitch API request failed with error: ${error}`);
+            } else if (response.statusCode !== 200) {
+                logIrc(`Twitch API request failed with status code: ${response.statusCode}`);
+            } else {
+                logIrc(`Twitch API request failed with API version: v${version}`);
+            }
+
+            res.redirect('/');
         }
     });
 });

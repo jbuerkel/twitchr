@@ -20,12 +20,15 @@
 
 'use strict';
 
+import * as debug from 'debug';
 import * as express from 'express';
 import * as http from 'http';
 import * as https from 'https';
 import {readFileSync} from 'fs';
 import {resolve} from 'app-root-path';
 import app from '../app';
+
+let logServer: debug.IDebugger = debug('twitchr:server');
 
 let httpApp: express.Express = express();
 let httpPort: number = 8080;
@@ -73,12 +76,12 @@ function error(err: any, secure: boolean): void {
 
     switch (err.code) {
         case 'EACCES':
-            console.error(`${protocol} port ${port} requires elevated privileges`);
+            logServer(`${protocol} port ${port} requires elevated privileges`);
             process.exit(1);
             break;
 
         case 'EADDRINUSE':
-            console.error(`${protocol} port ${port} is already in use`);
+            logServer(`${protocol} port ${port} is already in use`);
             process.exit(1);
             break;
 
@@ -91,5 +94,5 @@ function listening(secure: boolean): void {
     let port: number = secure ? httpsPort : httpPort;
     let protocol: string = secure ? 'HTTPS' : 'HTTP';
 
-    console.log(`${protocol} server listening on port ${port}`);
+    logServer(`${protocol} server listening on port ${port}`);
 }
