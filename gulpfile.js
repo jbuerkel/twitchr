@@ -13,7 +13,7 @@ gulp.task('lint.server', function() {
         }));
 });
 
-gulp.task('build.server', ['lint.server'], function() {
+gulp.task('dist.server', function() {
     var tsProject = $.typescript.createProject(paths.server.tsConfig);
     var tsResult = tsProject.src()
         .pipe($.sourcemaps.init())
@@ -24,12 +24,12 @@ gulp.task('build.server', ['lint.server'], function() {
         .pipe(gulp.dest(paths.dist.server));
 });
 
-gulp.task('watch.server', ['build.server'], function() {
+gulp.task('watch.server', ['lint.server', 'dist.server'], function() {
     $.nodemon({
         script: paths.dist.www,
         watch: path.join(__dirname, paths.server.ts),
         env: { 'NODE_ENV': 'development' },
-        tasks: ['build.server']
+        tasks: ['lint.server', 'dist.server']
     });
 });
 

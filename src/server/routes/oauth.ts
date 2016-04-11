@@ -69,7 +69,7 @@ router.get('/callback', rejectAuth, (req: express.Request, res: express.Response
             url: 'https://api.twitch.tv/kraken/oauth2/token',
         }, (error: any, response: IncomingMessage, body: any) => {
             req.session.oauthState = undefined;
-            
+
             if (!error && response.statusCode === 200) {
                 req.session.oauth = JSON.parse(body);
                 res.redirect('/api/irc');
@@ -79,7 +79,7 @@ router.get('/callback', rejectAuth, (req: express.Request, res: express.Response
                 } else {
                     logOauth(`Requesting oauth token failed with status code: ${response.statusCode}`);
                 }
-                
+
                 res.redirect('/login');
             }
         });

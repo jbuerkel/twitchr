@@ -1,5 +1,5 @@
 {
-  "name": "twitchr",
+  "name": "twitchr-server",
   "dependencies": {},
   "devDependencies": {},
   "ambientDependencies": {

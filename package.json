@@ -4,7 +4,16 @@
   "description": "A twitch bot providing IRC based assistance",
   "author": "Jonas Bürkel <buerkelj@gmail.com>",
   "scripts": {
-    "start": "gulp build.server && node ./dist/server/bin/www.js"
+    "dist": "npm run dist.server",
+    "dist.server": "rimraf ./dist/server/ && gulp dist.server",
+    "lint": "npm run lint.server",
+    "lint.server": "gulp lint.server",
+    "postinstall": "npm prune && npm run typings.install && npm run dist",
+    "start": "node ./dist/server/bin/www.js",
+    "typings": "typings",
+    "typings.install": "npm run typings.client && npm run typings.server",
+    "typings.client": "rimraf ./src/client/typings/ && (cd ./src/client/ && typings install)",
+    "typings.server": "rimraf ./src/server/typings/ && (cd ./src/server/ && typings install)"
   },
   "repository": {
     "type": "git",
@@ -46,6 +55,8 @@
     "gulp-tslint": "^4.3.4",
     "gulp-tslint-stylish": "^1.1.1",
     "gulp-typescript": "^2.12.2",
-    "tslint": "^3.6.0"
+    "rimraf": "^2.5.2",
+    "tslint": "^3.6.0",
+    "typings": "^0.7.12"
   }
 }
