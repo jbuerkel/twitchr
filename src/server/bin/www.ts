@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 /*!
     twitchr - A twitch bot providing IRC based assistance
     Copyright (C) 2016  Jonas Bürkel
@@ -17,8 +15,6 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-
-'use strict';
 
 import * as debug from 'debug';
 import * as express from 'express';

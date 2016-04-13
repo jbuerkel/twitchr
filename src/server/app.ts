@@ -16,8 +16,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-'use strict';
-
 import * as connectMongo from 'connect-mongo';
 import * as dotenvSafe from 'dotenv-safe';
 import * as express from 'express';
