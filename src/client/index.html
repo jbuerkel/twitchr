@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+        <meta name="description" content="A twitch bot providing IRC based assistance">
+
+        <title>hello twitchr</title>
+
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
+        <link rel="stylesheet" href="assets/main.css">
+    </head>
+    <body>
+        <twitchr-app>Loading...</twitchr-app>
+
+        <script src="../../node_modules/es6-shim/es6-shim.min.js"></script>
+        <script src="../../node_modules/systemjs/dist/system-polyfills.js"></script>
+        <script src="../../node_modules/angular2/es6/dev/src/testing/shims_for_IE.js"></script>
+
+        <script src="../../node_modules/angular2/bundles/angular2-polyfills.js"></script>
+        <script src="../../node_modules/systemjs/dist/system.src.js"></script>
+        <script src="../../node_modules/rxjs/bundles/Rx.js"></script>
+        <script src="../../node_modules/angular2/bundles/angular2.dev.js"></script>
+
+        <script>
+            System.config({
+                packages: {
+                    app: {
+                        format: 'register',
+                        defaultExtension: 'js'
+                    }
+                }
+            });
+            System.import('main')
+                    .then(null, console.error.bind(console));
+        </script>
+    </body>
+</html>
