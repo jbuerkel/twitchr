@@ -7,8 +7,8 @@
 */
 
 import {Component} from 'angular2/core';
-import {HomeComponent} from '../home/home.component';
-import {LoginComponent} from '../login/login.component';
+import {HomeComponent} from './home/home.component';
+import {LoginComponent} from './login/login.component';
 import {RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from 'angular2/router';
 
 @Component({

@@ -48,7 +48,7 @@ app.use(session({
         url: process.env.MONGODB_URL,
     }),
 }));
-app.use(express.static(resolve('./dist/client')));
+app.use(express.static(resolve('./dist/client'), {index: false}));
 
 app.use('/api/irc', irc);
 app.use('/api/oauth2', oauth);

@@ -16,10 +16,12 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+import * as debug from 'debug';
 import * as express from 'express';
 import {rejectAuth, requireAuth} from '../util/misc';
 import {resolve} from 'app-root-path';
 
+let logCore: debug.IDebugger = debug('twitchr:core');
 let router: express.Router = express.Router();
 
 router.get('/login', rejectAuth, (req: express.Request, res: express.Response) => {
@@ -28,6 +30,9 @@ router.get('/login', rejectAuth, (req: express.Request, res: express.Response) =
 
 router.get('/logout', requireAuth, (req: express.Request, res: express.Response) => {
     req.session.destroy((err: any) => {
+        if (err) {
+            logCore(`Destroying user session failed with error: ${err}`);
+        }
         res.redirect('/login');
     });
 });

@@ -43,7 +43,7 @@ router.get('/', rejectAuth, (req: express.Request, res: express.Response) => {
                 '&state=' + state
             );
         } else {
-            logOauth('Random byte generation failed');
+            logOauth(`Generating random bytes failed with error: ${err}`);
         }
     });
 });

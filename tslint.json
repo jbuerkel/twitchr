@@ -91,10 +91,6 @@
         "variable-declaration": "onespace"
       }
     ],
-    "use-strict": [
-      true,
-      "check-module"
-    ],
     "variable-name": [
       true,
       "allow-leading-underscore",
