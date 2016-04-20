@@ -20,14 +20,31 @@ gulp.task('lint.server', function() {
         }));
 });
 
+function processor(ext, file) {
+    switch (ext[0]) {
+        case '.css':
+            file = file.replace(/\s+/g, '');
+            break;
+
+        case '.html':
+            file = file.replace(/>\s+</g, '><');
+            break;
+    }
+
+    return file;
+}
+
 gulp.task('dist.client', ['dist.client.css', 'dist.client.html', 'dist.client.img', 'dist.client.vendor'], function() {
     var tsProject = $.typescript.createProject('./src/client/tsconfig.json');
     var tsResult = tsProject.src()
         .pipe($.sourcemaps.init())
         .pipe($.inlineNg2Template({
             base: './src/client',
+            indent: 0,
             useRelativePaths: true,
-            removeLineBreaks: true
+            removeLineBreaks: true,
+            templateProcessor: processor,
+            styleProcessor: processor
         }))
         .pipe($.typescript(tsProject));
 
@@ -65,10 +82,10 @@ gulp.task('dist.client.vendor', function() {
         './node_modules/es6-shim/es6-shim.@(map|min.js)',
         './node_modules/systemjs/dist/system-polyfills.@(js|js.map)',
         './node_modules/angular2/es6/dev/src/testing/shims_for_IE.js',
-        
         './node_modules/angular2/bundles/angular2-polyfills.js',
         './node_modules/systemjs/dist/system.src.js',
         './node_modules/rxjs/bundles/Rx.js',
+
         './node_modules/angular2/bundles/angular2.dev.js',
         './node_modules/angular2/bundles/router.dev.js'
     ], {base: './node_modules'})

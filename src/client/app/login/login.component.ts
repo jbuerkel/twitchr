@@ -10,13 +10,13 @@ import {Component} from 'angular2/core';
 
 @Component({
     selector: 'twitchr-login',
+    styleUrls: ['./login.component.css'],
     templateUrl: './login.component.html',
-    styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-    channel = '';
+    public channel: string = '';
 
-    onClick() {
+    public onClick(): void {
         // do stuff
     }
 }

@@ -12,22 +12,22 @@ import {LoginComponent} from './login/login.component';
 import {RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from 'angular2/router';
 
 @Component({
-    selector: 'twitchr-app',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.css'],
     directives: [ROUTER_DIRECTIVES],
-    providers: [ROUTER_PROVIDERS]
+    providers: [ROUTER_PROVIDERS],
+    selector: 'twitchr-app',
+    styleUrls: ['./app.component.css'],
+    templateUrl: './app.component.html',
 })
 @RouteConfig([
     {
-        path: '/',
+        component: HomeComponent,
         name: 'Home',
-        component: HomeComponent
+        path: '/',
     },
     {
-        path: '/login',
+        component: LoginComponent,
         name: 'Login',
-        component: LoginComponent
-    }
+        path: '/login',
+    },
 ])
 export class AppComponent { }
