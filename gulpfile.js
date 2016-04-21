@@ -23,7 +23,7 @@ gulp.task('lint.server', function() {
 function processor(ext, file) {
     switch (ext[0]) {
         case '.css':
-            file = file.replace(/\s+/g, '');
+            // file = file.replace(/\s+/g, '');
             break;
 
         case '.html':
