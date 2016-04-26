@@ -23,7 +23,7 @@ gulp.task('lint.server', function() {
 function processor(ext, file) {
     switch (ext[0]) {
         case '.css':
-            // file = file.replace(/\s+/g, '');
+            file = file.replace(/((?=[:;,{}>]).|^)\s+|\s+(?=[{>])/g, '$1');
             break;
 
         case '.html':
@@ -87,6 +87,7 @@ gulp.task('dist.client.vendor', function() {
         './node_modules/rxjs/bundles/Rx.js',
 
         './node_modules/angular2/bundles/angular2.dev.js',
+        './node_modules/angular2/bundles/http.dev.js',
         './node_modules/angular2/bundles/router.dev.js'
     ], {base: './node_modules'})
         .pipe(gulp.dest('./dist/client/vendor'));

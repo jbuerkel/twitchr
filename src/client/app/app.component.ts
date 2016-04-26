@@ -10,11 +10,11 @@ import {Component} from 'angular2/core';
 import {ConfigService} from './shared/config.service';
 import {HomeComponent} from './home/home.component';
 import {LoginComponent} from './login/login.component';
-import {RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from 'angular2/router';
+import {RouteConfig, ROUTER_DIRECTIVES} from 'angular2/router';
 
 @Component({
     directives: [ROUTER_DIRECTIVES],
-    providers: [ROUTER_PROVIDERS, ConfigService],
+    providers: [ConfigService],
     selector: 'twitchr-app',
     templateUrl: './app.component.html',
 })
