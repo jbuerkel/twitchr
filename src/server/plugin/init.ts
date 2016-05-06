@@ -21,8 +21,8 @@ import {Client, IMessage} from 'irc';
 import {resolve} from 'app-root-path';
 import {sync} from 'glob';
 
-let logIrc: debug.IDebugger = debug('twitchr:irc');
-let logPlugin: debug.IDebugger = debug('twitchr:plugin');
+let logIrc: debug.Debugger = debug('twitchr:irc');
+let logPlugin: debug.Debugger = debug('twitchr:plugin');
 
 export interface PluginOnAction {
     (from: string, to: string, text: string): void;

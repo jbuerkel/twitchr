@@ -1,25 +1,23 @@
 {
   "name": "twitchr-server",
-  "dependencies": {},
+  "dependencies": {
+    "debug": "registry:npm/debug#2.0.0+20160211003958",
+    "glob": "registry:npm/glob#6.0.0+20160211003958",
+    "mime": "registry:npm/mime#1.3.0+20160423043021",
+    "mongodb": "registry:npm/mongodb#2.1.0+20160422172506",
+    "request": "registry:npm/request#2.69.0+20160428223725"
+  },
   "devDependencies": {},
   "ambientDependencies": {
-    "connect-mongo": "github:DefinitelyTyped/DefinitelyTyped/connect-mongo/connect-mongo.d.ts#7de6c3dd94feaeb21f20054b9f30d5dabc5efabd",
-    "debug": "github:DefinitelyTyped/DefinitelyTyped/debug/debug.d.ts#7de6c3dd94feaeb21f20054b9f30d5dabc5efabd",
-    "es6-promise": "github:DefinitelyTyped/DefinitelyTyped/es6-promise/es6-promise.d.ts#7de6c3dd94feaeb21f20054b9f30d5dabc5efabd",
-    "express": "github:DefinitelyTyped/DefinitelyTyped/express/express.d.ts#7de6c3dd94feaeb21f20054b9f30d5dabc5efabd",
-    "express-serve-static-core": "github:DefinitelyTyped/DefinitelyTyped/express-serve-static-core/express-serve-static-core.d.ts#fb2e78984b7076eda628892770a4314d618ac0d7",
-    "express-session": "github:DefinitelyTyped/DefinitelyTyped/express-session/express-session.d.ts#988dbadb806743fc3ce6bb4d1eeca50bf0adb0bf",
-    "form-data": "github:DefinitelyTyped/DefinitelyTyped/form-data/form-data.d.ts#56295f5058cac7ae458540423c50ac2dcf9fc711",
-    "glob": "github:DefinitelyTyped/DefinitelyTyped/glob/glob.d.ts#7de6c3dd94feaeb21f20054b9f30d5dabc5efabd",
-    "helmet": "github:DefinitelyTyped/DefinitelyTyped/helmet/helmet.d.ts#56295f5058cac7ae458540423c50ac2dcf9fc711",
-    "irc": "github:DefinitelyTyped/DefinitelyTyped/irc/irc.d.ts#7de6c3dd94feaeb21f20054b9f30d5dabc5efabd",
-    "mime": "github:DefinitelyTyped/DefinitelyTyped/mime/mime.d.ts#56295f5058cac7ae458540423c50ac2dcf9fc711",
-    "minimatch": "github:DefinitelyTyped/DefinitelyTyped/minimatch/minimatch.d.ts#7de6c3dd94feaeb21f20054b9f30d5dabc5efabd",
-    "mongodb": "github:DefinitelyTyped/DefinitelyTyped/mongodb/mongodb.d.ts#04a46a81d9ff12504800e02396189b1d2dc55171",
-    "mongoose": "github:DefinitelyTyped/DefinitelyTyped/mongoose/mongoose.d.ts#56295f5058cac7ae458540423c50ac2dcf9fc711",
-    "morgan": "github:DefinitelyTyped/DefinitelyTyped/morgan/morgan.d.ts#7de6c3dd94feaeb21f20054b9f30d5dabc5efabd",
-    "node": "github:DefinitelyTyped/DefinitelyTyped/node/node.d.ts#292e56b5acdb2157c3f53d70a77d34d64ba5fe2f",
-    "request": "github:DefinitelyTyped/DefinitelyTyped/request/request.d.ts#56295f5058cac7ae458540423c50ac2dcf9fc711",
-    "serve-static": "github:DefinitelyTyped/DefinitelyTyped/serve-static/serve-static.d.ts#7de6c3dd94feaeb21f20054b9f30d5dabc5efabd"
+    "connect-mongo": "registry:dt/connect-mongo#0.0.0+20160317120654",
+    "express": "registry:dt/express#4.0.0+20160317120654",
+    "express-serve-static-core": "registry:dt/express-serve-static-core#0.0.0+20160322035842",
+    "express-session": "registry:dt/express-session#0.0.0+20160331200931",
+    "helmet": "registry:dt/helmet#0.0.0+20160501161936",
+    "irc": "registry:dt/irc#0.3.12+20160317120654",
+    "mongoose": "registry:dt/mongoose#3.8.5+20160505185535",
+    "morgan": "registry:dt/morgan#1.2.2+20160317120654",
+    "node": "registry:dt/node#4.0.0+20160505172921",
+    "serve-static": "registry:dt/serve-static#0.0.0+20160501131543"
   }
 }

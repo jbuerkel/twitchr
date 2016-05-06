@@ -23,7 +23,7 @@ import {IncomingMessage} from 'http';
 import {randomBytes} from 'crypto';
 import {rejectAuth} from '../util/misc';
 
-let logOauth: debug.IDebugger = debug('twitchr:oauth');
+let logOauth: debug.Debugger = debug('twitchr:oauth');
 let router: express.Router = express.Router();
 
 router.get('/', rejectAuth, (req: express.Request, res: express.Response) => {

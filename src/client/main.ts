@@ -10,7 +10,7 @@
 
 import {AppComponent} from './app/app.component';
 import {bootstrap} from 'angular2/platform/browser';
-import {enableProdMode} from 'angular2/core';
+// import {enableProdMode} from 'angular2/core';
 import {HTTP_PROVIDERS} from 'angular2/http';
 import {ROUTER_PROVIDERS} from 'angular2/router';
 import 'rxjs/Rx';

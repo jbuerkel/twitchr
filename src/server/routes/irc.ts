@@ -24,7 +24,7 @@ import {IncomingMessage} from 'http';
 import {initialize} from '../plugin/init';
 import {requireAuth} from '../util/misc';
 
-let logIrc: debug.IDebugger = debug('twitchr:irc');
+let logIrc: debug.Debugger = debug('twitchr:irc');
 let router: express.Router = express.Router();
 
 router.get('/', requireAuth, (req: express.Request, res: express.Response) => {

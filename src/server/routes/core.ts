@@ -21,7 +21,7 @@ import * as express from 'express';
 import {rejectAuth, requireAuth} from '../util/misc';
 import {resolve} from 'app-root-path';
 
-let logCore: debug.IDebugger = debug('twitchr:core');
+let logCore: debug.Debugger = debug('twitchr:core');
 let router: express.Router = express.Router();
 
 router.get('/login', rejectAuth, (req: express.Request, res: express.Response) => {

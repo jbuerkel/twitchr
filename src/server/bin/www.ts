@@ -24,7 +24,7 @@ import {readFileSync} from 'fs';
 import {resolve} from 'app-root-path';
 import app from '../app';
 
-let logServer: debug.IDebugger = debug('twitchr:server');
+let logServer: debug.Debugger = debug('twitchr:server');
 
 let httpApp: express.Express = express();
 let httpPort: number = 8080;
