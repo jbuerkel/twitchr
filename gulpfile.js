@@ -106,7 +106,7 @@ gulp.task('dist.server', function() {
 
 gulp.task('watch.server', ['lint.server', 'dist.server'], function() {
     $.nodemon({
-        script: './dist/server/bin/www.js',
+        script: './dist/server/bin/https.js',
         watch: path.join(__dirname, './src/server/**/*.ts'),
         env: { 'NODE_ENV': 'development' },
         tasks: ['lint.server', 'dist.server']

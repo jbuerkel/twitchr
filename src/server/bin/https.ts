@@ -72,12 +72,12 @@ function error(err: any, secure: boolean): void {
 
     switch (err.code) {
         case 'EACCES':
-            logServer(`${protocol} port ${port} requires elevated privileges`);
+            console.error(`${protocol} port ${port} requires elevated privileges`);
             process.exit(1);
             break;
 
         case 'EADDRINUSE':
-            logServer(`${protocol} port ${port} is already in use`);
+            console.error(`${protocol} port ${port} is already in use`);
             process.exit(1);
             break;
 
