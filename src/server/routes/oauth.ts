@@ -29,21 +29,27 @@ let router: express.Router = express.Router();
 router.get('/', rejectAuth, (req: express.Request, res: express.Response) => {
     randomBytes(32, (err: Error, buf: Buffer) => {
         if (!err) {
+            logOauth('Generating random bytes successful');
             let state: string = buf.toString('hex');
             req.session.oauthState = state;
 
-            res.redirect(
-                'https://api.twitch.tv/kraken/oauth2/authorize' +
-                '?api_version=3' +
-                '&client_id=' + process.env.CLIENT_ID +
-                '&force_verify=' + (process.env.FORCE_VERIFY || true) +
-                '&redirect_uri=' + process.env.REDIRECT_URI +
-                '&response_type=code' +
-                '&scope=chat_login' +
-                '&state=' + state
-            );
+            res.status(200).send({
+                data:
+                    'https://api.twitch.tv/kraken/oauth2/authorize' +
+                    '?api_version=3' +
+                    '&client_id=' + process.env.CLIENT_ID +
+                    '&force_verify=' + (process.env.FORCE_VERIFY || true) +
+                    '&redirect_uri=' + process.env.REDIRECT_URI +
+                    '&response_type=code' +
+                    '&scope=chat_login' +
+                    '&state=' + state,
+            });
         } else {
-            logOauth(`Generating random bytes failed with error: ${err}`);
+            console.error(`Generating random bytes failed with error: ${err}`);
+            res.status(500).send({
+                error:
+                    'Generating oauth url failed',
+            });
         }
     });
 });
@@ -52,6 +58,7 @@ router.get('/callback', rejectAuth, (req: express.Request, res: express.Response
     let state: string = req.session.oauthState;
 
     if (req.query.state && req.query.state === state) {
+        logOauth('State token does match');
         request.post({
             form: {
                 client_id: process.env.CLIENT_ID,
@@ -69,19 +76,16 @@ router.get('/callback', rejectAuth, (req: express.Request, res: express.Response
             req.session.oauthState = undefined;
 
             if (!error && response.statusCode === 200) {
+                logOauth('Requesting oauth token successful');
                 req.session.oauth = JSON.parse(body);
                 res.redirect('/api/irc');
             } else {
-                if (error) {
-                    logOauth(`Requesting oauth token failed with error: ${error}`);
-                } else {
-                    logOauth(`Requesting oauth token failed with status code: ${response.statusCode}`);
-                }
-
+                console.error(`Requesting oauth token failed with error: ${error || response.statusCode}`);
                 res.redirect('/login');
             }
         });
     } else {
+        logOauth('State token does not match');
         res.redirect('/login');
     }
 });

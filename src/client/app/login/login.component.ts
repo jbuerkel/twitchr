@@ -8,6 +8,7 @@
 
 import {Component, OnInit} from 'angular2/core';
 import {ConfigService} from '../shared/config.service';
+import {RestService} from '../shared/rest.service';
 
 @Component({
     selector: 'twitchr-login',
@@ -15,12 +16,16 @@ import {ConfigService} from '../shared/config.service';
     templateUrl: './login.component.html',
 })
 export class LoginComponent implements OnInit {
+    public errorMessage: string;
     public repositoryUrl: string;
 
-    public constructor(private _configService: ConfigService) { }
+    public constructor(private _configService: ConfigService, private _restService: RestService) { }
 
     public launchBot(): void {
-        // do stuff
+        this._restService.getOauthUrl().subscribe(
+            (url: string) => window.location.href = url,
+            (error: string) => this.errorMessage = error
+        );
     }
 
     public ngOnInit(): void {
