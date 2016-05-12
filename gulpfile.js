@@ -79,6 +79,8 @@ gulp.task('dist.client.img', function() {
 
 gulp.task('dist.client.vendor', function() {
     return gulp.src([
+        './node_modules/bootstrap/dist/css/bootstrap.min.@(css|css.map)',
+
         './node_modules/es6-shim/es6-shim.@(map|min.js)',
         './node_modules/systemjs/dist/system-polyfills.@(js|js.map)',
         './node_modules/angular2/es6/dev/src/testing/shims_for_IE.js',

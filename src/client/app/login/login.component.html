@@ -1,8 +1,15 @@
-<a class="icon" href="{{repositoryUrl}}">
-    <img src="../../assets/svg/github.svg">
-</a>
-<div class="card">
-    <h3>Welcome!</h3>
-    <p>This is a very early version. Feel free to report any issue on GitHub.</p>
-    <button (click)="launchBot()">Launch</button>
+<div class="container-fluid">
+    <div class="row">
+        <a class="icon pull-right" href="{{repositoryUrl}}">
+            <img src="../../assets/svg/github.svg">
+        </a>
+    </div>
+    <div class="row">
+        <div class="card center-block text-center">
+            <h3>Welcome!</h3>
+            <p>This is a very early version. Feel free to report any issue on GitHub.</p>
+            <p *ngIf="errorMessage" class="text-danger"><strong>{{errorMessage}}</strong></p>
+            <button type="button" class="btn btn-lg btn-primary" (click)="launchBot()">Launch</button>
+        </div>
+    </div>
 </div>
