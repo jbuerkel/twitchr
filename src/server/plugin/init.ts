@@ -21,7 +21,6 @@ import {Client, IMessage} from 'irc';
 import {resolve} from 'app-root-path';
 import {sync} from 'glob';
 
-let logIrc: debug.Debugger = debug('twitchr:irc');
 let logPlugin: debug.Debugger = debug('twitchr:plugin');
 
 export interface PluginOnAction {
@@ -90,7 +89,7 @@ sync(resolve('./plugins/twitchr-*/')).forEach((dir: string) => {
     }
 });
 
-let hookCollection: HookCollection;
+let hookCollection: HookCollection = {};
 plugins.forEach((plugin: Plugin) => {
     let hooks: PluginEventListener = plugin.getPlugin().hooks;
 
@@ -116,44 +115,77 @@ plugins.forEach((plugin: Plugin) => {
 });
 
 /**
- * Initializes a given IRC client.
- * @param {Client} client
- * @returns {boolean}
+ * Initializes a new IRC client given a username and password.
+ * @param {string} username
+ * @param {string} password
+ * @returns {Client}
  */
-export function initialize(client: Client): void {
+export function initialize(username: string, password: string): Client {
+    let client: Client = new Client('irc.chat.twitch.tv', username, {
+        autoConnect: false,
+        floodProtection: true,
+        floodProtectionDelay: 333,
+        messageSplit: 1000,
+        password: 'oauth:' + password,
+        port: 80,
+        realName: username,
+        userName: username,
+    });
+
+    // TODO pass username to hooks
+
     client.addListener('action', (from: string, to: string, text: string, message: IMessage) => {
-        hookCollection.onActionHooks.forEach((hook: PluginOnAction) => {
-            hook(from, to, text);
-        });
+        if (hookCollection.onActionHooks && from !== username) {
+            hookCollection.onActionHooks.forEach((hook: PluginOnAction) => {
+                hook(from, to, text);
+            });
+        }
     });
 
     client.addListener('join', (channel: string, nick: string, message: IMessage) => {
-        hookCollection.onJoinHooks.forEach((hook: PluginOnJoin) => {
-            hook(nick);
-        });
+        if (hookCollection.onJoinHooks && nick !== username) {
+            hookCollection.onJoinHooks.forEach((hook: PluginOnJoin) => {
+                hook(nick);
+            });
+        }
     });
 
     client.addListener('message', (nick: string, to: string, text: string, message: IMessage) => {
-        hookCollection.onMessageHooks.forEach((hook: PluginOnMessage) => {
-            hook(nick, to, text);
-        });
+        if (hookCollection.onMessageHooks && nick !== username) {
+            hookCollection.onMessageHooks.forEach((hook: PluginOnMessage) => {
+                hook(nick, to, text);
+            });
+        }
     });
 
     client.addListener('names', (channel: string, nicks: string[]) => {
-        hookCollection.onNamesHooks.forEach((hook: PluginOnNames) => {
-            hook(nicks);
-        });
+        if (hookCollection.onNamesHooks) {
+            hookCollection.onNamesHooks.forEach((hook: PluginOnNames) => {
+                hook(nicks);
+            });
+        }
     });
 
     client.addListener('part', (channel: string, nick: string, reason: string, message: IMessage) => {
-        hookCollection.onPartHooks.forEach((hook: PluginOnPart) => {
-            hook(nick, reason);
-        });
+        if (hookCollection.onPartHooks && nick !== username) {
+            hookCollection.onPartHooks.forEach((hook: PluginOnPart) => {
+                hook(nick, reason);
+            });
+        }
     });
 
     client.addListener('error', (message: IMessage) => {
-        logIrc(`Error: ${message}`);
+        console.error(`Error: ${message}`);
     });
 
-    // TODO request membership capabilities, send test message
+    client.connect(0, () => {
+        client.send('CAP', 'REQ', 'twitch.tv/membership');
+        let channel: string = '#' + username;
+
+        client.join(channel, () => {
+            client.say(channel, 'Chat moderation is running!');
+        });
+    });
+
+    return client;
 }

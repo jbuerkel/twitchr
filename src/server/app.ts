@@ -19,6 +19,7 @@
 import * as connectMongo from 'connect-mongo';
 import * as dotenvSafe from 'dotenv-safe';
 import * as express from 'express';
+import * as favicon from 'serve-favicon';
 import * as helmet from 'helmet';
 import * as logger from 'morgan';
 import * as session from 'express-session';
@@ -37,6 +38,7 @@ let app: express.Express = express();
 let mongoStore: connectMongo.MongoStoreFactory = connectMongo(session);
 
 app.use(helmet());
+app.use(favicon(resolve('./dist/client/assets/favicon.ico')));
 app.use(logger('dev'));
 app.use(session({
     cookie: {secure: true},

@@ -18,6 +18,7 @@
     "mongoose": "registry:dt/mongoose#3.8.5+20160505185535",
     "morgan": "registry:dt/morgan#1.2.2+20160317120654",
     "node": "registry:dt/node#4.0.0+20160505172921",
+    "serve-favicon": "registry:dt/serve-favicon#0.0.0+20160316155526",
     "serve-static": "registry:dt/serve-static#0.0.0+20160501131543"
   }
 }

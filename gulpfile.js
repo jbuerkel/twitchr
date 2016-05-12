@@ -72,7 +72,7 @@ gulp.task('dist.client.html', function() {
 });
 
 gulp.task('dist.client.img', function() {
-    return gulp.src('./src/client/assets/**/*.@(png|jpg|gif|svg)')
+    return gulp.src('./src/client/assets/**/*.@(png|jpg|gif|svg|ico)')
         .pipe($.imagemin())
         .pipe(gulp.dest('./dist/client/assets'));
 });
