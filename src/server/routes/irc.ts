@@ -56,8 +56,7 @@ router.get('/', requireAuth, (req: express.Request, res: express.Response) => {
                 }
             } else {
                 console.error('Twitch API rejected invalid OAuth token');
-                req.session.oauth = undefined;
-                res.redirect('/login');
+                res.redirect('/logout');
             }
         } else {
             if (error) {

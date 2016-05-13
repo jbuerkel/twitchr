@@ -40,7 +40,9 @@ export function rejectAuth(req: express.Request, res: express.Response, next: ex
  */
 export function requireAuth(req: express.Request, res: express.Response, next: express.NextFunction): void {
     if (!req.session.oauth) {
-        req.session.originalUrl = req.originalUrl;
+        if (req.originalUrl !== '/logout') {
+            req.session.originalUrl = req.originalUrl;
+        }
         res.redirect('/login');
     } else {
         next();

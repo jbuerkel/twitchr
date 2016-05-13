@@ -4,9 +4,11 @@
   "description": "A twitch bot providing IRC based assistance",
   "author": "Jonas Bürkel <buerkelj@gmail.com>",
   "scripts": {
+    "dev": "gulp dev",
     "dist": "npm run dist.client && npm run dist.server",
     "dist.client": "rimraf ./dist/client/ && gulp dist.client",
     "dist.server": "rimraf ./dist/server/ && gulp dist.server",
+    "gulp": "gulp",
     "http": "node ./dist/server/bin/http.js",
     "https": "node ./dist/server/bin/https.js",
     "lint": "npm run lint.client && npm run lint.server",
@@ -53,6 +55,7 @@
     "zone.js": "^0.6.12"
   },
   "devDependencies": {
+    "browser-sync": "^2.12.8",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.0",
     "gulp-cssnano": "^2.1.2",

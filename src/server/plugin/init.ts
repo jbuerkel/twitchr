@@ -21,6 +21,7 @@ import {Client, IMessage} from 'irc';
 import {resolve} from 'app-root-path';
 import {sync} from 'glob';
 
+let logIrc: debug.Debugger = debug('twitchr:irc');
 let logPlugin: debug.Debugger = debug('twitchr:plugin');
 
 export interface PluginOnAction {
@@ -184,6 +185,7 @@ export function initialize(username: string, password: string): Client {
 
         client.join(channel, () => {
             client.say(channel, 'Chat moderation is running!');
+            logIrc('Chat moderation is running');
         });
     });
 

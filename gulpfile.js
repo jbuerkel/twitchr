@@ -1,7 +1,8 @@
 'use strict';
 
 var gulp = require('gulp');
-var path = require('path');
+var browserSync = require('browser-sync').create();
+var resolve = require('app-root-path').resolve;
 var $ = require('gulp-load-plugins')();
 
 gulp.task('lint.client', function() {
@@ -34,27 +35,7 @@ function processor(ext, file) {
     return file;
 }
 
-gulp.task('dist.client', ['dist.client.css', 'dist.client.html', 'dist.client.img', 'dist.client.vendor'], function() {
-    var tsProject = $.typescript.createProject('./src/client/tsconfig.json');
-    var tsResult = tsProject.src()
-        .pipe($.sourcemaps.init())
-        .pipe($.inlineNg2Template({
-            base: './src/client',
-            indent: 0,
-            useRelativePaths: true,
-            removeLineBreaks: true,
-            templateProcessor: processor,
-            styleProcessor: processor
-        }))
-        .pipe($.typescript(tsProject));
-
-    return tsResult.js
-        .pipe($.uglify({
-            preserveComments: 'license'
-        }))
-        .pipe($.sourcemaps.write('.'))
-        .pipe(gulp.dest('./dist/client'));
-});
+gulp.task('dist.client', ['dist.client.css', 'dist.client.html', 'dist.client.img', 'dist.client.ts', 'dist.client.vendor']);
 
 gulp.task('dist.client.css', function() {
     return gulp.src('./src/client/assets/main.css')
@@ -75,6 +56,28 @@ gulp.task('dist.client.img', function() {
     return gulp.src('./src/client/assets/**/*.@(png|jpg|gif|svg|ico)')
         .pipe($.imagemin())
         .pipe(gulp.dest('./dist/client/assets'));
+});
+
+gulp.task('dist.client.ts', function() {
+    var tsProject = $.typescript.createProject('./src/client/tsconfig.json');
+    var tsResult = tsProject.src()
+        .pipe($.sourcemaps.init())
+        .pipe($.inlineNg2Template({
+            base: './src/client',
+            indent: 0,
+            useRelativePaths: true,
+            removeLineBreaks: true,
+            templateProcessor: processor,
+            styleProcessor: processor
+        }))
+        .pipe($.typescript(tsProject));
+
+    return tsResult.js
+        .pipe($.uglify({
+            preserveComments: 'license'
+        }))
+        .pipe($.sourcemaps.write('.'))
+        .pipe(gulp.dest('./dist/client'));
 });
 
 gulp.task('dist.client.vendor', function() {
@@ -106,13 +109,34 @@ gulp.task('dist.server', function() {
         .pipe(gulp.dest('./dist/server'));
 });
 
-gulp.task('watch.server', ['lint.server', 'dist.server'], function() {
-    $.nodemon({
-        script: './dist/server/bin/https.js',
-        watch: path.join(__dirname, './src/server/**/*.ts'),
-        env: { 'NODE_ENV': 'development' },
-        tasks: ['lint.server', 'dist.server']
+gulp.task('dev', ['dev.client'], function() {
+    gulp.watch('./src/client/assets/main.css', ['dist.client.css']);
+    gulp.watch('./src/client/index.html', ['dist.client.html']);
+    gulp.watch('./src/client/assets/**/*.@(png|jpg|gif|svg|ico)', ['dist.client.img']);
+    gulp.watch('./src/client/@(main.ts|app/**/*.@(ts|html|css))', ['dist.client.ts']);
+});
+
+gulp.task('dev.client', ['dev.server'], function() {
+    var port = process.env.PORT || 8443;
+    browserSync.init({
+        ui: false,
+        files: './dist/client',
+        proxy: 'https://localhost:' + port,
+        port: port + 1,
+        online: false,
+        notify: false,
+        reloadDelay: 500,
+        minify: false
     });
 });
 
-gulp.task('default', ['watch.server']);
+gulp.task('dev.server', ['dist.client', 'dist.server'], function() {
+    $.nodemon({
+        script: './dist/server/bin/https.js',
+        watch: resolve('./src/server/**/*.ts'),
+        env: { 'NODE_ENV': 'development' },
+        tasks: ['dist.server']
+    }).on('restart', browserSync.reload);
+});
+
+gulp.task('default', ['dev']);
