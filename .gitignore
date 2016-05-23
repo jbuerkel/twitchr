@@ -2,8 +2,8 @@
 cert/
 dist/
 node_modules/
-plugins/
 
 *.log
 .env
+src/plugins/
 src/*/typings/

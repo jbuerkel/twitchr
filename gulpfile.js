@@ -98,6 +98,27 @@ gulp.task('dist.client.vendor', function() {
         .pipe(gulp.dest('./dist/client/vendor'));
 });
 
+gulp.task('dist.plugins', ['dist.plugins.json', 'dist.plugins.ts']);
+
+gulp.task('dist.plugins.json', function() {
+    return gulp.src('./src/plugins/twitchr-*/package.json')
+        .pipe(gulp.dest('./dist/plugins'));
+});
+
+gulp.task('dist.plugins.ts', function() {
+    var tsProject = $.typescript.createProject('./src/server/tsconfig.json');
+    var tsResult = gulp.src('./src/plugins/twitchr-*/index.ts')
+        .pipe($.sourcemaps.init())
+        .pipe($.typescript(tsProject));
+
+    return tsResult.js
+        .pipe($.rename(function(path) {
+            path.dirname = path.dirname.replace(/src\\plugins\\/, '');
+        }))
+        .pipe($.sourcemaps.write('.'))
+        .pipe(gulp.dest('./dist/plugins'));
+});
+
 gulp.task('dist.server', function() {
     var tsProject = $.typescript.createProject('./src/server/tsconfig.json');
     var tsResult = tsProject.src()
@@ -105,6 +126,9 @@ gulp.task('dist.server', function() {
         .pipe($.typescript(tsProject));
 
     return tsResult.js
+        .pipe($.rename(function(path) {
+            path.dirname = path.dirname.replace(/src\\server(\\)?/, '');
+        }))
         .pipe($.sourcemaps.write('.'))
         .pipe(gulp.dest('./dist/server'));
 });
@@ -130,12 +154,12 @@ gulp.task('dev.client', ['dev.server'], function() {
     });
 });
 
-gulp.task('dev.server', ['dist.client', 'dist.server'], function() {
+gulp.task('dev.server', ['dist.client', 'dist.plugins', 'dist.server'], function() {
     $.nodemon({
         script: './dist/server/bin/https.js',
-        watch: resolve('./src/server/**/*.ts'),
+        watch: resolve('@(./src/server/**/*.ts|./src/plugins/twitchr-*/@(index.ts|package.json))'),
         env: { 'NODE_ENV': 'development' },
-        tasks: ['dist.server']
+        tasks: ['dist.plugins', 'dist.server']
     }).on('restart', browserSync.reload);
 });
 

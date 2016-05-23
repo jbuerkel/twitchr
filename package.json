@@ -5,8 +5,9 @@
   "author": "Jonas Bürkel <buerkelj@gmail.com>",
   "scripts": {
     "dev": "gulp dev",
-    "dist": "npm run dist.client && npm run dist.server",
+    "dist": "npm run dist.client && npm run dist.plugins && npm run dist.server",
     "dist.client": "rimraf ./dist/client/ && gulp dist.client",
+    "dist.plugins": "rimraf ./dist/plugins/ && gulp dist.plugins",
     "dist.server": "rimraf ./dist/server/ && gulp dist.server",
     "gulp": "gulp",
     "http": "node ./dist/server/bin/http.js",
@@ -52,6 +53,7 @@
     "rxjs": "5.0.0-beta.6",
     "serve-favicon": "^2.3.0",
     "systemjs": "^0.19.27",
+    "twitchr-plugin-api": "0.0.1",
     "zone.js": "^0.6.12"
   },
   "devDependencies": {
@@ -64,6 +66,7 @@
     "gulp-inline-ng2-template": "^1.1.4",
     "gulp-load-plugins": "^1.2.2",
     "gulp-nodemon": "^2.0.6",
+    "gulp-rename": "^1.2.2",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-tslint": "^5.0.0",
     "gulp-tslint-stylish": "^1.1.1",
