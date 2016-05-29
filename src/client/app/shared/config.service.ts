@@ -16,7 +16,7 @@ interface Config {
 @Injectable()
 export class ConfigService {
     private _config: Config = {
-        repositoryUrl: 'https://github.com/jbuerkel/twitchr',
+        repositoryUrl: 'https://github.com/twitchr/twitchr',
     };
 
     public getValue(key: string): string {

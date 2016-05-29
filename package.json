@@ -1,6 +1,6 @@
 {
   "name": "twitchr",
-  "version": "0.0.0",
+  "version": "0.0.2",
   "description": "A twitch bot providing IRC based assistance",
   "author": "Jonas Bürkel <buerkelj@gmail.com>",
   "scripts": {
@@ -23,10 +23,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jbuerkel/twitchr"
+    "url": "https://github.com/twitchr/twitchr"
   },
   "bugs": {
-    "url": "https://github.com/jbuerkel/twitchr/issues"
+    "url": "https://github.com/twitchr/twitchr/issues"
   },
   "keywords": [
     "twitch",
@@ -53,7 +53,7 @@
     "rxjs": "5.0.0-beta.6",
     "serve-favicon": "^2.3.0",
     "systemjs": "^0.19.27",
-    "twitchr-plugin-api": "0.0.1",
+    "twitchr-plugin-api": "^0.1.0",
     "zone.js": "^0.6.12"
   },
   "devDependencies": {
