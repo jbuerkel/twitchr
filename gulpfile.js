@@ -2,8 +2,33 @@
 
 var gulp = require('gulp');
 var browserSync = require('browser-sync').create();
+var cssnano = require('cssnano');
+var htmlMinifier = require('html-minifier');
 var resolve = require('app-root-path').resolve;
 var $ = require('gulp-load-plugins')();
+
+function templateProcessor(ext, file, cb) {
+    try {
+        var minifiedFile = htmlMinifier.minify(file, {
+            caseSensitive: true,
+            collapseWhitespace: true
+        });
+
+        cb(null, minifiedFile);
+    } catch (err) {
+        cb(err);
+    }
+}
+
+function styleProcessor(ext, file, cb) {
+    try {
+        cssnano.process(file).then(function(result) {
+            cb(null, result.css);
+        });
+    } catch (err) {
+        cb(err);
+    }
+}
 
 gulp.task('lint.client', function() {
     return gulp.src(['./src/client/**/*.ts', '!./src/client/**/*.d.ts'])
@@ -20,20 +45,6 @@ gulp.task('lint.server', function() {
             emitError: false
         }));
 });
-
-function processor(ext, file) {
-    switch (ext[0]) {
-        case '.css':
-            file = file.replace(/((?=[:;,{}>]).|^)\s+|\s+(?=[{>])/g, '$1');
-            break;
-
-        case '.html':
-            file = file.replace(/>\s+</g, '><');
-            break;
-    }
-
-    return file;
-}
 
 gulp.task('dist.client', ['dist.client.css', 'dist.client.html', 'dist.client.img', 'dist.client.ts', 'dist.client.vendor']);
 
@@ -67,8 +78,8 @@ gulp.task('dist.client.ts', function() {
             indent: 0,
             useRelativePaths: true,
             removeLineBreaks: true,
-            templateProcessor: processor,
-            styleProcessor: processor
+            templateProcessor: templateProcessor,
+            styleProcessor: styleProcessor
         }))
         .pipe($.typescript(tsProject));
 
@@ -158,7 +169,7 @@ gulp.task('dev.server', ['dist.client', 'dist.plugins', 'dist.server'], function
     $.nodemon({
         script: './dist/server/bin/https.js',
         watch: resolve('@(./src/server/**/*.ts|./src/plugins/twitchr-*/@(index.ts|package.json))'),
-        env: { 'NODE_ENV': 'development' },
+        env: {NODE_ENV: 'development'},
         tasks: ['dist.plugins', 'dist.server']
     }).on('restart', browserSync.reload);
 });
