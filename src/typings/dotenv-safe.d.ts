@@ -16,51 +16,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-declare module 'app-root-path' {
-    module appRootPath {
-        export let path: string;
-
-        export function require(pathToModule: string): Object;
-
-        export function resolve(pathToModule: string): string;
-
-        export function setPath(explicitlySetPath: string): void;
-
-        export function toString(): string;
-    }
-
-    export = appRootPath;
-}
-
-declare module 'dotenv' {
-    module dotenv {
-        export interface Options {
-            /**
-             * @default 'utf8'
-             */
-            encoding?: string;
-
-            /**
-             * @default '.env'
-             */
-            path?: string;
-
-            /**
-             * @default false
-             */
-            silent?: boolean;
-        }
-
-        export function config(options?: Options): boolean;
-
-        export function load(options?: Options): boolean;
-
-        export function parse(src: string | Buffer): Object;
-    }
-
-    export = dotenv;
-}
-
 declare module 'dotenv-safe' {
     import * as dotenv from 'dotenv';
 

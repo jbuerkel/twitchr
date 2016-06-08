@@ -59,7 +59,10 @@ gulp.task('dist.client.css', function() {
 
 gulp.task('dist.client.html', function() {
     return gulp.src('./src/client/index.html')
-        .pipe($.htmlmin({collapseWhitespace: true}))
+        .pipe($.htmlmin({
+            caseSensitive: true,
+            collapseWhitespace: true
+        }))
         .pipe(gulp.dest('./dist/client'));
 });
 
@@ -70,8 +73,12 @@ gulp.task('dist.client.img', function() {
 });
 
 gulp.task('dist.client.ts', function() {
-    var tsProject = $.typescript.createProject('./src/client/tsconfig.json');
-    var tsResult = tsProject.src()
+    var tsProject = $.typescript.createProject('./tsconfig.json', {
+        module: 'system',
+        moduleResolution: 'node'
+    });
+
+    var tsResult = gulp.src(['./src/client/**/*.ts', './src/typings/**/*.d.ts', './typings/index.d.ts'])
         .pipe($.sourcemaps.init())
         .pipe($.inlineNg2Template({
             base: './src/client',
@@ -117,29 +124,31 @@ gulp.task('dist.plugins.json', function() {
 });
 
 gulp.task('dist.plugins.ts', function() {
-    var tsProject = $.typescript.createProject('./src/server/tsconfig.json');
-    var tsResult = gulp.src('./src/plugins/twitchr-*/index.ts')
+    var tsProject = $.typescript.createProject('./tsconfig.json', {
+        module: 'commonjs'
+    });
+
+    var tsResult = gulp.src(['./src/plugins/twitchr-*/index.ts', './src/typings/**/*.d.ts', './typings/index.d.ts'])
         .pipe($.sourcemaps.init())
         .pipe($.typescript(tsProject));
 
     return tsResult.js
-        .pipe($.rename(function(path) {
-            path.dirname = path.dirname.replace(/src\\plugins\\/, '');
-        }))
         .pipe($.sourcemaps.write('.'))
         .pipe(gulp.dest('./dist/plugins'));
 });
 
-gulp.task('dist.server', function() {
-    var tsProject = $.typescript.createProject('./src/server/tsconfig.json');
-    var tsResult = tsProject.src()
+gulp.task('dist.server', ['dist.server.ts']);
+
+gulp.task('dist.server.ts', function() {
+    var tsProject = $.typescript.createProject('./tsconfig.json', {
+        module: 'commonjs'
+    });
+
+    var tsResult = gulp.src(['./src/server/**/*.ts', './src/typings/**/*.d.ts', './typings/index.d.ts'])
         .pipe($.sourcemaps.init())
         .pipe($.typescript(tsProject));
 
     return tsResult.js
-        .pipe($.rename(function(path) {
-            path.dirname = path.dirname.replace(/src\\server(\\)?/, '');
-        }))
         .pipe($.sourcemaps.write('.'))
         .pipe(gulp.dest('./dist/server'));
 });

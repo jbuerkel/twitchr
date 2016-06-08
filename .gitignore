@@ -1,9 +1,8 @@
-.idea/
-cert/
-dist/
-node_modules/
-
-*.log
-.env
-src/plugins/
-src/*/typings/
+/.env
+/.idea/
+/cert/
+/dist/
+/node_modules/
+/npm-debug.log
+/src/plugins/
+/typings/
