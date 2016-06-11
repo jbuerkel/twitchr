@@ -6,7 +6,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-import {Injectable} from 'angular2/core';
+import {Injectable} from '@angular/core';
 
 interface Config {
     repositoryUrl: string;

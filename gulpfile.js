@@ -1,11 +1,14 @@
 'use strict';
 
 var gulp = require('gulp');
+var $ = require('gulp-load-plugins')();
+
+var autoprefixer = require('autoprefixer');
 var browserSync = require('browser-sync').create();
 var cssnano = require('cssnano');
 var htmlMinifier = require('html-minifier');
+var postcss = require('postcss');
 var resolve = require('app-root-path').resolve;
-var $ = require('gulp-load-plugins')();
 
 function templateProcessor(ext, file, cb) {
     try {
@@ -22,7 +25,7 @@ function templateProcessor(ext, file, cb) {
 
 function styleProcessor(ext, file, cb) {
     try {
-        cssnano.process(file).then(function(result) {
+        postcss([autoprefixer, cssnano]).process(file).then(function(result) {
             cb(null, result.css);
         });
     } catch (err) {
@@ -31,7 +34,7 @@ function styleProcessor(ext, file, cb) {
 }
 
 gulp.task('lint.client', function() {
-    return gulp.src(['./src/client/**/*.ts', '!./src/client/**/*.d.ts'])
+    return gulp.src('./src/client/**/*.ts')
         .pipe($.tslint())
         .pipe($.tslint.report($.tslintStylish, {
             emitError: false
@@ -39,7 +42,7 @@ gulp.task('lint.client', function() {
 });
 
 gulp.task('lint.server', function() {
-    return gulp.src(['./src/server/**/*.ts', '!./src/server/**/*.d.ts'])
+    return gulp.src('./src/server/**/*.ts')
         .pipe($.tslint())
         .pipe($.tslint.report($.tslintStylish, {
             emitError: false
@@ -49,19 +52,23 @@ gulp.task('lint.server', function() {
 gulp.task('dist.client', ['dist.client.css', 'dist.client.html', 'dist.client.img', 'dist.client.ts', 'dist.client.vendor']);
 
 gulp.task('dist.client.css', function() {
-    return gulp.src('./src/client/assets/main.css')
+    return gulp.src('./src/client/assets/css/style.css')
         .pipe($.sourcemaps.init())
         .pipe($.autoprefixer())
         .pipe($.cssnano())
         .pipe($.sourcemaps.write('.'))
-        .pipe(gulp.dest('./dist/client/assets'));
+        .pipe(gulp.dest('./dist/client/assets/css'));
 });
 
 gulp.task('dist.client.html', function() {
     return gulp.src('./src/client/index.html')
+        .pipe($.inlineSource({
+            compress: false
+        }))
         .pipe($.htmlmin({
             caseSensitive: true,
-            collapseWhitespace: true
+            collapseWhitespace: true,
+            minifyJS: true
         }))
         .pipe(gulp.dest('./dist/client'));
 });
@@ -74,7 +81,6 @@ gulp.task('dist.client.img', function() {
 
 gulp.task('dist.client.ts', function() {
     var tsProject = $.typescript.createProject('./tsconfig.json', {
-        module: 'system',
         moduleResolution: 'node'
     });
 
@@ -102,16 +108,14 @@ gulp.task('dist.client.vendor', function() {
     return gulp.src([
         './node_modules/bootstrap/dist/css/bootstrap.min.@(css|css.map)',
 
-        './node_modules/es6-shim/es6-shim.@(map|min.js)',
-        './node_modules/systemjs/dist/system-polyfills.@(js|js.map)',
-        './node_modules/angular2/es6/dev/src/testing/shims_for_IE.js',
-        './node_modules/angular2/bundles/angular2-polyfills.js',
-        './node_modules/systemjs/dist/system.src.js',
-        './node_modules/rxjs/bundles/Rx.js',
+        './node_modules/core-js/client/shim.min.@(js|js.map)',
 
-        './node_modules/angular2/bundles/angular2.dev.js',
-        './node_modules/angular2/bundles/http.dev.js',
-        './node_modules/angular2/bundles/router.dev.js'
+        './node_modules/zone.js/dist/zone.min.js',
+        './node_modules/reflect-metadata/Reflect.@(js|js.map)',
+        './node_modules/systemjs/dist/system.@(js|js.map)',
+
+        './node_modules/rxjs/**',
+        './node_modules/@angular/*/*.umd.js'
     ], {base: './node_modules'})
         .pipe(gulp.dest('./dist/client/vendor'));
 });
@@ -124,10 +128,7 @@ gulp.task('dist.plugins.json', function() {
 });
 
 gulp.task('dist.plugins.ts', function() {
-    var tsProject = $.typescript.createProject('./tsconfig.json', {
-        module: 'commonjs'
-    });
-
+    var tsProject = $.typescript.createProject('./tsconfig.json');
     var tsResult = gulp.src(['./src/plugins/twitchr-*/index.ts', './src/typings/**/*.d.ts', './typings/index.d.ts'])
         .pipe($.sourcemaps.init())
         .pipe($.typescript(tsProject));
@@ -140,10 +141,7 @@ gulp.task('dist.plugins.ts', function() {
 gulp.task('dist.server', ['dist.server.ts']);
 
 gulp.task('dist.server.ts', function() {
-    var tsProject = $.typescript.createProject('./tsconfig.json', {
-        module: 'commonjs'
-    });
-
+    var tsProject = $.typescript.createProject('./tsconfig.json');
     var tsResult = gulp.src(['./src/server/**/*.ts', './src/typings/**/*.d.ts', './typings/index.d.ts'])
         .pipe($.sourcemaps.init())
         .pipe($.typescript(tsProject));
@@ -154,10 +152,10 @@ gulp.task('dist.server.ts', function() {
 });
 
 gulp.task('dev', ['dev.client'], function() {
-    gulp.watch('./src/client/assets/main.css', ['dist.client.css']);
+    gulp.watch('./src/client/assets/css/style.css', ['dist.client.css']);
     gulp.watch('./src/client/index.html', ['dist.client.html']);
     gulp.watch('./src/client/assets/**/*.@(png|jpg|gif|svg|ico)', ['dist.client.img']);
-    gulp.watch('./src/client/@(main.ts|app/**/*.@(ts|html|css))', ['dist.client.ts']);
+    gulp.watch('./src/client/app/**/*.@(ts|html|css)', ['dist.client.ts']);
 });
 
 gulp.task('dev.client', ['dev.server'], function() {
