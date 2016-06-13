@@ -114,7 +114,7 @@ gulp.task('dist.client.vendor', function() {
         './node_modules/reflect-metadata/Reflect.@(js|js.map)',
         './node_modules/systemjs/dist/system.@(js|js.map)',
 
-        './node_modules/rxjs/**',
+        './node_modules/rxjs/bundles/Rx.umd.min.@(js|js.map)',
         './node_modules/@angular/*/*.umd.js'
     ], {base: './node_modules'})
         .pipe(gulp.dest('./dist/client/vendor'));

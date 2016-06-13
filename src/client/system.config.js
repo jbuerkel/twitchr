@@ -1,15 +1,12 @@
-(function() {
-    'use strict';
+(function(global) {
 
     var map = {
-        'app':      'app',
-        'rxjs':     'vendor/rxjs',
+        'app': 'app',
         '@angular': 'vendor/@angular'
     };
 
     var packages = {
-        'app':      { main: 'main.js', defaultExtension: 'js' },
-        'rxjs':     { defaultExtension: 'js' }
+        'app': { main: 'main.js', defaultExtension: 'js' }
     };
 
     var ngPackageNames = [
@@ -34,9 +31,11 @@
     ngPackageNames.forEach(setPackageConfig);
 
     var config = {
+        paths: { 'rxjs/*': 'vendor/rxjs/bundles/Rx.umd.min.js' },
         map: map,
         packages: packages
     };
 
     System.config(config);
-})();
+
+})(this);
