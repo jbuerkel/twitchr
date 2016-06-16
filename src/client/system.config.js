@@ -9,6 +9,10 @@
         'app': { main: 'main.js', defaultExtension: 'js' }
     };
 
+    var paths = {
+        'rxjs/*': 'vendor/rxjs/bundles/Rx.umd.min.js'
+    };
+
     var ngPackageNames = [
         'common',
         'compiler',
@@ -31,9 +35,9 @@
     ngPackageNames.forEach(setPackageConfig);
 
     var config = {
-        paths: { 'rxjs/*': 'vendor/rxjs/bundles/Rx.umd.min.js' },
         map: map,
-        packages: packages
+        packages: packages,
+        paths: paths
     };
 
     System.config(config);
