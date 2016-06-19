@@ -17,16 +17,16 @@
 */
 
 import * as express from 'express';
-import {rejectAuth, requireAuth} from '../util/misc';
+import {rejectAuthenticated, requireAuthenticated} from '../util/auth';
 import {resolve} from 'app-root-path';
 
 let router: express.Router = express.Router();
 
-router.get('/login', rejectAuth, (req: express.Request, res: express.Response) => {
+router.get('/login', rejectAuthenticated, (req: express.Request, res: express.Response) => {
     res.sendFile(resolve('./dist/client/index.html'));
 });
 
-router.get('/logout', requireAuth, (req: express.Request, res: express.Response) => {
+router.get('/logout', requireAuthenticated, (req: express.Request, res: express.Response) => {
     req.session.destroy((err: any) => {
         if (err) {
             console.error(`Destroying user session failed with error: ${err}`);
@@ -35,7 +35,7 @@ router.get('/logout', requireAuth, (req: express.Request, res: express.Response)
     });
 });
 
-router.get('/*', requireAuth, (req: express.Request, res: express.Response) => {
+router.get('/*', requireAuthenticated, (req: express.Request, res: express.Response) => {
     res.sendFile(resolve('./dist/client/index.html'));
 });
 

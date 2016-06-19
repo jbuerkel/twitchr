@@ -22,12 +22,14 @@ import * as express from 'express';
 import * as favicon from 'serve-favicon';
 import * as helmet from 'helmet';
 import * as logger from 'morgan';
+import * as passport from 'passport';
 import * as session from 'express-session';
+import {Strategy} from 'passport-twitch';
 import {resolve} from 'app-root-path';
 
+import auth from './routes/auth';
 import core from './routes/core';
 import irc from './routes/irc';
-import oauth from './routes/oauth';
 
 dotenvSafe.load({
     path: resolve('./.env'),
@@ -40,6 +42,7 @@ let mongoStore: connectMongo.MongoStoreFactory = connectMongo(session);
 app.use(helmet());
 app.use(favicon(resolve('./dist/client/assets/favicon.ico')));
 app.use(logger('dev'));
+app.use(express.static(resolve('./dist/client'), {index: false}));
 app.use(session({
     cookie: {secure: true},
     resave: false,
@@ -50,10 +53,37 @@ app.use(session({
         url: process.env.MONGODB_URL,
     }),
 }));
-app.use(express.static(resolve('./dist/client'), {index: false}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(new Strategy({
+    callbackURL: process.env.CALLBACK_URL,
+    clientID: process.env.CLIENT_ID,
+    clientSecret: process.env.CLIENT_SECRET,
+    passReqToCallback: true,
+    scope: 'chat_login user_read',
+    state: true,
+}, (req: express.Request, accessToken: string, refreshToken: string, profile: any, done: Function) => {
+    let user: any = profile._json;
+
+    user.provider = profile.provider;
+    user.access_token = accessToken;
+    user.refresh_token = refreshToken;
+    user.scope = req.query.scope.split(' ');
+
+    done(undefined, user);
+}));
+
+passport.serializeUser((user: any, done: Function) => {
+    done(undefined, user);
+});
+
+passport.deserializeUser((user: any, done: Function) => {
+    done(undefined, user);
+});
 
 app.use('/api/irc', irc);
-app.use('/api/oauth2', oauth);
+app.use('/api/oauth2', auth);
 
 app.use(core);
 

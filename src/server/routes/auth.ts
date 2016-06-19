@@ -17,25 +17,20 @@
 */
 
 import * as express from 'express';
-import {initialize} from '../plugin/init';
-import {requireAuthenticated} from '../util/auth';
+import {authenticate} from 'passport';
+import {rejectAuthenticated} from '../util/auth';
 
 let router: express.Router = express.Router();
 
-router.get('/', requireAuthenticated, (req: express.Request, res: express.Response) => {
-    let username: string = req.user.name.toLowerCase();
-    let password: string = req.user.access_token;
+router.get('/',
+    rejectAuthenticated,
+    authenticate('twitch'));
 
-    // TODO store client in session
-    initialize(username, password);
-    let url: string = req.session.originalUrl;
-
-    if (url) {
-        req.session.originalUrl = undefined;
-        res.redirect(url);
-    } else {
-        res.redirect('/');
-    }
-});
+router.get('/callback',
+    rejectAuthenticated,
+    authenticate('twitch', {
+        failureRedirect: '/login',
+        successRedirect: '/api/irc',
+    }));
 
 export default router;
