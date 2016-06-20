@@ -30,7 +30,6 @@
     "no-duplicate-key": true,
     "no-duplicate-variable": true,
     "no-internal-module": true,
-    "no-null-keyword": true,
     "no-shadowed-variable": true,
     "no-trailing-whitespace": true,
     "no-unreachable": true,

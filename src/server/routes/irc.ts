@@ -28,14 +28,9 @@ router.get('/', requireAuthenticated, (req: express.Request, res: express.Respon
 
     // TODO store client in session
     initialize(username, password);
-    let url: string = req.session.originalUrl;
 
-    if (url) {
-        req.session.originalUrl = undefined;
-        res.redirect(url);
-    } else {
-        res.redirect('/');
-    }
+    res.redirect(req.session.returnTo || '/');
+    delete req.session.returnTo;
 });
 
 export default router;

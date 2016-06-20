@@ -71,15 +71,15 @@ passport.use(new Strategy({
     user.refresh_token = refreshToken;
     user.scope = req.query.scope.split(' ');
 
-    done(undefined, user);
+    done(null, user);
 }));
 
 passport.serializeUser((user: any, done: Function) => {
-    done(undefined, user);
+    done(null, user);
 });
 
 passport.deserializeUser((user: any, done: Function) => {
-    done(undefined, user);
+    done(null, user);
 });
 
 app.use('/api/irc', irc);

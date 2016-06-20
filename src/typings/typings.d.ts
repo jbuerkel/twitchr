@@ -32,15 +32,7 @@ declare global {
     module Express {
         export interface Session {
             ircClient?: Client;
-            oauth?: Oauth2Token;
-            oauthState?: string;
-            originalUrl?: string;
-        }
-
-        interface Oauth2Token {
-            access_token: string;
-            refresh_token: string;
-            scope: string[];
+            returnTo?: string;
         }
     }
 }

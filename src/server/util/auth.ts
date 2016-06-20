@@ -42,8 +42,8 @@ export function requireAuthenticated(req: express.Request, res: express.Response
     if (req.isAuthenticated()) {
         next();
     } else {
-        if (req.originalUrl !== '/logout') {
-            req.session.originalUrl = req.originalUrl;
+        if (req.path !== '/logout') {
+            req.session.returnTo = req.originalUrl;
         }
         res.redirect('/login');
     }

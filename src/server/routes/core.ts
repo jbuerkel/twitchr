@@ -27,12 +27,8 @@ router.get('/login', rejectAuthenticated, (req: express.Request, res: express.Re
 });
 
 router.get('/logout', requireAuthenticated, (req: express.Request, res: express.Response) => {
-    req.session.destroy((err: any) => {
-        if (err) {
-            console.error(`Destroying user session failed with error: ${err}`);
-        }
-        res.redirect('/login');
-    });
+    req.logout();
+    res.redirect('/login');
 });
 
 router.get('/*', requireAuthenticated, (req: express.Request, res: express.Response) => {

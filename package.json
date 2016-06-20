@@ -15,10 +15,9 @@
     "lint": "npm run lint.client && npm run lint.server",
     "lint.client": "gulp lint.client",
     "lint.server": "gulp lint.server",
-    "postinstall": "npm prune && npm run typings.install && npm run dist",
+    "postinstall": "npm prune && npm run typings && npm run dist",
     "start": "npm run https",
-    "typings": "typings",
-    "typings.install": "rimraf ./typings/ && typings install"
+    "typings": "rimraf ./typings/ && typings install"
   },
   "repository": {
     "type": "git",
@@ -56,7 +55,6 @@
     "passport": "^0.3.2",
     "passport-twitch": "^1.0.3",
     "reflect-metadata": "^0.1.3",
-    "request": "^2.72.0",
     "rxjs": "5.0.0-beta.6",
     "serve-favicon": "^2.3.0",
     "systemjs": "^0.19.29",
