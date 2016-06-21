@@ -6,9 +6,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-import {Component, OnInit} from 'angular2/core';
+import {Component, OnInit} from '@angular/core';
 import {ConfigService} from '../shared/config.service';
-import {RestService} from '../shared/rest.service';
 
 @Component({
     selector: 'twitchr-login',
@@ -19,13 +18,10 @@ export class LoginComponent implements OnInit {
     public errorMessage: string;
     public repositoryUrl: string;
 
-    public constructor(private _configService: ConfigService, private _restService: RestService) { }
+    public constructor(private _configService: ConfigService) { }
 
     public launchBot(): void {
-        this._restService.getOauthUrl().subscribe(
-            (url: string) => window.location.href = url,
-            (error: string) => this.errorMessage = error
-        );
+        window.location.href = '/api/oauth2';
     }
 
     public ngOnInit(): void {

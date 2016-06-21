@@ -16,23 +16,23 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-import * as express from 'express';
-import {rejectAuthenticated, requireAuthenticated} from '../util/auth';
-import {resolve} from 'app-root-path';
+import {Client} from 'irc';
+import {DefaultOptions} from 'connect-mongo';
 
-let router: express.Router = express.Router();
+declare module 'connect-mongo' {
+    interface DefaultOptions {
+        /**
+         * @default 0
+         */
+        touchAfter?: number;
+    }
+}
 
-router.get('/login', rejectAuthenticated, (req: express.Request, res: express.Response) => {
-    res.sendFile(resolve('./dist/client/index.html'));
-});
-
-router.get('/logout', requireAuthenticated, (req: express.Request, res: express.Response) => {
-    req.logout();
-    res.redirect('/login');
-});
-
-router.get('/*', requireAuthenticated, (req: express.Request, res: express.Response) => {
-    res.sendFile(resolve('./dist/client/index.html'));
-});
-
-export default router;
+declare global {
+    module Express {
+        export interface Session {
+            ircClient?: Client;
+            returnTo?: string;
+        }
+    }
+}

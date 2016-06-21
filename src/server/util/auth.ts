@@ -19,13 +19,13 @@
 import * as express from 'express';
 
 /**
- * Middleware to reject authentication for a corresponding route.
+ * Middleware to reject authenticated requests for a corresponding route.
  * @param {express.Request} req
  * @param {express.Response} res
  * @param {express.NextFunction} next
  */
-export function rejectAuth(req: express.Request, res: express.Response, next: express.NextFunction): void {
-    if (!req.session.oauth) {
+export function rejectAuthenticated(req: express.Request, res: express.Response, next: express.NextFunction): void {
+    if (req.isUnauthenticated()) {
         next();
     } else {
         res.redirect('/api/irc');
@@ -33,18 +33,18 @@ export function rejectAuth(req: express.Request, res: express.Response, next: ex
 }
 
 /**
- * Middleware to require authentication for a corresponding route.
+ * Middleware to require authenticated requests for a corresponding route.
  * @param {express.Request} req
  * @param {express.Response} res
  * @param {express.NextFunction} next
  */
-export function requireAuth(req: express.Request, res: express.Response, next: express.NextFunction): void {
-    if (!req.session.oauth) {
-        if (req.originalUrl !== '/logout') {
-            req.session.originalUrl = req.originalUrl;
+export function requireAuthenticated(req: express.Request, res: express.Response, next: express.NextFunction): void {
+    if (req.isAuthenticated()) {
+        next();
+    } else {
+        if (req.path !== '/logout') {
+            req.session.returnTo = req.originalUrl;
         }
         res.redirect('/login');
-    } else {
-        next();
     }
 }

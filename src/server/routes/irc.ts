@@ -16,62 +16,21 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-import * as debug from 'debug';
 import * as express from 'express';
-import * as request from 'request';
-import {IncomingMessage} from 'http';
 import {initialize} from '../plugin/init';
-import {requireAuth} from '../util/misc';
+import {requireAuthenticated} from '../util/auth';
 
-let logIrc: debug.Debugger = debug('twitchr:irc');
 let router: express.Router = express.Router();
 
-router.get('/', requireAuth, (req: express.Request, res: express.Response) => {
-    let token: string = req.session.oauth.access_token;
+router.get('/', requireAuthenticated, (req: express.Request, res: express.Response) => {
+    let username: string = req.user.name.toLowerCase();
+    let password: string = req.user.access_token;
 
-    request.get({
-        headers: {
-            'Accept': 'application/vnd.twitchtv.v3+json',
-            'Authorization': 'OAuth ' + token,
-        },
-        url: 'https://api.twitch.tv/kraken',
-    }, (error: any, response: IncomingMessage, body: any) => {
-        let version: string = response.headers['x-api-version'];
+    // TODO store client in session
+    initialize(username, password);
 
-        if (!error && response.statusCode === 200 && version === '3') {
-            logIrc('Twitch API request successful');
-            let nick: string = JSON.parse(body).token.user_name;
-
-            if (nick) {
-                // TODO store client in session
-                initialize(nick.toLowerCase(), token);
-                logIrc('Twitch IRC client initialized');
-                let url: string = req.session.originalUrl;
-
-                if (url) {
-                    req.session.originalUrl = undefined;
-                    res.redirect(url);
-                } else {
-                    res.redirect('/');
-                }
-            } else {
-                console.error('Twitch API rejected invalid OAuth token');
-                res.redirect('/logout');
-            }
-        } else {
-            if (error) {
-                console.error(`Twitch API request failed with error: ${error}`);
-            } else if (response.statusCode !== 200) {
-                console.error(`Twitch API request failed with status code: ${response.statusCode}`);
-            } else {
-                console.error(`Twitch API request failed with API version: v${version}`);
-            }
-
-            setTimeout(function(): void {
-                res.redirect('/api/irc');
-            }, 2000);
-        }
-    });
+    res.redirect(req.session.returnTo || '/');
+    delete req.session.returnTo;
 });
 
 export default router;
