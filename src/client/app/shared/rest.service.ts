@@ -16,6 +16,9 @@ export class RestService {
 
     public constructor(private _http: Http) { }
 
+    /**
+     * @deprecated
+     */
     public getOauthUrl(): Observable<string> {
         return this._http.get(this._oauthRoute)
             .map(this._extractData)
@@ -27,7 +30,7 @@ export class RestService {
             throw new Error('Bad response status: ' + res.status);
         }
 
-        let body: RestResponse = res.json();
+        let body: any = res.json();
         return body.data || { };
     }
 
@@ -36,8 +39,4 @@ export class RestService {
         console.error(message);
         return Observable.throw(message);
     }
-}
-
-interface RestResponse {
-    data: Object;
 }
