@@ -36,7 +36,7 @@ function styleProcessor(ext, file, cb) {
 gulp.task('lint.client', function() {
     return gulp.src('./src/client/**/*.ts')
         .pipe($.tslint())
-        .pipe($.tslint.report($.tslintStylish, {
+        .pipe($.tslint.report({
             emitError: false
         }));
 });
@@ -44,7 +44,7 @@ gulp.task('lint.client', function() {
 gulp.task('lint.server', function() {
     return gulp.src('./src/server/**/*.ts')
         .pipe($.tslint())
-        .pipe($.tslint.report($.tslintStylish, {
+        .pipe($.tslint.report({
             emitError: false
         }));
 });
@@ -115,7 +115,7 @@ gulp.task('dist.client.vendor', function() {
         './node_modules/systemjs/dist/system.@(js|js.map)',
 
         './node_modules/rxjs/bundles/Rx.umd.min.@(js|js.map)',
-        './node_modules/@angular/*/*.umd.js'
+        './node_modules/@angular/*/bundles/*.umd.min.js'
     ], {base: './node_modules'})
         .pipe(gulp.dest('./dist/client/vendor'));
 });
@@ -176,7 +176,7 @@ gulp.task('dev.server', ['dist.client', 'dist.plugins', 'dist.server'], function
     $.nodemon({
         script: './dist/server/bin/https.js',
         watch: resolve('@(./src/server/**/*.ts|./src/plugins/twitchr-*/@(index.ts|package.json))'),
-        env: {NODE_ENV: 'development'},
+        env: { NODE_ENV: 'development' },
         tasks: ['dist.plugins', 'dist.server']
     }).on('restart', browserSync.reload);
 });
