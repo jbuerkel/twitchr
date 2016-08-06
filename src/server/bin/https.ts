@@ -24,7 +24,7 @@ import {readFileSync} from 'fs';
 import {resolve} from 'app-root-path';
 import app from '../app';
 
-let logServer: debug.Debugger = debug('twitchr:server');
+let debug: debug.Debugger = debug('twitchr:server');
 
 let httpApp: express.Express = express();
 let httpPort: number = 8080;
@@ -90,5 +90,5 @@ function listening(secure: boolean): void {
     let port: number = secure ? httpsPort : httpPort;
     let protocol: string = secure ? 'HTTPS' : 'HTTP';
 
-    logServer(`${protocol} server listening on port ${port}`);
+    debug(`${protocol} server listening on port ${port}`);
 }

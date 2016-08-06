@@ -16,12 +16,13 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-import * as connectMongo from 'connect-mongo';
-import * as dotenvSafe from 'dotenv-safe';
+import * as compression from 'compression';
+import * as dotenv from 'dotenv-safe';
 import * as express from 'express';
 import * as favicon from 'serve-favicon';
 import * as helmet from 'helmet';
-import * as logger from 'morgan';
+import * as mongo from 'connect-mongo';
+import * as morgan from 'morgan';
 import * as passport from 'passport';
 import * as session from 'express-session';
 import {Strategy} from 'passport-twitch';
@@ -31,24 +32,27 @@ import auth from './routes/auth';
 import core from './routes/core';
 import irc from './routes/irc';
 
-dotenvSafe.load({
+dotenv.config({
     path: resolve('./.env'),
     sample: resolve('./.env.example'),
 });
 
 let app: express.Express = express();
-let mongoStore: connectMongo.MongoStoreFactory = connectMongo(session);
+let MongoStore: mongo.MongoStoreFactory = mongo(session);
 
+app.use(compression());
 app.use(helmet());
 app.use(favicon(resolve('./dist/client/assets/favicon.ico')));
-app.use(logger('dev'));
-app.use(express.static(resolve('./dist/client'), {index: false}));
+if (app.get('env') !== 'production') {
+    app.use(morgan('dev'));
+}
+app.use(express.static(resolve('./dist/client'), { index: false }));
 app.use(session({
-    cookie: {secure: true},
+    cookie: { secure: true },
     resave: false,
     saveUninitialized: false,
     secret: process.env.SESSION_SECRET,
-    store: new mongoStore({
+    store: new MongoStore({
         touchAfter: 24 * 3600,
         url: process.env.MONGODB_URL,
     }),

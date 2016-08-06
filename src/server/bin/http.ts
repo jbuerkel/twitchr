@@ -20,7 +20,7 @@ import * as debug from 'debug';
 import {createServer, Server} from 'http';
 import app from '../app';
 
-let logServer: debug.Debugger = debug('twitchr:server');
+let debug: debug.Debugger = debug('twitchr:server');
 
 let port: number = process.env.PORT || 8080;
 app.set('port', port);
@@ -50,10 +50,6 @@ server.on('error', (err: any) => {
 });
 
 server.on('listening', () => {
-    let addr: HttpAddress = server.address();
-    logServer(`HTTP server listening on port ${addr.port}`);
+    let addr: any = server.address();
+    debug(`HTTP server listening on port ${addr.port}`);
 });
-
-interface HttpAddress {
-    port: number;
-}

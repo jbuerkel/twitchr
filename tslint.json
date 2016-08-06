@@ -34,10 +34,6 @@
     ],
     "new-parens": true,
     "no-consecutive-blank-lines": true,
-    "no-inferrable-types": [
-      true,
-      "ignore-params"
-    ],
     "no-namespace": true,
     "no-shadowed-variable": true,
     "no-trailing-whitespace": true,

@@ -231,7 +231,7 @@ function decide(result: string[]): string {
     if (result.length === 1) {
         return result[0];
     } else {
-        // TODO implement decision mechanics
+        // todo: implement decision mechanics
         return result[0];
     }
 }

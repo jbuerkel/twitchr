@@ -26,7 +26,7 @@ router.get('/', requireAuthenticated, (req: express.Request, res: express.Respon
     let username: string = req.user.name.toLowerCase();
     let password: string = req.user.access_token;
 
-    // TODO store client in session
+    // todo: store client in session
     initialize(username, password);
 
     res.redirect(req.session.returnTo || '/');
