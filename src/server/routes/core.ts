@@ -17,16 +17,18 @@
 */
 
 import * as express from 'express';
+import {deleteClient} from '../plugin/ircStore';
 import {rejectAuthenticated, requireAuthenticated} from '../util/auth';
 import {resolve} from 'app-root-path';
 
-let router: express.Router = express.Router();
+const router: express.Router = express.Router();
 
 router.get('/login', rejectAuthenticated, (req: express.Request, res: express.Response) => {
     res.sendFile(resolve('./dist/client/index.html'));
 });
 
 router.get('/logout', requireAuthenticated, (req: express.Request, res: express.Response) => {
+    deleteClient(req.user.name);
     req.logout();
     res.redirect('/login');
 });

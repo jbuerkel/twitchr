@@ -20,7 +20,7 @@ import * as express from 'express';
 import {authenticate} from 'passport';
 import {rejectAuthenticated} from '../util/auth';
 
-let router: express.Router = express.Router();
+const router: express.Router = express.Router();
 
 router.get('/',
     rejectAuthenticated,

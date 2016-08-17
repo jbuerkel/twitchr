@@ -37,8 +37,8 @@ dotenv.config({
     sample: resolve('./.env.example'),
 });
 
-let app: express.Express = express();
-let MongoStore: mongo.MongoStoreFactory = mongo(session);
+const app: express.Express = express();
+const MongoStore: mongo.MongoStoreFactory = mongo(session);
 
 app.use(compression());
 app.use(helmet());
@@ -68,7 +68,7 @@ passport.use(new Strategy({
     scope: 'chat_login user_read',
     state: true,
 }, (req: express.Request, accessToken: string, refreshToken: string, profile: any, done: Function) => {
-    let user: any = profile._json;
+    const user: any = profile._json;
 
     user.provider = profile.provider;
     user.access_token = accessToken;

@@ -17,17 +17,18 @@
 */
 
 import * as express from 'express';
-import {initialize} from '../plugin/init';
+import {IrcClient} from '../plugin/ircClient';
+import {putClient} from '../plugin/ircStore';
 import {requireAuthenticated} from '../util/auth';
 
-let router: express.Router = express.Router();
+const router: express.Router = express.Router();
 
 router.get('/', requireAuthenticated, (req: express.Request, res: express.Response) => {
-    let username: string = req.user.name.toLowerCase();
-    let password: string = req.user.access_token;
+    const name: string = req.user.name;
+    const token: string = req.user.access_token;
 
-    // todo: store client in session
-    initialize(username, password);
+    const client: IrcClient = new IrcClient(name, token);
+    client.config().start(() => putClient(name, client));
 
     res.redirect(req.session.returnTo || '/');
     delete req.session.returnTo;

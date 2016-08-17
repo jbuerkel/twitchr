@@ -8,6 +8,7 @@
     "mongoose": "registry:npm/mongoose#4.3.5+20160628072220"
   },
   "globalDependencies": {
+    "compression": "registry:dt/compression#0.0.0+20160501162003",
     "connect-mongo": "registry:dt/connect-mongo#0.0.0+20160317120654",
     "core-js": "registry:dt/core-js#0.0.0+20160602141332",
     "express": "registry:dt/express#4.0.0+20160708185218",

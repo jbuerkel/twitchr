@@ -24,13 +24,13 @@ import {readFileSync} from 'fs';
 import {resolve} from 'app-root-path';
 import app from '../app';
 
-let debug: debug.Debugger = debug('twitchr:server');
+const debugServer: debug.Debugger = debug('twitchr:server');
 
-let httpApp: express.Express = express();
-let httpPort: number = 8080;
-let httpsPort: number = process.env.PORT || 8443;
+const httpApp: express.Express = express();
+const httpPort: number = 8080;
+const httpsPort: number = process.env.PORT || 8443;
 
-let options: https.ServerOptions = {
+const options: https.ServerOptions = {
     cert: readFileSync(resolve('./cert/cert.pem')),
     key: readFileSync(resolve('./cert/key.pem')),
 };
@@ -41,8 +41,8 @@ httpApp.get('*', (req: express.Request, res: express.Response) => {
     res.redirect(301, `https://${req.hostname}:${httpsPort + req.url}`);
 });
 
-let httpServer: http.Server = http.createServer(httpApp);
-let httpsServer: https.Server = https.createServer(options, app);
+const httpServer: http.Server = http.createServer(httpApp);
+const httpsServer: https.Server = https.createServer(options, app);
 httpServer.listen(httpPort);
 httpsServer.listen(httpsPort);
 
@@ -63,8 +63,8 @@ httpsServer.on('listening', () => {
 });
 
 function error(err: any, secure: boolean): void {
-    let port: number = secure ? httpsPort : httpPort;
-    let protocol: string = secure ? 'HTTPS' : 'HTTP';
+    const port: number = secure ? httpsPort : httpPort;
+    const protocol: string = secure ? 'HTTPS' : 'HTTP';
 
     if (err.syscall !== 'listen') {
         throw err;
@@ -87,8 +87,8 @@ function error(err: any, secure: boolean): void {
 }
 
 function listening(secure: boolean): void {
-    let port: number = secure ? httpsPort : httpPort;
-    let protocol: string = secure ? 'HTTPS' : 'HTTP';
+    const port: number = secure ? httpsPort : httpPort;
+    const protocol: string = secure ? 'HTTPS' : 'HTTP';
 
-    debug(`${protocol} server listening on port ${port}`);
+    debugServer(`${protocol} server listening on port ${port}`);
 }
