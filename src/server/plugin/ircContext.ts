@@ -1,37 +1,19 @@
+import * as api from 'twitchr-plugin-api';
 import {Client} from 'irc';
 
-export class IrcContext {
-    private args: Object;
+export class IrcContext<T extends api.IrcEvent> implements api.IrcContext<T> {
     private channel: string;
 
-    constructor(event: string, private name: string, private client: Client, args: any[]) {
+    constructor(private name: string, private client: Client, private args: T) {
         this.channel = '#' + name;
-
-        switch (event) {
-            case 'action':
-                this.args = { user: args[0], text: args[2] };
-                break;
-
-            case 'join':
-                this.args = { user: args[1] };
-                break;
-
-            case 'message':
-                this.args = { user: args[0], text: args[2] };
-                break;
-
-            case 'names':
-                this.args = { users: args[1] };
-                break;
-
-            case 'part':
-                this.args = { user: args[1] };
-                break;
-        }
     }
 
     ban(user: string): void {
         this.client.say(this.channel, `/ban ${user}`);
+    }
+
+    getArgs(): T {
+        return this.args;
     }
 
     getChannel(): string {

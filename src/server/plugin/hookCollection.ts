@@ -2,19 +2,14 @@ import * as api from 'twitchr-plugin-api';
 import {Plugin} from './pluginManager';
 
 export class HookCollection {
-    private actionHooks: Array<api.PluginOnAction> = [];
-    private joinHooks: Array<api.PluginOnJoin> = [];
-    private messageHooks: Array<api.PluginOnMessage> = [];
-    private namesHooks: Array<api.PluginOnNames> = [];
-    private partHooks: Array<api.PluginOnPart> = [];
+    private joinHooks: Array<api.PluginHook<api.IrcJoin>> = [];
+    private messageHooks: Array<api.PluginHook<api.IrcMessage>> = [];
+    private namesHooks: Array<api.PluginHook<api.IrcNames>> = [];
+    private partHooks: Array<api.PluginHook<api.IrcPart>> = [];
 
     constructor(plugins: Array<Plugin>) {
         for (let i: number = 0; i < plugins.length; i++) {
             const hooks: api.PluginEventListener = plugins[i].getPlugin().hooks;
-
-            if (hooks.onAction) {
-                this.actionHooks.push(hooks.onAction);
-            }
 
             if (hooks.onJoin) {
                 this.joinHooks.push(hooks.onJoin);
@@ -34,23 +29,19 @@ export class HookCollection {
         }
     }
 
-    getActionHooks(): Array<api.PluginOnAction> {
-        return this.actionHooks;
-    }
-
-    getJoinHooks(): Array<api.PluginOnJoin> {
+    getJoinHooks(): Array<api.PluginHook<api.IrcJoin>> {
         return this.joinHooks;
     }
 
-    getMessageHooks(): Array<api.PluginOnMessage> {
+    getMessageHooks(): Array<api.PluginHook<api.IrcMessage>> {
         return this.messageHooks;
     }
 
-    getNamesHooks(): Array<api.PluginOnNames> {
+    getNamesHooks(): Array<api.PluginHook<api.IrcNames>> {
         return this.namesHooks;
     }
 
-    getPartHooks(): Array<api.PluginOnPart> {
+    getPartHooks(): Array<api.PluginHook<api.IrcPart>> {
         return this.partHooks;
     }
 }

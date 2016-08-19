@@ -32,29 +32,28 @@ export class IrcClient {
         this.plugins = getPlugins();
         const hooks: HookCollection = new HookCollection(this.plugins);
 
-        this.client.addListener('action', (...args: any[]) => {
-            const context: IrcContext = new IrcContext('action', this.name, this.client, args);
-            hooks.getActionHooks().forEach((hook: api.PluginOnAction) => hook(context));
+        this.client.addListener('join', (channel: string, nick: string, message: IMessage) => {
+            const args: api.IrcJoin = { user: nick };
+            const context: IrcContext<api.IrcJoin> = new IrcContext<api.IrcJoin>(this.name, this.client, args);
+            hooks.getJoinHooks().forEach((hook: api.PluginHook<api.IrcJoin>) => hook(context));
         });
 
-        this.client.addListener('join', (...args: any[]) => {
-            const context: IrcContext = new IrcContext('join', this.name, this.client, args);
-            hooks.getJoinHooks().forEach((hook: api.PluginOnJoin) => hook(context));
+        this.client.addListener('message', (nick: string, to: string, text: string, message: IMessage) => {
+            const args: api.IrcMessage = { user: nick, text: text };
+            const context: IrcContext<api.IrcMessage> = new IrcContext<api.IrcMessage>(this.name, this.client, args);
+            hooks.getMessageHooks().forEach((hook: api.PluginHook<api.IrcMessage>) => hook(context));
         });
 
-        this.client.addListener('message', (...args: any[]) => {
-            const context: IrcContext = new IrcContext('message', this.name, this.client, args);
-            hooks.getMessageHooks().forEach((hook: api.PluginOnMessage) => hook(context));
+        this.client.addListener('names', (channel: string, nicks: string[]) => {
+            const args: api.IrcNames = { users: nicks };
+            const context: IrcContext<api.IrcNames> = new IrcContext<api.IrcNames>(this.name, this.client, args);
+            hooks.getNamesHooks().forEach((hook: api.PluginHook<api.IrcNames>) => hook(context));
         });
 
-        this.client.addListener('names', (...args: any[]) => {
-            const context: IrcContext = new IrcContext('names', this.name, this.client, args);
-            hooks.getNamesHooks().forEach((hook: api.PluginOnNames) => hook(context));
-        });
-
-        this.client.addListener('part', (...args: any[]) => {
-            const context: IrcContext = new IrcContext('part', this.name, this.client, args);
-            hooks.getPartHooks().forEach((hook: api.PluginOnPart) => hook(context));
+        this.client.addListener('part', (channel: string, nick: string, reason: string, message: IMessage) => {
+            const args: api.IrcPart = { user: nick };
+            const context: IrcContext<api.IrcPart> = new IrcContext<api.IrcPart>(this.name, this.client, args);
+            hooks.getPartHooks().forEach((hook: api.PluginHook<api.IrcPart>) => hook(context));
         });
 
         return this;
