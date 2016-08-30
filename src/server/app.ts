@@ -1,27 +1,18 @@
-/*!
-    twitchr - A twitch bot providing IRC based assistance
-    Copyright (C) 2016  Jonas Bürkel
-    
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-    
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-    
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+/**
+ * @license
+ * Copyright (C) 2016  Jonas Bürkel
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
-import * as connectMongo from 'connect-mongo';
-import * as dotenvSafe from 'dotenv-safe';
+import * as compression from 'compression';
+import * as dotenv from 'dotenv-safe';
 import * as express from 'express';
 import * as favicon from 'serve-favicon';
 import * as helmet from 'helmet';
-import * as logger from 'morgan';
+import * as mongo from 'connect-mongo';
+import * as morgan from 'morgan';
 import * as passport from 'passport';
 import * as session from 'express-session';
 import {Strategy} from 'passport-twitch';
@@ -31,24 +22,27 @@ import auth from './routes/auth';
 import core from './routes/core';
 import irc from './routes/irc';
 
-dotenvSafe.load({
+dotenv.config({
     path: resolve('./.env'),
     sample: resolve('./.env.example'),
 });
 
-let app: express.Express = express();
-let mongoStore: connectMongo.MongoStoreFactory = connectMongo(session);
+const app: express.Express = express();
+const MongoStore: mongo.MongoStoreFactory = mongo(session);
 
+app.use(compression());
 app.use(helmet());
 app.use(favicon(resolve('./dist/client/assets/favicon.ico')));
-app.use(logger('dev'));
-app.use(express.static(resolve('./dist/client'), {index: false}));
+if (app.get('env') !== 'production') {
+    app.use(morgan('dev'));
+}
+app.use(express.static(resolve('./dist/client'), { index: false }));
 app.use(session({
-    cookie: {secure: true},
+    cookie: { secure: process.env.USE_TLS || false },
     resave: false,
     saveUninitialized: false,
     secret: process.env.SESSION_SECRET,
-    store: new mongoStore({
+    store: new MongoStore({
         touchAfter: 24 * 3600,
         url: process.env.MONGODB_URL,
     }),
@@ -64,7 +58,7 @@ passport.use(new Strategy({
     scope: 'chat_login user_read',
     state: true,
 }, (req: express.Request, accessToken: string, refreshToken: string, profile: any, done: Function) => {
-    let user: any = profile._json;
+    const user: any = profile._json;
 
     user.provider = profile.provider;
     user.access_token = accessToken;

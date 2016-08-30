@@ -3,6 +3,8 @@
 var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();
 
+require('dotenv-safe').config();
+
 var autoprefixer = require('autoprefixer');
 var browserSync = require('browser-sync').create();
 var cssnano = require('cssnano');
@@ -36,7 +38,7 @@ function styleProcessor(ext, file, cb) {
 gulp.task('lint.client', function() {
     return gulp.src('./src/client/**/*.ts')
         .pipe($.tslint())
-        .pipe($.tslint.report($.tslintStylish, {
+        .pipe($.tslint.report({
             emitError: false
         }));
 });
@@ -44,7 +46,7 @@ gulp.task('lint.client', function() {
 gulp.task('lint.server', function() {
     return gulp.src('./src/server/**/*.ts')
         .pipe($.tslint())
-        .pipe($.tslint.report($.tslintStylish, {
+        .pipe($.tslint.report({
             emitError: false
         }));
 });
@@ -115,7 +117,7 @@ gulp.task('dist.client.vendor', function() {
         './node_modules/systemjs/dist/system.@(js|js.map)',
 
         './node_modules/rxjs/bundles/Rx.umd.min.@(js|js.map)',
-        './node_modules/@angular/*/*.umd.js'
+        './node_modules/@angular/*/bundles/*.umd.min.js'
     ], {base: './node_modules'})
         .pipe(gulp.dest('./dist/client/vendor'));
 });
@@ -159,11 +161,13 @@ gulp.task('dev', ['dev.client'], function() {
 });
 
 gulp.task('dev.client', ['dev.server'], function() {
-    var port = process.env.PORT || 8443;
+    var port = process.env.USE_TLS ? process.env.PORT_HTTPS || 8443 : process.env.PORT_HTTP || 8080;
+    var protocol = process.env.USE_TLS ? 'https' : 'http';
+
     browserSync.init({
         ui: false,
         files: './dist/client',
-        proxy: 'https://localhost:' + port,
+        proxy: protocol + '://localhost:' + port,
         port: port + 1,
         online: false,
         notify: false,
@@ -174,9 +178,9 @@ gulp.task('dev.client', ['dev.server'], function() {
 
 gulp.task('dev.server', ['dist.client', 'dist.plugins', 'dist.server'], function() {
     $.nodemon({
-        script: './dist/server/bin/https.js',
+        script: './dist/server/bin/www.js',
         watch: resolve('@(./src/server/**/*.ts|./src/plugins/twitchr-*/@(index.ts|package.json))'),
-        env: {NODE_ENV: 'development'},
+        env: { NODE_ENV: 'development' },
         tasks: ['dist.plugins', 'dist.server']
     }).on('restart', browserSync.reload);
 });

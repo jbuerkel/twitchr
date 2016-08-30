@@ -16,13 +16,11 @@ git clone https://github.com/twitchr/twitchr.git
 cd twitchr/ && npm install
 ```
 
-Twitchr is running on HTTPS so you have to provide a valid SSL certificate and key and store them at `./cert/cert.pem` and `./cert/key.pem` respectively.
-In order to create a self-signed SSL certificate take a look at [this](http://stackoverflow.com/questions/10175812/how-to-create-a-self-signed-certificate-with-openssl) post.
-
 You should also provide a `.env` file in the project's root directory specifying the environment variables defined in `.env.example` ([explanation](https://www.npmjs.com/package/dotenv-safe)).
 To obtain a `CLIENT_ID` and `CLIENT_SECRET` register this application for your Twitch account [here](https://www.twitch.tv/kraken/oauth2/clients/new).
-The `REDIRECT_URI` should point to the `/api/oauth2/callback` endpoint.
+The `CALLBACK_URL` should point to the `/api/oauth2/callback` endpoint.
 
+**(NOTE: The below will change in the next release!)**
 The last thing to do is to put all the plugins you would like to use into `./src/plugins` and build them:
 
 ```sh

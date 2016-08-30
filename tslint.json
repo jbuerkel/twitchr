@@ -8,6 +8,7 @@
     "class-name": true,
     "comment-format": [
       true,
+      "check-lowercase",
       "check-space"
     ],
     "curly": true,
@@ -16,28 +17,30 @@
       true,
       "spaces"
     ],
+    "interface-name": [
+      true,
+      "never-prefix"
+    ],
     "jsdoc-format": true,
     "max-line-length": [
       true,
       120
     ],
-    "member-access": true,
     "member-ordering": [
       true,
-      "variables-before-functions"
+      {
+        "order": "fields-first"
+      }
     ],
+    "new-parens": true,
     "no-consecutive-blank-lines": true,
-    "no-duplicate-key": true,
-    "no-duplicate-variable": true,
-    "no-internal-module": true,
+    "no-namespace": true,
     "no-shadowed-variable": true,
     "no-trailing-whitespace": true,
     "no-unreachable": true,
     "no-unused-expression": true,
     "no-unused-variable": true,
-    "no-use-before-declare": true,
     "no-var-keyword": true,
-    "object-literal-sort-keys": true,
     "one-line": [
       true,
       "check-catch",
@@ -55,7 +58,6 @@
       true,
       "always"
     ],
-    "switch-default": true,
     "trailing-comma": [
       true,
       {
@@ -93,6 +95,7 @@
     "variable-name": [
       true,
       "allow-leading-underscore",
+      "allow-pascal-case",
       "ban-keywords",
       "check-format"
     ],
