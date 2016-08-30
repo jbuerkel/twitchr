@@ -48,7 +48,7 @@ if (app.get('env') !== 'production') {
 }
 app.use(express.static(resolve('./dist/client'), { index: false }));
 app.use(session({
-    cookie: { secure: true },
+    cookie: { secure: process.env.USE_TLS || false },
     resave: false,
     saveUninitialized: false,
     secret: process.env.SESSION_SECRET,

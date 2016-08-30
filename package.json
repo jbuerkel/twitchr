@@ -1,6 +1,6 @@
 {
   "name": "twitchr",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A twitch bot providing IRC based assistance",
   "author": "Jonas Bürkel <buerkelj@gmail.com>",
   "scripts": {
@@ -10,13 +10,11 @@
     "dist.plugins": "rimraf ./dist/plugins/ && gulp dist.plugins",
     "dist.server": "rimraf ./dist/server/ && gulp dist.server",
     "gulp": "gulp",
-    "http": "node ./dist/server/bin/http.js",
-    "https": "node ./dist/server/bin/https.js",
     "lint": "npm run lint.client && npm run lint.server",
     "lint.client": "gulp lint.client",
     "lint.server": "gulp lint.server",
     "postinstall": "npm prune && npm run typings && npm run dist",
-    "start": "npm run https",
+    "start": "node ./dist/server/bin/www.js",
     "typings": "rimraf ./typings/ && typings install"
   },
   "repository": {

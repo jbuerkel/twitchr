@@ -3,6 +3,8 @@
 var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();
 
+require('dotenv-safe').config();
+
 var autoprefixer = require('autoprefixer');
 var browserSync = require('browser-sync').create();
 var cssnano = require('cssnano');
@@ -159,11 +161,13 @@ gulp.task('dev', ['dev.client'], function() {
 });
 
 gulp.task('dev.client', ['dev.server'], function() {
-    var port = process.env.PORT || 8443;
+    var port = process.env.USE_TLS ? process.env.PORT_HTTPS || 8443 : process.env.PORT_HTTP || 8080;
+    var protocol = process.env.USE_TLS ? 'https' : 'http';
+
     browserSync.init({
         ui: false,
         files: './dist/client',
-        proxy: 'https://localhost:' + port,
+        proxy: protocol + '://localhost:' + port,
         port: port + 1,
         online: false,
         notify: false,
@@ -174,7 +178,7 @@ gulp.task('dev.client', ['dev.server'], function() {
 
 gulp.task('dev.server', ['dist.client', 'dist.plugins', 'dist.server'], function() {
     $.nodemon({
-        script: './dist/server/bin/https.js',
+        script: './dist/server/bin/www.js',
         watch: resolve('@(./src/server/**/*.ts|./src/plugins/twitchr-*/@(index.ts|package.json))'),
         env: { NODE_ENV: 'development' },
         tasks: ['dist.plugins', 'dist.server']
