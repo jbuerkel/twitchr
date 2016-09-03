@@ -12,7 +12,7 @@ var htmlMinifier = require('html-minifier');
 var postcss = require('postcss');
 var resolve = require('app-root-path').resolve;
 
-function templateProcessor(ext, file, cb) {
+function templateProcessor(path, ext, file, cb) {
     try {
         var minifiedFile = htmlMinifier.minify(file, {
             caseSensitive: true,
@@ -25,7 +25,7 @@ function templateProcessor(ext, file, cb) {
     }
 }
 
-function styleProcessor(ext, file, cb) {
+function styleProcessor(path, ext, file, cb) {
     try {
         postcss([autoprefixer, cssnano]).process(file).then(function(result) {
             cb(null, result.css);
