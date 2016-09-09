@@ -1,21 +1,20 @@
 {
   "name": "twitchr",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A twitch bot providing IRC based assistance",
   "author": "Jonas Bürkel <buerkelj@gmail.com>",
   "scripts": {
     "dev": "gulp dev",
-    "dist": "npm run dist.client && npm run dist.plugins && npm run dist.server",
-    "dist.client": "rimraf ./dist/client/ && gulp dist.client",
-    "dist.plugins": "rimraf ./dist/plugins/ && gulp dist.plugins",
-    "dist.server": "rimraf ./dist/server/ && gulp dist.server",
+    "dist": "npm run dist.client && npm run dist.server",
+    "dist.client": "rimraf dist/client/ && gulp dist.client",
+    "dist.server": "rimraf dist/server/ && gulp dist.server",
     "gulp": "gulp",
     "lint": "npm run lint.client && npm run lint.server",
     "lint.client": "gulp lint.client",
     "lint.server": "gulp lint.server",
     "postinstall": "npm prune && npm run typings && npm run dist",
-    "start": "node ./dist/server/bin/www.js",
-    "typings": "rimraf ./typings/ && typings install"
+    "start": "node dist/server/bin/www.js",
+    "typings": "rimraf typings/ && typings install"
   },
   "repository": {
     "type": "git",
@@ -47,7 +46,6 @@
     "dotenv-safe": "^2.3.1",
     "express": "^4.14.0",
     "express-session": "^1.14.1",
-    "glob": "^7.0.6",
     "helmet": "^2.1.2",
     "irc": "^0.5.0",
     "morgan": "^1.7.0",
@@ -57,7 +55,8 @@
     "rxjs": "5.0.0-beta.6",
     "serve-favicon": "^2.3.0",
     "systemjs": "^0.19.37",
-    "twitchr-plugin-api": "^0.2.0",
+    "twitchr-example": "^0.3.0",
+    "twitchr-plugin-api": "^0.3.0",
     "zone.js": "^0.6.12"
   },
   "devDependencies": {

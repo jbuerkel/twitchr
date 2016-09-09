@@ -16,10 +16,6 @@ export class IrcContext<T extends api.IrcEvent> implements api.IrcContext<T> {
         this.channel = '#' + name;
     }
 
-    ban(user: string): void {
-        this.client.say(this.channel, `/ban ${user}`);
-    }
-
     getArgs(): T {
         return this.args;
     }
@@ -37,10 +33,50 @@ export class IrcContext<T extends api.IrcEvent> implements api.IrcContext<T> {
     }
 
     timeout(user: string, seconds?: number): void {
-        this.client.say(this.channel, `/timeout ${user} ${seconds ? seconds : 600}`);
+        this.client.say(this.channel, `/timeout ${user} ${seconds || 600}`);
+    }
+
+    ban(user: string): void {
+        this.client.say(this.channel, `/ban ${user}`);
     }
 
     unban(user: string): void {
         this.client.say(this.channel, `/unban ${user}`);
+    }
+
+    slow(seconds: number): void {
+        this.client.say(this.channel, `/slow ${seconds}`);
+    }
+
+    slowoff(): void {
+        this.client.say(this.channel, `/slowoff`);
+    }
+
+    subscribers(): void {
+        this.client.say(this.channel, `/subscribers`);
+    }
+
+    subscribersoff(): void {
+        this.client.say(this.channel, `/subscribersoff`);
+    }
+
+    clear(): void {
+        this.client.say(this.channel, `/clear`);
+    }
+
+    r9kbeta(): void {
+        this.client.say(this.channel, `/r9kbeta`);
+    }
+
+    r9kbetaoff(): void {
+        this.client.say(this.channel, `/r9kbetaoff`);
+    }
+
+    emoteonly(): void {
+        this.client.say(this.channel, `/emoteonly`);
+    }
+
+    emoteonlyoff(): void {
+        this.client.say(this.channel, `/emoteonlyoff`);
     }
 }

@@ -118,26 +118,8 @@ gulp.task('dist.client.vendor', function() {
 
         './node_modules/rxjs/bundles/Rx.umd.min.@(js|js.map)',
         './node_modules/@angular/*/bundles/*.umd.min.js'
-    ], {base: './node_modules'})
+    ], { base: './node_modules' })
         .pipe(gulp.dest('./dist/client/vendor'));
-});
-
-gulp.task('dist.plugins', ['dist.plugins.json', 'dist.plugins.ts']);
-
-gulp.task('dist.plugins.json', function() {
-    return gulp.src('./src/plugins/twitchr-*/package.json')
-        .pipe(gulp.dest('./dist/plugins'));
-});
-
-gulp.task('dist.plugins.ts', function() {
-    var tsProject = $.typescript.createProject('./tsconfig.json');
-    var tsResult = gulp.src(['./src/plugins/twitchr-*/index.ts', './src/typings/**/*.d.ts', './typings/index.d.ts'])
-        .pipe($.sourcemaps.init())
-        .pipe($.typescript(tsProject));
-
-    return tsResult.js
-        .pipe($.sourcemaps.write('.'))
-        .pipe(gulp.dest('./dist/plugins'));
 });
 
 gulp.task('dist.server', ['dist.server.ts']);
@@ -176,12 +158,12 @@ gulp.task('dev.client', ['dev.server'], function() {
     });
 });
 
-gulp.task('dev.server', ['dist.client', 'dist.plugins', 'dist.server'], function() {
+gulp.task('dev.server', ['dist.client', 'dist.server'], function() {
     $.nodemon({
         script: './dist/server/bin/www.js',
-        watch: resolve('@(./src/server/**/*.ts|./src/plugins/twitchr-*/@(index.ts|package.json))'),
+        watch: resolve('./src/server/**/*.ts'),
         env: { NODE_ENV: 'development' },
-        tasks: ['dist.plugins', 'dist.server']
+        tasks: ['dist.server']
     }).on('restart', browserSync.reload);
 });
 
