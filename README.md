@@ -12,22 +12,14 @@ As prerequisites you should have [Node.js](https://nodejs.org/en/) installed and
 Then clone and install this repository:
 
 ```sh
-git clone https://github.com/twitchr/twitchr.git
-cd twitchr/ && npm install
+git clone https://github.com/twitchr/twitchr.git && cd twitchr/ && npm install
 ```
 
 You should also provide a `.env` file in the project's root directory specifying the environment variables defined in `.env.example` ([explanation](https://www.npmjs.com/package/dotenv-safe)).
 To obtain a `CLIENT_ID` and `CLIENT_SECRET` register this application for your Twitch account [here](https://www.twitch.tv/kraken/oauth2/clients/new).
 The `CALLBACK_URL` should point to the `/api/oauth2/callback` endpoint.
 
-**(NOTE: The below will change in the next release!)**
-The last thing to do is to put all the plugins you would like to use into `./src/plugins` and build them:
-
-```sh
-npm run dist.plugins
-```
-
-Finally launch your IRC bot:
+After adding the plugins you would like to use launch your IRC bot:
 
 ```sh
 npm start
@@ -35,6 +27,13 @@ npm start
 
 ## Plugins
 
+All plugins will be available as npm packages so you can easily build your own custom set of functionalities:
+
+```sh
+npm install --save twitchr-plugin-name
+```
+
+The [example plugin](https://github.com/twitchr/twitchr-example) is installed by default. Several additional plugins will be added *after* the release of version `0.0.5`.
 For further information about the plugin system please see [twitchr-plugin-api](https://github.com/twitchr/twitchr-plugin-api).
 
 ## License

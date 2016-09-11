@@ -11,16 +11,6 @@ import * as debug from 'debug';
 import {resolve} from 'app-root-path';
 
 const debugPlugin: debug.Debugger = debug('twitchr:plugin');
-const pkg: any = require(resolve('./package.json'));
-let plugins: Array<Plugin> = [];
-
-Object.keys(pkg.dependencies)
-    .filter((k: string) => k.indexOf('twitchr-') === 0 && k !== 'twitchr-plugin-api')
-    .forEach(loadPlugin);
-
-if (plugins.length < 1) {
-    console.warn('No plugins were found');
-}
 
 export class Plugin {
     constructor(private meta: Object, private plugin: api.Plugin) { }
@@ -32,6 +22,17 @@ export class Plugin {
     getPlugin(): api.Plugin {
         return this.plugin;
     }
+}
+
+const pkg: any = require(resolve('./package.json'));
+let plugins: Array<Plugin> = [];
+
+Object.keys(pkg.dependencies)
+    .filter((k: string) => k.indexOf('twitchr-') === 0 && k !== 'twitchr-plugin-api')
+    .forEach(loadPlugin);
+
+if (plugins.length < 1) {
+    console.warn('No plugins were found');
 }
 
 export function getPlugins(): Array<Plugin> {
