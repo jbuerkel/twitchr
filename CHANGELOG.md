@@ -1,3 +1,11 @@
+<a name="0.0.4"></a>
+# [0.0.4](https://github.com/twitchr/twitchr/compare/0.0.3...0.0.4) (2016-09-12)
+
+### Features
+
+- Added remaining basic commands to `IrcContext`
+- Changed plugin loading to improve flexibility
+
 <a name="0.0.3"></a>
 # [0.0.3](https://github.com/twitchr/twitchr/compare/v0.0.2...0.0.3) (2016-08-30)
 
