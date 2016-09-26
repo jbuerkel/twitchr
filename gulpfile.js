@@ -54,12 +54,12 @@ gulp.task('lint.server', function() {
 gulp.task('dist.client', ['dist.client.css', 'dist.client.html', 'dist.client.img', 'dist.client.ts', 'dist.client.vendor']);
 
 gulp.task('dist.client.css', function() {
-    return gulp.src('./src/client/assets/css/style.css')
+    return gulp.src('./src/client/css/main.css')
         .pipe($.sourcemaps.init())
         .pipe($.autoprefixer())
         .pipe($.cssnano())
         .pipe($.sourcemaps.write('.'))
-        .pipe(gulp.dest('./dist/client/assets/css'));
+        .pipe(gulp.dest('./dist/client/css'));
 });
 
 gulp.task('dist.client.html', function() {
@@ -116,8 +116,8 @@ gulp.task('dist.client.vendor', function() {
         './node_modules/reflect-metadata/Reflect.@(js|js.map)',
         './node_modules/systemjs/dist/system.@(js|js.map)',
 
-        './node_modules/rxjs/bundles/Rx.umd.min.@(js|js.map)',
-        './node_modules/@angular/*/bundles/*.umd.min.js'
+        './node_modules/@angular/*/bundles/*.umd.min.js',
+        './node_modules/rxjs/bundles/Rx.min.@(js|js.map)'
     ], { base: './node_modules' })
         .pipe(gulp.dest('./dist/client/vendor'));
 });
@@ -136,7 +136,7 @@ gulp.task('dist.server.ts', function() {
 });
 
 gulp.task('dev', ['dev.client'], function() {
-    gulp.watch('./src/client/assets/css/style.css', ['dist.client.css']);
+    gulp.watch('./src/client/css/main.css', ['dist.client.css']);
     gulp.watch('./src/client/index.html', ['dist.client.html']);
     gulp.watch('./src/client/assets/**/*.@(png|jpg|gif|svg|ico)', ['dist.client.img']);
     gulp.watch('./src/client/app/**/*.@(ts|html|css)', ['dist.client.ts']);
