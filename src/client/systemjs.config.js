@@ -1,8 +1,7 @@
 (function(global) {
     System.config({
         paths: {
-            'npm:':   'vendor/',
-            'rxjs/*': 'vendor/rxjs/bundles/Rx.min.js'
+            'npm:':   'vendor/'
         },
 
         map: {

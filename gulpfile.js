@@ -7,6 +7,7 @@ require('dotenv-safe').config();
 
 var autoprefixer = require('autoprefixer');
 var browserSync = require('browser-sync').create();
+var Builder = require('systemjs-builder');
 var cssnano = require('cssnano');
 var htmlMinifier = require('html-minifier');
 var postcss = require('postcss');
@@ -106,7 +107,7 @@ gulp.task('dist.client.ts', function() {
         .pipe(gulp.dest('./dist/client'));
 });
 
-gulp.task('dist.client.vendor', function() {
+gulp.task('dist.client.vendor', ['dist.client.bundle.rxjs'], function() {
     return gulp.src([
         './node_modules/bootstrap/dist/css/bootstrap.min.@(css|css.map)',
 
@@ -116,10 +117,39 @@ gulp.task('dist.client.vendor', function() {
         './node_modules/reflect-metadata/Reflect.@(js|js.map)',
         './node_modules/systemjs/dist/system.@(js|js.map)',
 
-        './node_modules/@angular/*/bundles/*.umd.min.js',
-        './node_modules/rxjs/bundles/Rx.min.@(js|js.map)'
+        './node_modules/@angular/*/bundles/*.umd.min.js'
     ], { base: './node_modules' })
         .pipe(gulp.dest('./dist/client/vendor'));
+});
+
+gulp.task('dist.client.bundle.rxjs', function(done) {
+    var options = {
+        normalize: true,
+        runtime: false,
+        sourceMaps: true,
+        sourceMapContents: true,
+        minify: true,
+        mangle: false
+    };
+
+    var builder = new Builder('./');
+
+    builder.config({
+        paths: {
+            'n:*': 'node_modules/*',
+            'rxjs/*': 'node_modules/rxjs/*.js'
+        },
+        map: {
+            'rxjs': 'n:rxjs'
+        },
+        packages: {
+            'rxjs': { main: 'Rx.js', defaultExtension: 'js' }
+        }
+    });
+
+    builder.bundle('rxjs', './dist/client/vendor/rxjs/bundles/Rx.min.js', options)
+        .then(function() { done(); })
+        .catch(function(err) { done(err); });
 });
 
 gulp.task('dist.server', ['dist.server.ts']);
