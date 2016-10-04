@@ -9,7 +9,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-    selector: 'twitchr-app',
-    template: '<router-outlet></router-outlet>',
+    selector: 'twitchr-login',
+    template: '<h3>Login</h3>',
 })
-export class AppComponent { }
+export class LoginComponent { }

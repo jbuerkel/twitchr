@@ -6,10 +6,4 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component } from '@angular/core';
-
-@Component({
-    selector: 'twitchr-app',
-    template: '<router-outlet></router-outlet>',
-})
-export class AppComponent { }
+export * from './login.component';

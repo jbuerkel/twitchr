@@ -9,11 +9,23 @@
 import { NgModule }      from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { AppComponent } from './app.component';
+import { AppComponent }       from './app.component';
+import { DashboardComponent } from './dashboard/index';
+import { LoginComponent }     from './login/index';
+import { SettingsComponent }  from './settings/index';
+import { routing }            from './app.routing';
 
 @NgModule({
-    imports: [ BrowserModule ],
-    declarations: [ AppComponent ],
+    imports: [
+        BrowserModule,
+        routing,
+    ],
+    declarations: [
+        AppComponent,
+        DashboardComponent,
+        LoginComponent,
+        SettingsComponent,
+    ],
     bootstrap: [ AppComponent ],
 })
 export class AppModule { }
