@@ -13,6 +13,7 @@ import { AppComponent }       from './app.component';
 import { DashboardComponent } from './dashboard/index';
 import { LoginComponent }     from './login/index';
 import { SettingsComponent }  from './settings/index';
+import { ToolbarComponent }   from './shared/index';
 import { routing }            from './app.routing';
 
 @NgModule({
@@ -25,6 +26,7 @@ import { routing }            from './app.routing';
         DashboardComponent,
         LoginComponent,
         SettingsComponent,
+        ToolbarComponent,
     ],
     bootstrap: [ AppComponent ],
 })

@@ -10,6 +10,11 @@ import { Component } from '@angular/core';
 
 @Component({
     selector: 'twitchr-login',
-    template: '<h3>Login</h3>',
+    templateUrl: './login.component.html',
+    styleUrls: [ './login.component.css' ],
 })
-export class LoginComponent { }
+export class LoginComponent {
+    launch(): void {
+        window.location.href = '/api/oauth2';
+    }
+}
