@@ -1,30 +1,20 @@
-/*!
-    twitchr - A twitch bot providing IRC based assistance
-    Copyright (C) 2016  Jonas Bürkel
+/**
+ * @license
+ * Copyright (C) 2016  Jonas Bürkel
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
-import {Component, OnInit} from '@angular/core';
-import {ConfigService} from '../shared/config.service';
+import { Component } from '@angular/core';
 
 @Component({
     selector: 'twitchr-login',
-    styleUrls: ['./login.component.css'],
     templateUrl: './login.component.html',
+    styleUrls: [ './login.component.css' ],
 })
-export class LoginComponent implements OnInit {
-    public errorMessage: string;
-    public repositoryUrl: string;
-
-    public constructor(private _configService: ConfigService) { }
-
-    public launchBot(): void {
+export class LoginComponent {
+    launch(): void {
         window.location.href = '/api/oauth2';
-    }
-
-    public ngOnInit(): void {
-        this.repositoryUrl = this._configService.getValue('repositoryUrl');
     }
 }

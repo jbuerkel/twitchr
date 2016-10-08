@@ -1,20 +1,21 @@
 'use strict';
 
-var gulp = require('gulp');
-var $ = require('gulp-load-plugins')();
+const gulp = require('gulp');
+const $ = require('gulp-load-plugins')();
 
 require('dotenv-safe').config();
 
-var autoprefixer = require('autoprefixer');
-var browserSync = require('browser-sync').create();
-var cssnano = require('cssnano');
-var htmlMinifier = require('html-minifier');
-var postcss = require('postcss');
-var resolve = require('app-root-path').resolve;
+const autoprefixer = require('autoprefixer');
+const browserSync = require('browser-sync').create();
+const Builder = require('systemjs-builder');
+const cssnano = require('cssnano');
+const htmlMinifier = require('html-minifier');
+const postcss = require('postcss');
+const resolve = require('app-root-path').resolve;
 
 function templateProcessor(path, ext, file, cb) {
     try {
-        var minifiedFile = htmlMinifier.minify(file, {
+        const minifiedFile = htmlMinifier.minify(file, {
             caseSensitive: true,
             collapseWhitespace: true
         });
@@ -27,15 +28,14 @@ function templateProcessor(path, ext, file, cb) {
 
 function styleProcessor(path, ext, file, cb) {
     try {
-        postcss([autoprefixer, cssnano]).process(file).then(function(result) {
-            cb(null, result.css);
-        });
+        postcss([ autoprefixer, cssnano ]).process(file)
+            .then(result => cb(null, result.css));
     } catch (err) {
         cb(err);
     }
 }
 
-gulp.task('lint.client', function() {
+gulp.task('lint.client', () => {
     return gulp.src('./src/client/**/*.ts')
         .pipe($.tslint())
         .pipe($.tslint.report({
@@ -43,7 +43,7 @@ gulp.task('lint.client', function() {
         }));
 });
 
-gulp.task('lint.server', function() {
+gulp.task('lint.server', () => {
     return gulp.src('./src/server/**/*.ts')
         .pipe($.tslint())
         .pipe($.tslint.report({
@@ -51,18 +51,18 @@ gulp.task('lint.server', function() {
         }));
 });
 
-gulp.task('dist.client', ['dist.client.css', 'dist.client.html', 'dist.client.img', 'dist.client.ts', 'dist.client.vendor']);
+gulp.task('dist.client', [ 'dist.client.css', 'dist.client.html', 'dist.client.img', 'dist.client.ts', 'dist.client.vendor' ]);
 
-gulp.task('dist.client.css', function() {
-    return gulp.src('./src/client/assets/css/style.css')
+gulp.task('dist.client.css', () => {
+    return gulp.src('./src/client/css/main.css')
         .pipe($.sourcemaps.init())
         .pipe($.autoprefixer())
         .pipe($.cssnano())
         .pipe($.sourcemaps.write('.'))
-        .pipe(gulp.dest('./dist/client/assets/css'));
+        .pipe(gulp.dest('./dist/client/css'));
 });
 
-gulp.task('dist.client.html', function() {
+gulp.task('dist.client.html', () => {
     return gulp.src('./src/client/index.html')
         .pipe($.inlineSource({
             compress: false
@@ -75,18 +75,18 @@ gulp.task('dist.client.html', function() {
         .pipe(gulp.dest('./dist/client'));
 });
 
-gulp.task('dist.client.img', function() {
+gulp.task('dist.client.img', () => {
     return gulp.src('./src/client/assets/**/*.@(png|jpg|gif|svg|ico)')
         .pipe($.imagemin())
         .pipe(gulp.dest('./dist/client/assets'));
 });
 
-gulp.task('dist.client.ts', function() {
-    var tsProject = $.typescript.createProject('./tsconfig.json', {
+gulp.task('dist.client.ts', () => {
+    const tsProject = $.typescript.createProject('./tsconfig.json', {
         moduleResolution: 'node'
     });
 
-    var tsResult = gulp.src(['./src/client/**/*.ts', './src/typings/**/*.d.ts', './typings/index.d.ts'])
+    const tsResult = gulp.src([ './src/client/**/*.ts', './src/typings/**/*.d.ts', './typings/index.d.ts' ])
         .pipe($.sourcemaps.init())
         .pipe($.inlineNg2Template({
             base: './src/client',
@@ -106,7 +106,7 @@ gulp.task('dist.client.ts', function() {
         .pipe(gulp.dest('./dist/client'));
 });
 
-gulp.task('dist.client.vendor', function() {
+gulp.task('dist.client.vendor', [ 'dist.client.bundle.rxjs' ], () => {
     return gulp.src([
         './node_modules/bootstrap/dist/css/bootstrap.min.@(css|css.map)',
 
@@ -116,17 +116,46 @@ gulp.task('dist.client.vendor', function() {
         './node_modules/reflect-metadata/Reflect.@(js|js.map)',
         './node_modules/systemjs/dist/system.@(js|js.map)',
 
-        './node_modules/rxjs/bundles/Rx.umd.min.@(js|js.map)',
         './node_modules/@angular/*/bundles/*.umd.min.js'
     ], { base: './node_modules' })
         .pipe(gulp.dest('./dist/client/vendor'));
 });
 
-gulp.task('dist.server', ['dist.server.ts']);
+gulp.task('dist.client.bundle.rxjs', done => {
+    const options = {
+        normalize: true,
+        runtime: false,
+        sourceMaps: true,
+        sourceMapContents: true,
+        minify: true,
+        mangle: false
+    };
 
-gulp.task('dist.server.ts', function() {
-    var tsProject = $.typescript.createProject('./tsconfig.json');
-    var tsResult = gulp.src(['./src/server/**/*.ts', './src/typings/**/*.d.ts', './typings/index.d.ts'])
+    const builder = new Builder('./');
+
+    builder.config({
+        paths: {
+            'n:*': 'node_modules/*',
+            'rxjs/*': 'node_modules/rxjs/*.js'
+        },
+        map: {
+            'rxjs': 'n:rxjs'
+        },
+        packages: {
+            'rxjs': { main: 'Rx.js', defaultExtension: 'js' }
+        }
+    });
+
+    builder.bundle('rxjs', './dist/client/vendor/rxjs/bundles/Rx.min.js', options)
+        .then(() => done())
+        .catch(err => done(err));
+});
+
+gulp.task('dist.server', [ 'dist.server.ts' ]);
+
+gulp.task('dist.server.ts', () => {
+    const tsProject = $.typescript.createProject('./tsconfig.json');
+    const tsResult = gulp.src([ './src/server/**/*.ts', './src/typings/**/*.d.ts', './typings/index.d.ts' ])
         .pipe($.sourcemaps.init())
         .pipe($.typescript(tsProject));
 
@@ -135,16 +164,16 @@ gulp.task('dist.server.ts', function() {
         .pipe(gulp.dest('./dist/server'));
 });
 
-gulp.task('dev', ['dev.client'], function() {
-    gulp.watch('./src/client/assets/css/style.css', ['dist.client.css']);
-    gulp.watch('./src/client/index.html', ['dist.client.html']);
-    gulp.watch('./src/client/assets/**/*.@(png|jpg|gif|svg|ico)', ['dist.client.img']);
-    gulp.watch('./src/client/app/**/*.@(ts|html|css)', ['dist.client.ts']);
+gulp.task('dev', [ 'dev.client' ], () => {
+    gulp.watch('./src/client/css/main.css',                       [ 'dist.client.css'  ]);
+    gulp.watch('./src/client/index.html',                         [ 'dist.client.html' ]);
+    gulp.watch('./src/client/assets/**/*.@(png|jpg|gif|svg|ico)', [ 'dist.client.img'  ]);
+    gulp.watch('./src/client/app/**/*.@(ts|html|css)',            [ 'dist.client.ts'   ]);
 });
 
-gulp.task('dev.client', ['dev.server'], function() {
-    var port = process.env.USE_TLS ? process.env.PORT_HTTPS || 8443 : process.env.PORT_HTTP || 8080;
-    var protocol = process.env.USE_TLS ? 'https' : 'http';
+gulp.task('dev.client', [ 'dev.server' ], () => {
+    const port = process.env.USE_TLS ? process.env.PORT_HTTPS || 8443 : process.env.PORT_HTTP || 8080;
+    const protocol = process.env.USE_TLS ? 'https' : 'http';
 
     browserSync.init({
         ui: false,
@@ -158,13 +187,13 @@ gulp.task('dev.client', ['dev.server'], function() {
     });
 });
 
-gulp.task('dev.server', ['dist.client', 'dist.server'], function() {
+gulp.task('dev.server', [ 'dist.client', 'dist.server' ], () => {
     $.nodemon({
         script: './dist/server/bin/www.js',
         watch: resolve('./src/server/**/*.ts'),
         env: { NODE_ENV: 'development' },
-        tasks: ['dist.server']
+        tasks: [ 'dist.server' ]
     }).on('restart', browserSync.reload);
 });
 
-gulp.task('default', ['dev']);
+gulp.task('default', [ 'dev' ]);

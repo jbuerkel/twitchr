@@ -1,25 +1,58 @@
-.card {
-    background-color: #ffffff;
-    border-radius: 2px;
+.container > div {
+    margin-top: 80px;
+    text-align: center;
+}
+
+.container hr {
+    border-color: #009688;
+    border-width: 2px;
+    margin-top: 20px;
+    width: 80px;
+}
+
+.container p {
+    color: #555555;
+    font-size: 18px;
+}
+
+.container-fluid {
+    background-color: #009688;
+    height: 736px;
+    padding: 0;
+}
+
+.container-fluid > button {
+    background-color: #673AB7;
+    border: 0;
+    border-radius: 4px;
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-    margin-top: 56px;
-    padding: 16px 24px 24px 24px;
-    width: 320px;
+    color: #ffffff;
+    font-size: 20px;
+    height: 50px;
+    width: 180px;
+    margin-top: 96px;
 }
 
-.card > p:first-of-type {
-    padding-top: 8px;
+.container-fluid > button:hover {
+    background-color: #512DA8;
 }
 
-.card > p {
-    padding-bottom: 8px;
+.container-fluid > button:focus {
+    background-color: #4527A0;
+    outline: none;
 }
 
-.icon {
-    margin: 24px 24px 0 0;
+.container-fluid > div {
+    color: #ffffff;
+    font-style: italic;
+    margin-top: 296px;
+    text-align: center;
 }
 
-.icon > img {
-    height: 32px;
-    width: 32px;
+.container-fluid h2 {
+    font-size: 40px;
+}
+
+.container-fluid p {
+    font-size: 24px;
 }

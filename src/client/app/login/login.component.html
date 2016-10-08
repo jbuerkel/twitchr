@@ -1,15 +1,16 @@
 <div class="container-fluid">
-    <div class="row">
-        <a class="icon pull-right" href="{{repositoryUrl}}">
-            <img src="../../assets/img/icons/github.svg">
-        </a>
+    <twitchr-toolbar [isAuthenticated]="false"></twitchr-toolbar>
+    <div class="center-block">
+        <h2>twitchr</h2>
+        <p>Twitch Bot as a Service.</p>
     </div>
-    <div class="row">
-        <div class="card center-block text-center">
-            <h3>Welcome!</h3>
-            <p>This is a very early version. Feel free to report any issue on GitHub.</p>
-            <p *ngIf="errorMessage" class="text-danger"><strong>{{errorMessage}}</strong></p>
-            <button type="button" class="btn btn-lg btn-primary" (click)="launchBot()">Launch</button>
-        </div>
-    </div>
+    <button class="center-block" (click)="launch()">Launch Bot</button>
 </div>
+
+<main class="container">
+    <div class="center-block">
+        <h2>Automatically moderate your Twitch channel</h2>
+        <p>Easy. Flexible. Informative.</p>
+    </div>
+    <hr>
+</main>
