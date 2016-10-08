@@ -1,7 +1,7 @@
 (function(global) {
     System.config({
         paths: {
-            'npm:':   'vendor/'
+            'npm:': 'vendor/'
         },
 
         map: {
