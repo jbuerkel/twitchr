@@ -1,0 +1,19 @@
+web:
+  build: .
+  env_file: .env
+  volumes:
+    - .:/app
+  environment:
+    DEBUG: twitchr:*
+    MONGODB_URL: mongodb://mongo
+    NODE_ENV: development
+  expose:
+    - "3030"
+  links:
+    - mongo
+  ports:
+    - "3000:3000"
+    - "3030:3030"
+  command: npm run dev
+mongo:
+  image: mongo

@@ -1,0 +1,13 @@
+.git/
+.idea/
+dist/
+node_modules/
+typings/
+.dockerignore
+.env
+.env.example
+.gitignore
+docker-compose.prod.yml
+docker-compose.yml
+Dockerfile
+npm-debug.log

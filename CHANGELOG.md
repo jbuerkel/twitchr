@@ -1,3 +1,11 @@
+<a name="0.0.5"></a>
+# [0.0.5](https://github.com/twitchr/twitchr/compare/0.0.4...0.0.5) (2016-11-20)
+
+### Features
+
+- Added new login view
+- Added Docker setup for development and production
+
 <a name="0.0.4"></a>
 # [0.0.4](https://github.com/twitchr/twitchr/compare/0.0.3...0.0.4) (2016-09-12)
 

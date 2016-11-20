@@ -1,0 +1,12 @@
+web:
+  build: .
+  env_file: .env
+  environment:
+    MONGODB_URL: mongodb://mongo
+    NODE_ENV: production
+  links:
+    - mongo
+  ports:
+    - "3000:3000"
+mongo:
+  image: mongo

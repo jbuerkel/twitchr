@@ -3,8 +3,6 @@
 const gulp = require('gulp');
 const $ = require('gulp-load-plugins')();
 
-require('dotenv-safe').config();
-
 const autoprefixer = require('autoprefixer');
 const browserSync = require('browser-sync').create();
 const Builder = require('systemjs-builder');
@@ -35,6 +33,8 @@ function styleProcessor(path, ext, file, cb) {
     }
 }
 
+gulp.task('lint', [ 'lint.client', 'lint.server' ]);
+
 gulp.task('lint.client', () => {
     return gulp.src('./src/client/**/*.ts')
         .pipe($.tslint())
@@ -50,6 +50,8 @@ gulp.task('lint.server', () => {
             emitError: false
         }));
 });
+
+gulp.task('dist', [ 'dist.client', 'dist.server' ]);
 
 gulp.task('dist.client', [ 'dist.client.css', 'dist.client.html', 'dist.client.img', 'dist.client.ts', 'dist.client.vendor' ]);
 
@@ -96,7 +98,7 @@ gulp.task('dist.client.ts', () => {
             templateProcessor: templateProcessor,
             styleProcessor: styleProcessor
         }))
-        .pipe($.typescript(tsProject));
+        .pipe(tsProject());
 
     return tsResult.js
         .pipe($.uglify({
@@ -157,7 +159,7 @@ gulp.task('dist.server.ts', () => {
     const tsProject = $.typescript.createProject('./tsconfig.json');
     const tsResult = gulp.src([ './src/server/**/*.ts', './src/typings/**/*.d.ts', './typings/index.d.ts' ])
         .pipe($.sourcemaps.init())
-        .pipe($.typescript(tsProject));
+        .pipe(tsProject());
 
     return tsResult.js
         .pipe($.sourcemaps.write('.'))
@@ -172,14 +174,13 @@ gulp.task('dev', [ 'dev.client' ], () => {
 });
 
 gulp.task('dev.client', [ 'dev.server' ], () => {
-    const port = process.env.USE_TLS ? process.env.PORT_HTTPS || 8443 : process.env.PORT_HTTP || 8080;
-    const protocol = process.env.USE_TLS ? 'https' : 'http';
+    const protocol = process.env.USE_TLS === 'true' ? 'https' : 'http';
 
     browserSync.init({
         ui: false,
         files: './dist/client',
-        proxy: protocol + '://localhost:' + port,
-        port: port + 1,
+        proxy: protocol + '://localhost:3000',
+        port: 3030,
         online: false,
         notify: false,
         reloadDelay: 500,
@@ -187,11 +188,10 @@ gulp.task('dev.client', [ 'dev.server' ], () => {
     });
 });
 
-gulp.task('dev.server', [ 'dist.client', 'dist.server' ], () => {
+gulp.task('dev.server', () => {
     $.nodemon({
         script: './dist/server/bin/www.js',
         watch: resolve('./src/server/**/*.ts'),
-        env: { NODE_ENV: 'development' },
         tasks: [ 'dist.server' ]
     }).on('restart', browserSync.reload);
 });
