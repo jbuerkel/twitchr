@@ -1,6 +1,6 @@
 {
   "name": "twitchr",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A twitch bot providing IRC based assistance",
   "author": "Jonas Bürkel <buerkelj@gmail.com>",
   "scripts": {
