@@ -7,7 +7,6 @@
  */
 
 import * as compression from 'compression';
-import * as dotenv from 'dotenv-safe';
 import * as express from 'express';
 import * as favicon from 'serve-favicon';
 import * as helmet from 'helmet';
@@ -22,11 +21,6 @@ import auth from './routes/auth';
 import core from './routes/core';
 import irc from './routes/irc';
 
-dotenv.config({
-    path: resolve('./.env'),
-    sample: resolve('./.env.example'),
-});
-
 const app: express.Express = express();
 const MongoStore: mongo.MongoStoreFactory = mongo(session);
 
@@ -38,7 +32,7 @@ if (app.get('env') !== 'production') {
 }
 app.use(express.static(resolve('./dist/client'), { index: false }));
 app.use(session({
-    cookie: { secure: process.env.USE_TLS || false },
+    cookie: { secure: process.env.USE_TLS === 'true' },
     resave: false,
     saveUninitialized: false,
     secret: process.env.SESSION_SECRET,

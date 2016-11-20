@@ -98,7 +98,7 @@ gulp.task('dist.client.ts', () => {
             templateProcessor: templateProcessor,
             styleProcessor: styleProcessor
         }))
-        .pipe($.typescript(tsProject));
+        .pipe(tsProject());
 
     return tsResult.js
         .pipe($.uglify({
@@ -159,7 +159,7 @@ gulp.task('dist.server.ts', () => {
     const tsProject = $.typescript.createProject('./tsconfig.json');
     const tsResult = gulp.src([ './src/server/**/*.ts', './src/typings/**/*.d.ts', './typings/index.d.ts' ])
         .pipe($.sourcemaps.init())
-        .pipe($.typescript(tsProject));
+        .pipe(tsProject());
 
     return tsResult.js
         .pipe($.sourcemaps.write('.'))

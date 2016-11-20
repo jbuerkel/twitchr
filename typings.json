@@ -2,21 +2,22 @@
   "dependencies": {
     "debug": "registry:npm/debug#2.0.0+20160723033700",
     "mime": "registry:npm/mime#1.3.0+20160723033700",
-    "mongodb": "registry:npm/mongodb#2.1.0+20160721204323",
+    "mongodb": "registry:npm/mongodb#2.1.0+20161108182714",
     "mongoose": "registry:npm/mongoose#4.3.5+20160628072220"
   },
   "globalDependencies": {
+    "app-root-path": "registry:dt/app-root-path#1.2.1+20160719232327",
     "compression": "registry:dt/compression#0.0.0+20160501162003",
-    "connect-mongo": "registry:dt/connect-mongo#0.0.0+20160317120654",
+    "connect-mongo": "registry:dt/connect-mongo#0.0.0+20160930124524",
     "core-js": "registry:dt/core-js#0.0.0+20160914114559",
     "express": "registry:dt/express#4.0.0+20160708185218",
-    "express-serve-static-core": "registry:dt/express-serve-static-core#4.0.0+20160914120416",
-    "express-session": "registry:dt/express-session#0.0.0+20160819134112",
-    "helmet": "registry:dt/helmet#0.0.0+20160512043842",
+    "express-serve-static-core": "registry:dt/express-serve-static-core#4.0.0+20161012061536",
+    "express-session": "registry:dt/express-session#0.0.0+20160930124524",
+    "helmet": "registry:dt/helmet#0.0.0+20160930124002",
     "irc": "registry:dt/irc#0.3.12+20160521154229",
     "morgan": "registry:dt/morgan#1.7.0+20160524142355",
-    "node": "registry:dt/node#6.0.0+20160921192128",
-    "passport": "registry:dt/passport#0.2.0+20160720063208",
+    "node": "registry:dt/node#6.0.0+20161110151007",
+    "passport": "registry:dt/passport#0.2.0+20161028150851",
     "serve-favicon": "registry:dt/serve-favicon#0.0.0+20160316155526",
     "serve-static": "registry:dt/serve-static#0.0.0+20160606155157"
   }
