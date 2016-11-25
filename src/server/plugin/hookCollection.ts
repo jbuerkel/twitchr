@@ -6,8 +6,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import * as api from 'twitchr-plugin-api';
-import {Plugin} from './pluginManager';
+import * as api   from 'twitchr-plugin-api';
+import { Plugin } from './pluginManager';
 
 export class HookCollection {
     private joinHooks: Array<api.PluginHook<api.IrcJoin>> = [];

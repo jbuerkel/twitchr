@@ -7,9 +7,10 @@
  */
 
 import * as express from 'express';
-import {IrcClient} from '../plugin/ircClient';
-import {putClient} from '../plugin/ircStore';
-import {requireAuthenticated} from '../util/auth';
+
+import { IrcClient }            from '../plugin/ircClient';
+import { putClient }            from '../plugin/ircStore';
+import { requireAuthenticated } from '../util/auth';
 
 const router: express.Router = express.Router();
 

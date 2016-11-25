@@ -6,12 +6,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import * as api from 'twitchr-plugin-api';
-import * as debug from 'debug';
-import {Client, IMessage} from 'irc';
-import {getPlugins, Plugin} from './pluginManager';
-import {HookCollection} from './hookCollection';
-import {IrcContext} from './ircContext';
+import * as api             from 'twitchr-plugin-api';
+import * as debug           from 'debug';
+import { Client, IMessage } from 'irc';
+
+import { getPlugins, Plugin } from './pluginManager';
+import { HookCollection }     from './hookCollection';
+import { IrcContext }         from './ircContext';
 
 const debugIrc: debug.Debugger = debug('twitchr:irc');
 

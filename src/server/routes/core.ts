@@ -7,9 +7,10 @@
  */
 
 import * as express from 'express';
-import {deleteClient} from '../plugin/ircStore';
-import {rejectAuthenticated, requireAuthenticated} from '../util/auth';
-import {resolve} from 'app-root-path';
+import { resolve }  from 'app-root-path';
+
+import { deleteClient }                              from '../plugin/ircStore';
+import { rejectAuthenticated, requireAuthenticated } from '../util/auth';
 
 const router: express.Router = express.Router();
 

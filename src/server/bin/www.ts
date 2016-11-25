@@ -6,11 +6,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import * as debug from 'debug';
-import * as http from 'http';
-import * as https from 'https';
-import {readFileSync} from 'fs';
-import {resolve} from 'app-root-path';
+import * as debug       from 'debug';
+import * as http        from 'http';
+import * as https       from 'https';
+import { readFileSync } from 'fs';
+import { resolve }      from 'app-root-path';
+
 import app from '../app';
 
 const debugServer: debug.Debugger = debug('twitchr:server');

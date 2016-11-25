@@ -6,8 +6,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import * as api from 'twitchr-plugin-api';
-import {Client} from 'irc';
+import * as api   from 'twitchr-plugin-api';
+import { Client } from 'irc';
 
 export class IrcContext<T extends api.IrcEvent> implements api.IrcContext<T> {
     private channel: string;

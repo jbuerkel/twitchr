@@ -6,7 +6,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {IrcClient} from './ircClient';
+import { IrcClient } from './ircClient';
 
 interface IrcStore {
     [name: string]: IrcClient;

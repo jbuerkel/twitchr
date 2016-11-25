@@ -6,9 +6,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import * as api from 'twitchr-plugin-api';
-import * as debug from 'debug';
-import {resolve} from 'app-root-path';
+import * as api    from 'twitchr-plugin-api';
+import * as debug  from 'debug';
+import { resolve } from 'app-root-path';
 
 const debugPlugin: debug.Debugger = debug('twitchr:plugin');
 
