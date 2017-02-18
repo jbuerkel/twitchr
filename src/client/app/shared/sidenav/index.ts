@@ -6,5 +6,4 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './sidenav/index';
-export * from './toolbar/index';
+export * from './sidenav.component';

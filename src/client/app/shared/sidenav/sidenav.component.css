@@ -1,0 +1,20 @@
+nav {
+    background-color: #f6f6f6;
+    height: 100vh;
+    left: 0;
+    overflow-x: hidden;
+    position: fixed;
+    top: 64px;
+    width: 256px;
+}
+
+nav > .pause {
+    background-color: #673AB7;
+    border: 0;
+    border-radius: 50%;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    color: #ffffff;
+    height: 48px;
+    width: 48px;
+    margin: 32px 0;
+}

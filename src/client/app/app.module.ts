@@ -8,13 +8,14 @@
 
 import { NgModule }      from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import './rxjs-extensions';
 
-import { AppComponent }       from './app.component';
-import { DashboardComponent } from './dashboard/index';
-import { LoginComponent }     from './login/index';
-import { SettingsComponent }  from './settings/index';
-import { ToolbarComponent }   from './shared/index';
-import { routing }            from './app.routing';
+import { AppComponent }                       from './app.component';
+import { DashboardComponent }                 from './dashboard/index';
+import { LoginComponent }                     from './login/index';
+import { SettingsComponent }                  from './settings/index';
+import { SidenavComponent, ToolbarComponent } from './shared/index';
+import { routing }                            from './app.routing';
 
 @NgModule({
     imports: [
@@ -26,6 +27,7 @@ import { routing }            from './app.routing';
         DashboardComponent,
         LoginComponent,
         SettingsComponent,
+        SidenavComponent,
         ToolbarComponent,
     ],
     bootstrap: [ AppComponent ],

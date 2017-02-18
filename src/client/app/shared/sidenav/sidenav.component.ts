@@ -9,7 +9,8 @@
 import { Component } from '@angular/core';
 
 @Component({
-    selector: 'twitchr-app',
-    templateUrl: './app.component.html',
+    selector: 'twitchr-sidenav',
+    templateUrl: './sidenav.component.html',
+    styleUrls: [ './sidenav.component.css' ],
 })
-export class AppComponent { }
+export class SidenavComponent { }
