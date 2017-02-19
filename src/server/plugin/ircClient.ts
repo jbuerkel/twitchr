@@ -14,7 +14,7 @@ import { getPlugins, Plugin } from './pluginManager';
 import { HookCollection }     from './hookCollection';
 import { IrcContext }         from './ircContext';
 
-const debugIrc: debug.Debugger = debug('twitchr:irc');
+const debugIrc: debug.IDebugger = debug('twitchr:irc');
 
 export class IrcClient {
     private client: Client;

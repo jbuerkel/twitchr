@@ -14,7 +14,7 @@ import { resolve }      from 'app-root-path';
 
 import app from '../app';
 
-const debugServer: debug.Debugger = debug('twitchr:server');
+const debugServer: debug.IDebugger = debug('twitchr:server');
 const port: number = 3000;
 app.set('port', port);
 

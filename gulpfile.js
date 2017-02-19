@@ -88,7 +88,7 @@ gulp.task('dist.client.ts', () => {
         moduleResolution: 'node'
     });
 
-    const tsResult = gulp.src([ './src/client/**/*.ts', './src/typings/**/*.d.ts', './typings/index.d.ts' ])
+    const tsResult = gulp.src([ './src/client/**/*.ts', './src/typings/**/*.d.ts' ])
         .pipe($.sourcemaps.init())
         .pipe($.inlineNg2Template({
             base: './src/client',
@@ -157,7 +157,7 @@ gulp.task('dist.server', [ 'dist.server.ts' ]);
 
 gulp.task('dist.server.ts', () => {
     const tsProject = $.typescript.createProject('./tsconfig.json');
-    const tsResult = gulp.src([ './src/server/**/*.ts', './src/typings/**/*.d.ts', './typings/index.d.ts' ])
+    const tsResult = gulp.src([ './src/server/**/*.ts', './src/typings/**/*.d.ts' ])
         .pipe($.sourcemaps.init())
         .pipe(tsProject());
 
