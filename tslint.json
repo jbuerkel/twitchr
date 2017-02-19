@@ -17,10 +17,6 @@
       true,
       "spaces"
     ],
-    "interface-name": [
-      true,
-      "never-prefix"
-    ],
     "jsdoc-format": true,
     "max-line-length": [
       true,
@@ -47,6 +43,7 @@
       "check-open-brace",
       "check-whitespace"
     ],
+    "prefer-const": true,
     "quotemark": [
       true,
       "avoid-escape",
@@ -55,6 +52,10 @@
     "semicolon": [
       true,
       "always"
+    ],
+    "space-before-function-paren": [
+      true,
+      "never"
     ],
     "trailing-comma": [
       true,

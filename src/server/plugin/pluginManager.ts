@@ -25,7 +25,7 @@ export class Plugin {
 }
 
 const pkg: any = require(resolve('./package.json'));
-let plugins: Array<Plugin> = [];
+const plugins: Array<Plugin> = [];
 
 Object.keys(pkg.dependencies)
     .filter((k: string) => k.indexOf('twitchr-') === 0 && k !== 'twitchr-plugin-api')

@@ -12,10 +12,10 @@ interface IrcStore {
     [name: string]: IrcClient;
 }
 
-let store: IrcStore = {};
+const store: IrcStore = {};
 
 export function deleteClient(name: string): void {
-    let client: IrcClient = store[name];
+    const client: IrcClient = store[name];
     if (client) {
         client.stop(() => delete store[name]);
     }
