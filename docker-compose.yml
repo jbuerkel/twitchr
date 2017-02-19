@@ -2,7 +2,7 @@ web:
   build: .
   env_file: .env
   volumes:
-    - .:/app
+    - .:/var/app
   environment:
     DEBUG: twitchr:*
     MONGODB_URL: mongodb://mongo
