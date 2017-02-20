@@ -6,8 +6,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component }                    from '@angular/core';
-import { Event, NavigationEnd, Router } from '@angular/router';
+import { Component, Input } from '@angular/core';
 
 @Component({
     selector: 'twitchr-toolbar',
@@ -15,13 +14,8 @@ import { Event, NavigationEnd, Router } from '@angular/router';
     styleUrls: [ './toolbar.component.css' ],
 })
 export class ToolbarComponent {
+    @Input()
     isAuthenticated: boolean;
-
-    constructor(private router: Router) {
-        this.router.events
-            .filter((event: Event) => event instanceof NavigationEnd)
-            .subscribe((event: NavigationEnd) => this.isAuthenticated = event.urlAfterRedirects !== '/login');
-    }
 
     logout(): void {
         window.location.href = '/logout';

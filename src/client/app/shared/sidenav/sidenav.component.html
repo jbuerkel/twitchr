@@ -1,5 +1,7 @@
 <nav>
-    <button class="pause">
-        <img src="../../../assets/icons/play.svg" alt="Resume">
+    <div class="header"></div>
+    <button class="state">
+        <img [src]="isRunning ? '../../../assets/icons/pause.svg' : '../../../assets/icons/play.svg'"
+             [alt]="isRunning ? 'Pause' : 'Resume'">
     </button>
 </nav>
