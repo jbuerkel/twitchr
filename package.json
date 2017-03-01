@@ -48,8 +48,8 @@
     "rxjs": "^5.1.1",
     "serve-favicon": "^2.3.2",
     "systemjs": "^0.20.9",
-    "twitchr-example": "^0.3.0",
-    "twitchr-plugin-api": "^0.3.0",
+    "twitchr-example": "^0.3.1",
+    "twitchr-plugin-api": "^0.3.1",
     "zone.js": "^0.7.7"
   },
   "devDependencies": {

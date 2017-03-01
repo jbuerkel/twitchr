@@ -9,12 +9,12 @@
 import * as express from 'express';
 import { resolve }  from 'app-root-path';
 
-import { deleteClient }                              from '../plugin/ircStore';
-import { rejectAuthenticated, requireAuthenticated } from '../util/auth';
+import { deleteClient }                                 from '../plugin/ircStore';
+import { requireAuthenticated, requireUnauthenticated } from '../util/auth';
 
 const router: express.Router = express.Router();
 
-router.get('/login', rejectAuthenticated, (req: express.Request, res: express.Response) => {
+router.get('/login', requireUnauthenticated, (req: express.Request, res: express.Response) => {
     res.sendFile(resolve('./dist/client/index.html'));
 });
 

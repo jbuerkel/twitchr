@@ -25,6 +25,11 @@ export function getClient(name: string): IrcClient {
     return store[name];
 }
 
-export function putClient(name: string, client: IrcClient): void {
-    store[name] = client;
+export function putClient(name: string, token: string): IrcClient {
+    if (!store[name]) {
+        const client: IrcClient = new IrcClient(name, token);
+        store[name] = client.init();
+    }
+
+    return store[name];
 }
