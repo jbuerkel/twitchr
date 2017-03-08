@@ -17,12 +17,8 @@ const router: express.Router = express.Router();
 router.get('/', requireAuthenticated, (req: express.Request, res: express.Response) => {
     const name: string = req.user.name;
     const token: string = req.user.access_token;
-    const client: IrcClient = putClient(name, token);
 
-    // todo: This will probably be deleted after the sidenav is complete.
-    if (!client.getIsRunning()) {
-        client.start();
-    }
+    putClient(name, token);
 
     res.redirect(req.session.returnTo || '/');
     delete req.session.returnTo;

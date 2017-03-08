@@ -75,6 +75,11 @@ export class IrcClient {
     }
 
     start(done?: () => void): void {
+        if (this.getIsRunning()) {
+            typeof done === 'function' && done();
+            return;
+        }
+
         const channel: string = '#' + this.name;
 
         this.client.connect(() => {
@@ -91,6 +96,11 @@ export class IrcClient {
     }
 
     stop(done?: () => void): void {
+        if (!this.getIsRunning()) {
+            typeof done === 'function' && done();
+            return;
+        }
+
         const channel: string = '#' + this.name;
 
         this.client.say(channel, 'Chat moderation is stopped');

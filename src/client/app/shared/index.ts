@@ -6,5 +6,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+export * from './api/index';
 export * from './sidenav/index';
 export * from './toolbar/index';

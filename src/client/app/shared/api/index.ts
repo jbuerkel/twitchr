@@ -6,5 +6,4 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import 'rxjs/add/operator/filter';
-import 'rxjs/add/operator/toPromise';
+export * from './api-irc.service';

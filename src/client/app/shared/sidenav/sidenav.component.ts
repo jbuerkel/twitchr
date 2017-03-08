@@ -7,6 +7,7 @@
  */
 
 import { Component, OnInit } from '@angular/core';
+import { ApiIrcService }     from '../api/api-irc.service';
 
 @Component({
     selector: 'twitchr-sidenav',
@@ -15,8 +16,28 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SidenavComponent implements OnInit {
     isRunning: boolean;
+    isStateChangePending: boolean;
+    name: string;
+
+    constructor(private apiIrcService: ApiIrcService) { }
 
     ngOnInit(): void {
-        this.isRunning = true;
+        this.apiIrcService.getState()
+            .then((isRunning: boolean) => this.isRunning = isRunning);
+
+        this.apiIrcService.getUser()
+            .then((name: string) => this.name = name);
+    }
+
+    toggleState(): void {
+        if (!this.isStateChangePending) {
+            this.isStateChangePending = true;
+
+            this.apiIrcService.toggleState()
+                .then((isRunning: boolean) => {
+                    this.isRunning = isRunning;
+                    this.isStateChangePending = false;
+                });
+        }
     }
 }
