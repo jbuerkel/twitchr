@@ -1,43 +1,45 @@
 /**
  * @license
- * Copyright (C) 2016  Jonas Bürkel
+ * Copyright (C) 2017  Jonas Bürkel
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import * as api from 'twitchr-plugin-api';
-import * as debug from 'debug';
-import {Client, IMessage} from 'irc';
-import {getPlugins, Plugin} from './pluginManager';
-import {HookCollection} from './hookCollection';
-import {IrcContext} from './ircContext';
+import * as api             from 'twitchr-plugin-api';
+import * as debug           from 'debug';
+import { Client, IMessage } from 'irc';
 
-const debugIrc: debug.Debugger = debug('twitchr:irc');
+import { getPlugins, Plugin } from './pluginManager';
+import { HookCollection }     from './hookCollection';
+import { IrcContext }         from './ircContext';
+
+const debugIrc: debug.IDebugger = debug('twitchr:irc');
 
 export class IrcClient {
     private client: Client;
+    private isRunning: boolean;
     private plugins: Array<Plugin>;
 
     constructor(private name: string, token: string) {
         this.client = new Client('irc.chat.twitch.tv', name, {
             autoConnect: false,
             floodProtection: true,
-            floodProtectionDelay: 333,
-            messageSplit: 1000,
+            floodProtectionDelay: 500,
             password: 'oauth:' + token,
-            port: 80,
-            realName: name,
-            userName: name,
-        });
-
-        this.client.addListener('error', (message: IMessage) => {
-            debugIrc(`${name} error: ${message}`);
+            port: 443,
+            secure: true,
         });
     }
 
-    config(): IrcClient {
+    getIsRunning(): boolean {
+        return this.isRunning;
+    }
+
+    init(): IrcClient {
+        this.isRunning = false;
         this.plugins = getPlugins();
+
         const hooks: HookCollection = new HookCollection(this.plugins);
 
         this.client.addListener('join', (channel: string, nick: string, message: IMessage) => {
@@ -64,10 +66,20 @@ export class IrcClient {
             hooks.getPartHooks().forEach((hook: api.PluginHook<api.IrcPart>) => hook(context));
         });
 
+        this.client.addListener('error', (message: IMessage) => {
+            const error: string = JSON.stringify(message);
+            debugIrc(`${this.name} error: ${error}`);
+        });
+
         return this;
     }
 
-    start(done: () => void): void {
+    start(done?: () => void): void {
+        if (this.getIsRunning()) {
+            typeof done === 'function' && done();
+            return;
+        }
+
         const channel: string = '#' + this.name;
 
         this.client.connect(() => {
@@ -75,22 +87,29 @@ export class IrcClient {
 
             this.client.join(channel, () => {
                 this.client.say(channel, 'Chat moderation is started');
+                this.isRunning = true;
                 debugIrc(`${this.name} started successfully`);
 
-                done();
+                typeof done === 'function' && done();
             });
         });
     }
 
-    stop(done: () => void): void {
+    stop(done?: () => void): void {
+        if (!this.getIsRunning()) {
+            typeof done === 'function' && done();
+            return;
+        }
+
         const channel: string = '#' + this.name;
 
         this.client.say(channel, 'Chat moderation is stopped');
         this.client.part(channel, () => {
             this.client.disconnect(() => {
+                this.isRunning = false;
                 debugIrc(`${this.name} stopped successfully`);
 
-                done();
+                typeof done === 'function' && done();
             });
         });
     }

@@ -1,0 +1,14 @@
+<nav>
+    <div class="header"></div>
+    <button class="state" [disabled]="isStateChangePending" (click)="toggleState()">
+        <img [src]="isRunning ? '../../../assets/icons/pause.svg' : '../../../assets/icons/play.svg'"
+             [alt]="isRunning ? 'Pause' : 'Resume'">
+    </button>
+
+    <p class="user">{{name}}</p>
+
+    <ul class="menu">
+        <li routerLink="/dashboard" routerLinkActive="active">Dashboard</li>
+        <li routerLink="/settings" routerLinkActive="active">Settings</li>
+    </ul>
+</nav>

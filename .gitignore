@@ -2,6 +2,5 @@
 cert/
 dist/
 node_modules/
-typings/
 .env
 npm-debug.log

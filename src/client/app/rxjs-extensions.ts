@@ -6,4 +6,5 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './toolbar.component';
+import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/toPromise';

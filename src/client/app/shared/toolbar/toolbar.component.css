@@ -2,11 +2,21 @@ header {
     background-color: #f6f6f6;
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
     height: 64px;
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 100%;
 }
 
-header img {
-    border: 0;
-    position: absolute;
+header > .logout {
+    cursor: pointer;
+    position: fixed;
+    right: 20px;
+    top: 20px;
+}
+
+header > .ribbon {
+    position: fixed;
     right: 0;
     top: 0;
 }
@@ -17,4 +27,8 @@ header > p {
     line-height: 64px;
     margin: 0;
     padding-left: 32px;
+}
+
+.authenticated {
+    width: calc(100% - 256px);
 }

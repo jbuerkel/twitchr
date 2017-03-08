@@ -4,7 +4,7 @@
 ### Features
 
 - Added new login view
-- Added Docker setup for development and production
+- Added initial Docker setup for development and production
 
 <a name="0.0.4"></a>
 # [0.0.4](https://github.com/twitchr/twitchr/compare/0.0.3...0.0.4) (2016-09-12)

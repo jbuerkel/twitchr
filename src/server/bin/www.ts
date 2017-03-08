@@ -1,19 +1,20 @@
 /**
  * @license
- * Copyright (C) 2016  Jonas Bürkel
+ * Copyright (C) 2017  Jonas Bürkel
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import * as debug from 'debug';
-import * as http from 'http';
-import * as https from 'https';
-import {readFileSync} from 'fs';
-import {resolve} from 'app-root-path';
+import * as debug       from 'debug';
+import * as http        from 'http';
+import * as https       from 'https';
+import { readFileSync } from 'fs';
+import { resolve }      from 'app-root-path';
+
 import app from '../app';
 
-const debugServer: debug.Debugger = debug('twitchr:server');
+const debugServer: debug.IDebugger = debug('twitchr:server');
 const port: number = 3000;
 app.set('port', port);
 

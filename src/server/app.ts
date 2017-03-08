@@ -1,25 +1,25 @@
 /**
  * @license
- * Copyright (C) 2016  Jonas Bürkel
+ * Copyright (C) 2017  Jonas Bürkel
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 import * as compression from 'compression';
-import * as express from 'express';
-import * as favicon from 'serve-favicon';
-import * as helmet from 'helmet';
-import * as mongo from 'connect-mongo';
-import * as morgan from 'morgan';
-import * as passport from 'passport';
-import * as session from 'express-session';
-import {Strategy} from 'passport-twitch';
-import {resolve} from 'app-root-path';
+import * as express     from 'express';
+import * as favicon     from 'serve-favicon';
+import * as helmet      from 'helmet';
+import * as mongo       from 'connect-mongo';
+import * as morgan      from 'morgan';
+import * as passport    from 'passport';
+import * as session     from 'express-session';
+import { Strategy }     from 'passport-twitch';
+import { resolve }      from 'app-root-path';
 
 import auth from './routes/auth';
 import core from './routes/core';
-import irc from './routes/irc';
+import irc  from './routes/irc';
 
 const app: express.Express = express();
 const MongoStore: mongo.MongoStoreFactory = mongo(session);

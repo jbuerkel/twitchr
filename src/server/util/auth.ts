@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright (C) 2016  Jonas Bürkel
+ * Copyright (C) 2017  Jonas Bürkel
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
@@ -8,26 +8,14 @@
 
 import * as express from 'express';
 
-/**
- * Middleware to reject authenticated requests for a corresponding route.
- * @param {express.Request} req
- * @param {express.Response} res
- * @param {express.NextFunction} next
- */
-export function rejectAuthenticated(req: express.Request, res: express.Response, next: express.NextFunction): void {
-    if (req.isUnauthenticated()) {
+export function rejectUnauthenticated(req: express.Request, res: express.Response, next: express.NextFunction): void {
+    if (req.isAuthenticated()) {
         next();
     } else {
-        res.redirect('/api/irc');
+        res.sendStatus(401);
     }
 }
 
-/**
- * Middleware to require authenticated requests for a corresponding route.
- * @param {express.Request} req
- * @param {express.Response} res
- * @param {express.NextFunction} next
- */
 export function requireAuthenticated(req: express.Request, res: express.Response, next: express.NextFunction): void {
     if (req.isAuthenticated()) {
         next();
@@ -36,5 +24,13 @@ export function requireAuthenticated(req: express.Request, res: express.Response
             req.session.returnTo = req.originalUrl;
         }
         res.redirect('/login');
+    }
+}
+
+export function requireUnauthenticated(req: express.Request, res: express.Response, next: express.NextFunction): void {
+    if (req.isUnauthenticated()) {
+        next();
+    } else {
+        res.redirect('/api/irc');
     }
 }

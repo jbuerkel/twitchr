@@ -1,16 +1,16 @@
 /**
  * @license
- * Copyright (C) 2016  Jonas Bürkel
+ * Copyright (C) 2017  Jonas Bürkel
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import * as api from 'twitchr-plugin-api';
-import * as debug from 'debug';
-import {resolve} from 'app-root-path';
+import * as api    from 'twitchr-plugin-api';
+import * as debug  from 'debug';
+import { resolve } from 'app-root-path';
 
-const debugPlugin: debug.Debugger = debug('twitchr:plugin');
+const debugPlugin: debug.IDebugger = debug('twitchr:plugin');
 
 export class Plugin {
     constructor(private meta: Object, private plugin: api.Plugin) { }
@@ -25,7 +25,7 @@ export class Plugin {
 }
 
 const pkg: any = require(resolve('./package.json'));
-let plugins: Array<Plugin> = [];
+const plugins: Array<Plugin> = [];
 
 Object.keys(pkg.dependencies)
     .filter((k: string) => k.indexOf('twitchr-') === 0 && k !== 'twitchr-plugin-api')

@@ -1,0 +1,76 @@
+nav {
+    background-color: #f6f6f6;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    height: 100vh;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 256px;
+    z-index: 1;
+}
+
+nav > .header {
+    background-color: #009688;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    height: 220px;
+    width: 100%;
+}
+
+nav > .menu {
+    font-size: 12pt;
+    list-style: none;
+    padding-left: 0;
+}
+
+nav > .menu > li {
+    background: url("../../../assets/icons/list.svg") no-repeat 24px 16px;
+    cursor: pointer;
+    padding: 17px 0 16px 64px;
+}
+
+nav > .menu > li.active {
+    background-color: #e8e8e8;
+    color: #673AB7;
+    font-weight: bold;
+}
+
+nav > .menu > li:hover {
+    background-color: #e8e8e8;
+}
+
+nav > .state {
+    background-color: #673AB7;
+    border: 0;
+    border-radius: 50%;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    height: 48px;
+    left: 104px;
+    position: fixed;
+    top: 196px;
+    width: 48px;
+}
+
+nav > .state[disabled] {
+    opacity: 0.75;
+}
+
+nav > .state[disabled]:hover, nav > .state[disabled]:focus {
+    background-color: #673AB7;
+}
+
+nav > .state:hover {
+    background-color: #512DA8;
+}
+
+nav > .state:focus {
+    background-color: #4527A0;
+    outline: none;
+}
+
+nav > .user {
+    font-size: 13pt;
+    font-style: italic;
+    font-weight: bold;
+    margin: 40px 0 24px 0;
+    text-align: center;
+}
