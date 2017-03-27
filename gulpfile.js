@@ -182,9 +182,13 @@ gulp.task('dev.client', [ 'dev.server' ], () => {
         proxy: protocol + '://localhost:3000',
         port: 3030,
         online: false,
+        open: false,
         notify: false,
         reloadDelay: 500,
-        minify: false
+        minify: false,
+        socket: {
+            domain: protocol + '://localhost:3000'
+        }
     });
 });
 
