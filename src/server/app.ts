@@ -17,6 +17,7 @@ import * as session     from 'express-session';
 import { Strategy }     from 'passport-twitch';
 import { resolve }      from 'app-root-path';
 
+import api  from './routes/api';
 import auth from './routes/auth';
 import core from './routes/core';
 import irc  from './routes/irc';
@@ -73,6 +74,7 @@ passport.deserializeUser((user: any, done: Function) => {
 app.use('/api/irc', irc);
 app.use('/api/oauth2', auth);
 
+app.use('/api', api);
 app.use(core);
 
 export default app;
