@@ -8,6 +8,28 @@ header {
     width: 100%;
 }
 
+header > .home {
+    text-align: center;
+    width: 120px;
+}
+
+header > .home:hover {
+    background-color: #e8e8e8;
+}
+
+header > .home > a:focus, header > .home > a:hover {
+    outline: none;
+    text-decoration: none;
+}
+
+header > .home p {
+    color: #333333;
+    font-size: 18px;
+    font-style: italic;
+    line-height: 64px;
+    margin: 0;
+}
+
 header > .logout {
     cursor: pointer;
     position: fixed;
@@ -19,14 +41,6 @@ header > .ribbon {
     position: fixed;
     right: 0;
     top: 0;
-}
-
-header > p {
-    font-size: 18px;
-    font-style: italic;
-    line-height: 64px;
-    margin: 0;
-    padding-left: 32px;
 }
 
 .authenticated {

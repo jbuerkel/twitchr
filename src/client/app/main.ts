@@ -11,7 +11,7 @@ import { platformBrowserDynamic }      from '@angular/platform-browser-dynamic';
 
 import { AppModule } from './app.module';
 
-const xhr = new XMLHttpRequest();
+const xhr: XMLHttpRequest = new XMLHttpRequest();
 const platform: PlatformRef = platformBrowserDynamic();
 
 xhr.onreadystatechange = () => {

@@ -1,0 +1,12 @@
+<main class="container-fluid">
+    <div *ngFor="let plugin of plugins">
+        <div class="col-sm-3 plugin name">{{plugin.name}}@{{plugin.version}}</div>
+        <div class="col-sm-7 plugin">{{plugin.description}}</div>
+        <div class="col-sm-2 plugin">
+            <a href="{{plugin.url}}">
+                <img class="pull-right" src="../../assets/icons/code.svg" alt="Code">
+            </a>
+            <img class="pull-right" src="../../assets/icons/settings.svg" alt="Settings">
+        </div>
+    </div>
+</main>
