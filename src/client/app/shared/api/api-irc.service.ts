@@ -22,6 +22,13 @@ export class ApiIrcService {
             .catch(this.handleError);
     }
 
+    getPlugins(): Promise<Array<Object>> {
+        return this.http.get(`${this.apiIrcBase}/plugins`)
+            .toPromise()
+            .then((response: Response) => response.json().plugins as Array<Object>)
+            .catch(this.handleError);
+    }
+
     getState(): Promise<boolean> {
         return this.http.get(`${this.apiIrcBase}/state`)
             .toPromise()

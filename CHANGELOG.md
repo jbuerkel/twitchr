@@ -1,3 +1,13 @@
+<a name="0.0.6"></a>
+# [0.0.6](https://github.com/twitchr/twitchr/compare/0.0.5...0.0.6) (2017-04-07)
+
+### Features
+
+- Added new toolbar and sidenav
+- Added new settings view
+- Improved Docker setup
+- Improved overall application stability
+
 <a name="0.0.5"></a>
 # [0.0.5](https://github.com/twitchr/twitchr/compare/0.0.4...0.0.5) (2016-11-20)
 

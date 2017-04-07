@@ -6,10 +6,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { PlatformRef }            from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { enableProdMode, PlatformRef } from '@angular/core';
+import { platformBrowserDynamic }      from '@angular/platform-browser-dynamic';
 
 import { AppModule } from './app.module';
 
+const xhr: XMLHttpRequest = new XMLHttpRequest();
 const platform: PlatformRef = platformBrowserDynamic();
-platform.bootstrapModule(AppModule);
+
+xhr.onreadystatechange = () => {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+        if (JSON.parse(xhr.responseText).stage === 'production') {
+            enableProdMode();
+        }
+
+        platform.bootstrapModule(AppModule);
+    }
+};
+
+xhr.open('GET', '/api/stage', true);
+xhr.send();

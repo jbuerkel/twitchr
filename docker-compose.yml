@@ -1,19 +1,25 @@
-web:
-  build: .
-  env_file: .env
-  volumes:
-    - .:/var/app
-  environment:
-    DEBUG: twitchr:*
-    MONGODB_URL: mongodb://mongo
-    NODE_ENV: development
-  expose:
-    - "3030"
-  links:
-    - mongo
-  ports:
-    - "3000:3000"
-    - "3030:3030"
-  command: npm run dev
-mongo:
-  image: mongo
+version: "3"
+services:
+  app:
+    build: .
+    command: npm run dev
+    depends_on:
+      - mongo
+    env_file: .env
+    environment:
+      - DEBUG=twitchr:*
+      - MONGODB_URL=mongodb://mongo
+      - NODE_ENV=development
+    networks:
+      - back-tier
+    ports:
+      - "3000:3030"
+    volumes:
+      - ./src:/var/app/src
+  mongo:
+    image: mongo
+    networks:
+      - back-tier
+networks:
+  back-tier:
+    driver: bridge

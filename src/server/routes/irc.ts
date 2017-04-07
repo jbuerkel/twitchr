@@ -9,6 +9,7 @@
 import * as express from 'express';
 
 import { getClient, putClient }                        from '../plugin/ircStore';
+import { getPlugins, Plugin }                          from '../plugin/pluginManager';
 import { IrcClient }                                   from '../plugin/ircClient';
 import { rejectUnauthenticated, requireAuthenticated } from '../util/auth';
 
@@ -22,6 +23,24 @@ router.get('/', requireAuthenticated, (req: express.Request, res: express.Respon
 
     res.redirect(req.session.returnTo || '/');
     delete req.session.returnTo;
+});
+
+router.get('/plugins', rejectUnauthenticated, (req: express.Request, res: express.Response) => {
+    const plugins: Array<Object> = [];
+
+    getPlugins().forEach((plugin: Plugin) => {
+        const meta: any = plugin.getMeta();
+        const url: string = meta.homepage.replace('#readme', '');
+
+        plugins.push({
+            name: meta.name,
+            version: meta.version,
+            description: meta.description,
+            url: url,
+        });
+    });
+
+    res.json({ plugins: plugins });
 });
 
 router.get('/state', rejectUnauthenticated, (req: express.Request, res: express.Response) => {

@@ -118,7 +118,7 @@ gulp.task('dist.client.vendor', [ 'dist.client.bundle.rxjs' ], () => {
         './node_modules/reflect-metadata/Reflect.@(js|js.map)',
         './node_modules/systemjs/dist/system.@(js|js.map)',
 
-        './node_modules/@angular/*/bundles/*.umd.min.js'
+        './node_modules/@angular/*/bundles/!(*-animations|*-testing|*-upgrade).umd.min.@(js|js.map)'
     ], { base: './node_modules' })
         .pipe(gulp.dest('./dist/client/vendor'));
 });
@@ -182,9 +182,13 @@ gulp.task('dev.client', [ 'dev.server' ], () => {
         proxy: protocol + '://localhost:3000',
         port: 3030,
         online: false,
+        open: false,
         notify: false,
         reloadDelay: 500,
-        minify: false
+        minify: false,
+        socket: {
+            domain: protocol + '://localhost:3000'
+        }
     });
 });
 

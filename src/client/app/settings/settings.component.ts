@@ -6,10 +6,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ApiIrcService }     from '../shared/api/api-irc.service';
 
 @Component({
     selector: 'twitchr-settings',
-    template: '<h3>Settings</h3>',
+    templateUrl: './settings.component.html',
+    styleUrls: [ './settings.component.css' ],
 })
-export class SettingsComponent { }
+export class SettingsComponent implements OnInit {
+    plugins: Array<Object>;
+
+    constructor(private apiIrcService: ApiIrcService) { }
+
+    ngOnInit(): void {
+        this.apiIrcService.getPlugins()
+            .then((plugins: Array<Object>) => this.plugins = plugins);
+    }
+}
